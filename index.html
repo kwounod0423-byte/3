@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>폐허의 슬롯 던전 V55 — 주화 3상자 · 보스전 전 순회 선택</title>
+<title>폐허의 슬롯 던전 V59 — 모든 몬스터 공격력 20% 하향</title>
 <style>
 .v39-preview-actions{display:flex;flex-wrap:wrap;gap:7px;padding:4px 10px 12px;}
 .v39-preview-actions button{font-size:11px;padding:7px 9px;border:1px solid #789f8a;border-radius:7px;background:#1a3236;color:#c3f4db;cursor:pointer;}
@@ -1598,6 +1598,13 @@ body{touch-action:manipulation}
 .revival-screen .quiz-choice{min-height:55px;padding:8px 5px;font-size:clamp(12px,2.9vw,16px);border-radius:7px}
 .revival-screen .quiz-feedback{min-height:20px;margin-top:1px;font-weight:700;color:#ffb49a}
 .revival-screen .revival-hint{font-size:10px;line-height:1.4;color:#bdc5b8;margin:0}
+/* V58: the gold loss happens once per death, before the player answers the revival quiz. */
+.revival-screen .revival-coin-loss{display:flex;flex-direction:column;align-items:center;gap:3px;background:linear-gradient(120deg,#3c2323,#302621);border:1px solid #e49a7b;border-radius:9px;padding:8px 10px;color:#f6c3a7}
+.revival-coin-loss>b{font-size:clamp(11px,2.7vw,14px);line-height:1.3}
+.revival-coin-loss span{font-size:clamp(12px,3vw,15px);font-weight:600;color:#ecd9b7}
+.revival-coin-loss span strong{color:#bfe5b5}
+.revival-coin-loss span em{font-style:normal;font-weight:800;color:#ffac96}
+@media(max-width:500px){.revival-screen .revival-coin-loss{gap:2px;padding:6px 8px}}
 @media(max-width:500px){
  #game .overlay .modal:has(.revival-screen){padding:14px 10px;max-height:min(90dvh,700px)}
  .revival-screen{gap:6px}
@@ -1630,6 +1637,18 @@ body{touch-action:manipulation}
 @media(max-width:450px){.boss-decision-stats span{font-size:10px;padding:7px 3px}.boss-decision-stats b{font-size:12px}.boss-decision-screen button{min-height:47px}}
 
 #game .overlay .modal:has(.boss-decision-screen){height:fit-content!important;max-height:min(90dvh,700px);max-width:590px;min-height:0!important;padding:clamp(15px,2dvh,23px);overflow-y:auto;justify-content:center;align-items:stretch}
+
+/* V57: keep every interrupted normal encounter available when roaming after revival. */
+.battle-decision-screen .encounter-name{color:#ffe8af;font-weight:800}
+.battle-decision-screen .boss-decision-stats{grid-template-columns:repeat(3,minmax(0,1fr))}
+.battle-return-map{width:100%;margin:7px 0 4px!important;padding:9px 5px!important;font-size:clamp(12px,1.85dvh,15px)!important}
+.battle-retry-screen{display:flex;flex-direction:column;gap:8px;max-height:78dvh;overflow-y:auto;width:100%;padding:2px}
+.battle-retry-screen h2{color:#ffe2a5;margin:0;font-size:clamp(20px,3.2dvh,27px)}
+.battle-retry-screen p{font-size:12px;line-height:1.45;margin:0;color:#d6d4c7}
+.battle-retry-entry{border:1px solid #927955;border-radius:8px;padding:10px;background:#1b2d25;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.battle-retry-entry span{font-size:12px;color:#f9e2b5}
+.battle-retry-entry button{min-height:39px;padding:6px 10px!important;margin:0!important}
+@media(max-width:450px){.battle-retry-entry{flex-direction:column;align-items:stretch;text-align:center}.battle-retry-entry button{width:100%}}
 
 /* V56: narrower/faster moss minigame, tactical shields, and interactive sword/gun lessons. */
 .deck-guard-status{display:flex;align-items:center;gap:5px;flex-wrap:wrap;padding:6px;border:1px solid #6c9fa7;border-radius:7px;background:#163337;color:#c8f2f2;font-size:11px}
@@ -1720,6 +1739,10 @@ const SPECIAL_DAMAGE={bladePerfect:[18,4],gunHeadshot:[35,7],hammerAccurate:[15,
 function magicFullDamage(level){return Math.floor((SPECIAL_DAMAGE.gunHeadshot[0]+(level-1)*SPECIAL_DAMAGE.gunHeadshot[1])*.7);}
 // Base mini-game hits are pre-defense; the final cap is level-dependent (Lv.1 values above).
 
+// V59: all 60 monsters (normal, elite and bosses) deal 20% less damage.
+// Scale the base attack before flurry, pierce and charge multipliers, then round only each final hit.
+// This single attack value also drives the normal-enemy damage forecast.
+const ENEMY_ATTACK_MULTIPLIER=0.80;
 const STAGES=[
  // Every floor has five distinct normal encounters and a final boss.
  {name:'균열의 초원',tone:['#dca160','#68492c','#29302a'],enemies:[
@@ -2388,7 +2411,7 @@ function showTutorial(step,returnToGame=tutorialReturn){
  if(n===4)body='<p class="story">총은 움직이는 십자 조준점을 <strong>머리나 몸통에 맞춰</strong> 발사합니다. 화면을 보고 실제로 발사해 보세요.</p>'+tutorialPracticeMarkup('gun');
  if(n===5)body='<div class="tutorial-starter-layout"><div class="tutorial-starter-summary"><div class="tutorial-starter-rule"><strong>🎒 시작 선택</strong><small><b>기본 룬 8종 중 5개</b>를 고른다. 히든 룬은 시작 시 선택할 수 없고, 전투 승리 후 드롭으로 얻는다.</small></div><div class="tutorial-starter-rule"><strong>📌 전투 규칙</strong><small><b>서로 다른 룬 3종 이상</b>이 필요하며 중복 선택은 가능하다. 매 턴에는 보유 룬 중 <b>3~6개</b>를 다시 장착한다.</small></div></div><div class="tutorial-rune-grid tutorial-rune-starter-grid">'+TUTORIAL_START_RUNES.map(id=>'<div class="tutorial-rune-card"><span class="icon">'+runeVisual(id)+'</span><b>'+R[id].name+' 룬</b><small>'+TUTORIAL_RUNE_GUIDE[id]+'</small></div>').join('')+'</div></div><div class="tutorial-quote"><b>권혁준 선생님:</b> “처음에는 기본 룬만 가지고 떠나! 검 3개, 방패 1개, 주화 1개처럼 짜도 되지만 <b>서로 다른 룬은 최소 3종</b>이어야 해. <b>어떤 룬 5개를 가져갈지는 네 선택이다!</b>”</div>';
  if(n===6)body='<p class="story">마족을 물리치면 가끔 <strong>룬과 인챈트</strong>가 떨어진다. 권혁준 선생님이 전리품의 확률을 알려 준다. <strong>레벨업 룬 10%</strong> 드롭 시 보유 룬을 골라 Lv.+1 강화할 수 있다.</p><div class="rpg-tutorial"><div class="rpg-tile"><strong>🎴 일반 룬 · 15%</strong><div class="rpg-icons">⚔ ⬡ ◆ ✚</div><small>전투 승리마다 일반 룬 15% · 같은 종류면 보유 개수만 +1.</small></div><div class="rpg-tile"><strong>🌟 층별 히든 룬 · 1%</strong><div class="rpg-icons">🌿 🗡️ 💎 🔄 🌑</div><small>해당 층 전투 승리마다 1% 확률. 보스도 동일하며 확정 드롭은 없습니다.</small></div><div class="rpg-tile legendary"><strong>⬆️ 레벨업 룬 10% · ✨ 희귀 1%</strong><div class="rpg-icons">⚔ + ⚡</div><small>레벨업 룬은 보유 룬 Lv.+1, 희귀 인챈트는 마비·빙결·화상 등의 특수 효과. 둘 중 하나만 드롭.</small></div></div><div class="tutorial-quote"><b>권혁준 선생님:</b> “상점에서는 소모품·고가 보물상자·랜덤 고가 특수 장비를 살 수 있어. 룬은 전투 드롭 외에도 <b>고가 보물상자에서 낮은 확률</b>로 얻을 수 있어. 인챈트는 전투에서만 나온다! <b>룬 레벨은 별도의 레벨업 룬으로만 올릴 수 있어.</b>”</div>';
- if(n===7)body='<p class="story">마족이 점령한 <strong>10층의 왕좌</strong>에는 수학대마왕이 기다리고 있다. 그곳에 다다르려면 매번 갈림길에서 다음 목적지를 선택해야 한다.</p><div class="tutorial-path"><div><strong>⚔ 전투</strong><span>골드 · 룬 · 레벨업 10% · 희귀 효과 1%</span></div><div><strong>🛒 상점</strong><span>소모품 · 보물상자 · 랜덤 고가 장비</span></div><div><strong>❔ 사건</strong><span>예측 못 할 보상과 위험</span></div><div><strong>☠ 보스</strong><span>강적 격파 후 다음 층으로</span></div></div><p class="v45-tutorial-rule">🎯 적의 약점은 <b>약점: ??</b>로 표시돼. 해당 약점 공격으로 실제 HP 피해를 주면 공개된다. <b>◆ 몬스터 한 마리당 주화 최대 100G</b>를 얻을 수 있어. 주화 룬·승리 보상·저축 이자도 합산하므로 방어만 하며 돈을 무한히 모을 수 없어. 이미 해금한 층은 반복 탐험하며 룬을 모을 수 있어!</p><div class="tutorial-quote"><b>권혁준 선생님:</b> “이제 너만의 룬 조합으로 폐허를 돌파해 줘. 마족을 물리치고 <b>수학대마왕에게 빼앗긴 세상</b>을 되찾는 거야!”</div>';
+ if(n===7)body='<p class="story">마족이 점령한 <strong>10층의 왕좌</strong>에는 수학대마왕이 기다리고 있다. 그곳에 다다르려면 매번 갈림길에서 다음 목적지를 선택해야 한다.</p><div class="tutorial-path"><div><strong>⚔ 전투</strong><span>골드 · 룬 · 레벨업 10% · 희귀 효과 1%</span></div><div><strong>🛒 상점</strong><span>소모품 · 보물상자 · 랜덤 고가 장비</span></div><div><strong>❔ 사건</strong><span>예측 못 할 보상과 위험</span></div><div><strong>☠ 보스</strong><span>강적 격파 후 다음 층으로</span></div></div><p class="v45-tutorial-rule">🎯 적의 약점은 <b>약점: ??</b>로 표시돼. 해당 약점 공격으로 실제 HP 피해를 주면 공개된다. <b>◆ 몬스터 한 마리당 주화 최대 100G</b>를 얻을 수 있어. 주화 룬·승리 보상·저축 이자도 합산하므로 방어만 하며 돈을 무한히 모을 수 없어. 이미 해금한 층은 반복 탐험하며 룬을 모을 수 있어! <b>☠ 사망 시 보유 주화의 50%를 잃고, 수학 문제 정답으로 부활할 수 있어.</b></p><div class="tutorial-quote"><b>권혁준 선생님:</b> “이제 너만의 룬 조합으로 폐허를 돌파해 줘. 마족을 물리치고 <b>수학대마왕에게 빼앗긴 세상</b>을 되찾는 거야!”</div>';
  const msg=n===1?(tutorialRolled?'✓ 시험 스핀 성공!':'시작 룬 8종과 히든 룬 5종을 살펴보고 시험 스핀을 눌러 보세요.'):n===2?(tutorialGuarded?'🛡 방패 1개를 왼쪽에 배치해 공격 5를 완전히 막았습니다.':tutorialDefenseResult==='failed'?'방향이 달라서 방어에 실패했습니다. 다시 도전하세요.':'방패 룬 1개를 적의 공격 방향에 정확히 설치하세요.'):n===3?(tutorialSwordDone?'✓ 검 미니게임 완료':'게이지 70% 이상에서 베기 버튼을 눌러 보세요.'):n===4?(tutorialGunDone?'✓ 총 미니게임 완료':'조준점이 머리나 몸통에 들어올 때 발사 버튼을 누르세요.'):n===0?'수학대마왕의 마족을 막을 유일한 무기, 슬롯을 익혀 보자.':n===5?'매 턴 룬을 다시 고르는 것이 이 게임의 핵심이다.':n===6?'일반 룬 15% · 히든 1% · 레벨업 룬 10% · 희귀 인챈트 1%!':'경로 선택과 무작위 아이템 상점까지 익히면 출발 준비 완료.';
  const nav='<div class="tutorial-nav">'+(n>0?'<button class="btn-secondary" data-action="tutorial-prev">◀ 이전</button>':'')+'<button class="btn-primary" data-action="'+(n===7?'tutorial-finish':'tutorial-next')+'" '+(!canNext?'disabled':'')+'>'+(n===7?(tutorialReturn?'게임으로 돌아가기':'내 룬을 선택하고 출발 ▶'):'다음 이야기 ▶')+'</button></div>';
  showModal('<div class="tutorial-screen" data-step="'+n+'"><div class="tutorial-top"><button type="button" data-v38-open="1">👾 몬스터 60종</button><span>📖 수학대마왕과 슬롯 · '+(n+1)+' / 8</span><button data-action="tutorial-skip">'+(tutorialReturn?'닫기':'건너뛰기')+' ✕</button></div><h2>'+heading[n]+'</h2>'+body+'<div class="tutorial-message '+(canNext?'good':'')+'" id="tutorial-message">'+msg+'</div>'+progress+nav+'</div>');
@@ -2504,7 +2527,7 @@ function renderStarter(){
 function start(){
  if(!isValidStarter(selected))return;
  const init=[...selected],owned=[...new Set(init)];
- s={stage:0,highestUnlocked:0,clearedFloors:Array(STAGES.length).fill(false),floorRuns:Array(STAGES.length).fill(0),fight:0,view:'map',map:null,activeNodeType:null,stageFightCount:0,encounterCount:0,shopVisitId:null,activeEvent:null,hp:68,maxHp:68,shield:0,guards:[0,0,0],coins:20,score:0,turn:0,deck:owned,activeRunes:[...init],deckDraft:null,deckPending:false,levels:Object.fromEntries(Object.keys(R).map(x=>[x,1])),copies:Object.fromEntries(Object.keys(R).map(x=>[x,deckCount(init,x)])),rerollPower:false,rerollUsed:false,awaitingRespin:false,rerolling:false,chainRerolls:0,chainMotion:null,turnEnding:false,reelVersions:[],weights:Object.fromEntries(Object.keys(R).map(x=>[x,1])),reelCount:3,reelSymbols:[],stops:[],reelMotion:[],spinning:false,resolving:false,skill:null,log:[],enemy:null,question:null,wrong:0,actions:[],actionPos:0,turnDmg:0,turnEarned:0,battleCoinsEarned:0,discoveredWeaknesses:{},stunChance:0,jammedReel:-1,inventory:Object.fromEntries(Object.keys(ITEMS).map(x=>[x,0])),nextBoost:false,enchants:{},enchantAttach:{},specialFusion:{},pendingFusion:null,pendingRuneLevelUp:false,drops:[],respinTicketArmed:false,lastReward:0,lastInterest:0,lastSaved:0,totalInterest:0,relics:{},healingCritReady:false,shopChestsOpened:0,shopStock:null,counterAttackReady:false,revival:null,revivals:0,bossReadyFloors:{},bossRetryGold:{},floorSelectMode:'normal',bossChoiceStage:null};
+ s={stage:0,highestUnlocked:0,clearedFloors:Array(STAGES.length).fill(false),floorRuns:Array(STAGES.length).fill(0),fight:0,view:'map',map:null,activeNodeType:null,stageFightCount:0,encounterCount:0,shopVisitId:null,activeEvent:null,hp:68,maxHp:68,shield:0,guards:[0,0,0],coins:20,score:0,turn:0,deck:owned,activeRunes:[...init],deckDraft:null,deckPending:false,levels:Object.fromEntries(Object.keys(R).map(x=>[x,1])),copies:Object.fromEntries(Object.keys(R).map(x=>[x,deckCount(init,x)])),rerollPower:false,rerollUsed:false,awaitingRespin:false,rerolling:false,chainRerolls:0,chainMotion:null,turnEnding:false,reelVersions:[],weights:Object.fromEntries(Object.keys(R).map(x=>[x,1])),reelCount:3,reelSymbols:[],stops:[],reelMotion:[],spinning:false,resolving:false,skill:null,log:[],enemy:null,question:null,wrong:0,actions:[],actionPos:0,turnDmg:0,turnEarned:0,battleCoinsEarned:0,discoveredWeaknesses:{},stunChance:0,jammedReel:-1,inventory:Object.fromEntries(Object.keys(ITEMS).map(x=>[x,0])),nextBoost:false,enchants:{},enchantAttach:{},specialFusion:{},pendingFusion:null,pendingRuneLevelUp:false,drops:[],respinTicketArmed:false,lastReward:0,lastInterest:0,lastSaved:0,totalInterest:0,relics:{},healingCritReady:false,shopChestsOpened:0,shopStock:null,counterAttackReady:false,revival:null,revivals:0,bossReadyFloors:{},bossRetryGold:{},retryEncounters:{},retrySerial:0,activeRetryKey:null,selectedRetryKey:null,floorSelectMode:'normal',bossChoiceStage:null};
  questionOrder=shuffle(Array.from({length:QUESTIONS.length},(_,i)=>i)).slice(0,STAGES.length-1);s.floorRuns[0]++;sfx('victory');makeFloorMap();showMap();
 }
 function pool(){return s.activeRunes.slice();}
@@ -2687,7 +2710,7 @@ const count=stage===0?1:stage===1?(round%3===0?1:2):stage===2?2:stage===3?(round
 function refreshEnemyPlan(){const e=s.enemy;e.plan=planEnemy(e,e.round);e.plan.hint=(e.plan.hits.length?(Math.random()<.64?e.plan.hits[0].dir:rand(3)):-1);}
 function advanceEnemyPlan(){if(!s?.enemy)return;s.enemy.round++;refreshEnemyPlan();render();}
 
-function newEnemy(){if(!s)return;battleToken++;stopTimers();effects=[];if($('element-procs'))$('element-procs').replaceChildren();s.reelCount=reelCountForStage(s.stage);const monsters=STAGES[s.stage].enemies;const idx=s.fight===2?monsters.length-1:(s.stageFightCount-1+Math.max(0,s.floorRuns[s.stage]-1)*2)% (monsters.length-1);const a=monsters[Math.max(0,idx)];const scaledHP=monsterFullHP(s.stage,Math.max(0,idx));s.enemy={name:a[0],kind:a[1],aggro:0,hp:scaledHP,max:scaledHP,attack:a[3],shield:a[4],armor:a[5],braceHits:0,supportUsed:0,poison:0,poisonPower:0,poisonTurns:0,burnPower:0,burnTurns:0,freezeTurns:0,weakenTurns:0,stun:0,paralyzed:false,mode:0,round:0,plan:null,lockedReel:-1,chargeReady:false,chargeLane:1};s.turn=0;s.turnDmg=0;s.battleCoinsEarned=0;s.preTurnDamage=0;s.counterAttackReady=false;s.guards=[0,0,0];sumGuards();s.reelSymbols=Array.from({length:s.reelCount},()=>rollRune());s.stops=Array(s.reelCount).fill(true);s.view='fight';s.deckPending=false;s.spinning=false;s.resolving=false;s.skill=null;s.jammedReel=-1;s.reelVersions=Array(s.reelCount).fill(0);s.chainRerolls=0;s.rerollUsed=false;s.awaitingRespin=false;s.rerolling=false;s.turnEnding=false;refreshEnemyPlan();resetReels();hideSkill();log('⚑ '+s.enemy.name+'이(가) 나타났다! '+s.reelCount+'칸 슬롯 · 적의 다음 행동을 확인하고 방어하세요.');hideModal();render();showTurnDeckModal();}
+function newEnemy(forcedIndex=null){if(!s)return;battleToken++;stopTimers();effects=[];if($('element-procs'))$('element-procs').replaceChildren();s.reelCount=reelCountForStage(s.stage);const monsters=STAGES[s.stage].enemies;const idx=Number.isInteger(forcedIndex)&&forcedIndex>=0&&forcedIndex<monsters.length?forcedIndex:s.fight===2?monsters.length-1:(s.stageFightCount-1+Math.max(0,(s.map?.runNumber||s.floorRuns[s.stage])-1)*2)% (monsters.length-1);const a=monsters[Math.max(0,idx)];const scaledHP=monsterFullHP(s.stage,Math.max(0,idx));s.enemy={name:a[0],kind:a[1],aggro:0,hp:scaledHP,max:scaledHP,attack:a[3]*ENEMY_ATTACK_MULTIPLIER,shield:a[4],armor:a[5],braceHits:0,supportUsed:0,poison:0,poisonPower:0,poisonTurns:0,burnPower:0,burnTurns:0,freezeTurns:0,weakenTurns:0,stun:0,paralyzed:false,mode:0,round:0,plan:null,lockedReel:-1,chargeReady:false,chargeLane:1};s.turn=0;s.turnDmg=0;s.battleCoinsEarned=0;s.preTurnDamage=0;s.counterAttackReady=false;s.guards=[0,0,0];sumGuards();s.reelSymbols=Array.from({length:s.reelCount},()=>rollRune());s.stops=Array(s.reelCount).fill(true);s.view='fight';s.deckPending=false;s.spinning=false;s.resolving=false;s.skill=null;s.jammedReel=-1;s.reelVersions=Array(s.reelCount).fill(0);s.chainRerolls=0;s.rerollUsed=false;s.awaitingRespin=false;s.rerolling=false;s.turnEnding=false;refreshEnemyPlan();resetReels();hideSkill();log('⚑ '+s.enemy.name+'이(가) 나타났다! '+s.reelCount+'칸 슬롯 · 적의 다음 행동을 확인하고 방어하세요.');hideModal();render();showTurnDeckModal();}
 // The current enemy plan fixes each hit's direction when the turn begins.
 // Ordinary monsters reveal exact pre-shield damage; elites and bosses keep it secret.
 function enemyPlanSecret(){return !!s&&(s.fight===1||s.fight===2);}
@@ -3593,6 +3616,7 @@ function winFight(){
  stopTimers();s.skill=null;hideSkill();
  const boss=s.activeNodeType==='boss',bonus=s.turn===1?8:0,reward=15+s.stage*4+(boss?12:0)+bonus;
  if(boss){delete s.bossReadyFloors[s.stage];delete s.bossRetryGold[s.stage];}
+ else if(s.activeRetryKey){delete s.retryEncounters?.[s.activeRetryKey];s.activeRetryKey=null;}
  const saved=s.coins,interest=bankInterest(saved);
  const realReward=earnBattleGold(reward),realInterest=earnBattleGold(interest);s.totalInterest+=realInterest;
  s.lastSaved=saved;s.lastInterest=realInterest;s.lastReward=realReward;
@@ -3687,7 +3711,7 @@ function makeFloorMap(){
   ['battle','event','battle'],
   ['event','shop','battle']
  ];
- s.map={rows:patterns.map(row=>shuffle(row).map(type=>({type}))),row:-1,col:1,visited:[]};
+ s.map={rows:patterns.map(row=>shuffle(row).map(type=>({type}))),row:-1,col:1,visited:[],runNumber:s.floorRuns[s.stage]};
  s.stageFightCount=0;s.activeNodeType=null;
  if(!s.enemy)s.enemy={name:'갈림길의 안개',kind:'goblin',aggro:0,hp:1,max:1,attack:0,shield:0,armor:0,stun:0,poisonTurns:0,poisonPower:0,burnPower:0,burnTurns:0,weakenTurns:0,plan:null};
  if(s.reelSymbols.length!==s.reelCount){s.reelCount=reelCountForStage(s.stage);s.reelSymbols=Array.from({length:s.reelCount},()=>rollRune());s.stops=Array(s.reelCount).fill(true);resetReels();}
@@ -3700,6 +3724,65 @@ function mapReachable(row,col){
 }
 function mapNodeName(type){return type==='battle'?'⚔ 전투':type==='shop'?'🛒 상점':type==='event'?'? 사건':'☠ 보스';}
 // V55: boss gates stay available while farming any unlocked lower floor.
+// V57: normal-monster death keeps a precise, re-enterable checkpoint.
+// Store only encounter location/progress; never restore old HP, gold, rune levels or items.
+function rememberNormalBattle(){
+ if(!s||s.activeNodeType!=='battle'||!s.enemy)return null;
+ s.retryEncounters=s.retryEncounters||{};
+ let key=s.activeRetryKey,rec=key&&s.retryEncounters[key];
+ if(!rec){
+  key='r'+(++s.retrySerial);
+  const enemyIndex=STAGES[s.stage].enemies.findIndex(row=>row[0]===s.enemy.name);
+  rec={key,stage:s.stage,enemyName:s.enemy.name,enemyIndex:Math.max(0,enemyIndex),fight:s.fight,stageFightCount:s.stageFightCount,
+   map:JSON.parse(JSON.stringify(s.map)),earned:0};
+  s.retryEncounters[key]=rec;
+ }
+ rec.earned=Math.min(BATTLE_GOLD_LIMIT,Math.max(rec.earned||0,s.battleCoinsEarned||0));
+ s.activeRetryKey=key;
+ return key;
+}
+function normalRetryEntries(){
+ return Object.values(s?.retryEncounters||{}).filter(r=>r&&r.stage<=s.highestUnlocked).sort((a,b)=>b.stage-a.stage||Number(b.key.slice(1))-Number(a.key.slice(1)));
+}
+function showNormalBattleChoice(key,fromRevival=false){
+ const r=s?.retryEncounters?.[key];if(!s||!r)return;
+ s.selectedRetryKey=key;s.view='battle-choice';
+ const floors=r.stage>0?'1~'+(r.stage+1)+'층':'1층';
+ showModal('<div class="boss-decision-screen battle-decision-screen"><div class="eyebrow">SECOND CHANCE · ENCOUNTER '+(r.stage+1)+'</div>'+
+  '<h2>⚔ 다시 도전할까요, 순회할까요?</h2><p><span class="encounter-name">'+(r.stage+1)+'층 · '+r.enemyName+'</span>에게 다시 도전하거나 해금된 층을 순회해 룬·주화·아이템을 준비하세요.</p>'+
+  '<div class="boss-decision-stats"><span>♥ 체력<b>'+s.hp+' / '+s.maxHp+'</b></span><span>◆ 주화<b>'+s.coins+'G</b></span><span>🎯 재도전 기록<b>'+(r.stage+1)+'층</b></span></div>'+
+  '<button class="btn-primary" data-action="normal-retry" data-retry="'+key+'">⚔ 같은 몬스터 다시 도전</button>'+
+  '<button class="btn-secondary" data-action="normal-roam" data-retry="'+key+'">↺ 다른 층 순회하며 준비</button>'+
+  '<p class="boss-decision-note">'+floors+' 중 원하는 층을 반복 탐험할 수 있습니다. <b>원래 몬스터와 지도 진행 위치는 저장</b>되며 순회 지도에서 다시 돌아올 수 있습니다. 같은 몬스터에서 얻는 주화는 재도전 횟수를 합쳐 최대 '+BATTLE_GOLD_LIMIT+'G입니다.'+
+  (fromRevival?' <b>부활 성공 · HP 완전 회복!</b>':'')+'</p></div>');
+ $('modal').scrollTop=0;render();
+}
+function resumeNormalBattle(key){
+ const r=s?.retryEncounters?.[key];if(!s||!r||r.stage>s.highestUnlocked)return;
+ battleToken++;stopTimers();
+ s.stage=r.stage;s.reelCount=reelCountForStage(r.stage);
+ s.map=JSON.parse(JSON.stringify(r.map));s.fight=r.fight;s.stageFightCount=r.stageFightCount;
+ s.activeNodeType='battle';s.activeRetryKey=key;s.selectedRetryKey=null;
+ s.floorSelectMode='normal';s.bossChoiceStage=null;
+ sfx('charge');log('⚔ '+(r.stage+1)+'층 · '+r.enemyName+'에게 복귀 · 기존 지도 진행 유지');
+ newEnemy(r.enemyIndex);
+ s.battleCoinsEarned=Math.min(BATTLE_GOLD_LIMIT,r.earned||0);
+ render();
+}
+function roamFromNormalBattle(key){
+ if(!s?.retryEncounters?.[key])return;
+ s.selectedRetryKey=key;showFloorSelect('battle-roam');
+}
+function showNormalRetryList(){
+ if(!s)return;
+ const entries=normalRetryEntries();if(!entries.length){showMap();return;}
+ s.view='retry-list';
+ showModal('<div class="battle-retry-screen"><div class="eyebrow">RETURN TO INTERRUPTED ENCOUNTER</div><h2>⚔ 보류 중인 일반 전투</h2>'+
+  '<p>어느 층을 순회하더라도 이전에 쓰러진 몬스터에게 다시 도전할 수 있습니다. 룬·아이템·주화는 순회 중 획득한 상태로 유지됩니다.</p>'+
+  entries.map(r=>'<div class="battle-retry-entry"><span><b>'+(r.stage+1)+'층 · '+r.enemyName+'</b> · 주화 '+r.earned+'/'+BATTLE_GOLD_LIMIT+'G</span><button class="btn-primary" data-action="normal-retry" data-retry="'+r.key+'">⚔ 재도전</button></div>').join('')+
+  '<button class="btn-secondary" data-action="retry-list-back">← 순회 지도로 돌아가기</button></div>');
+ render();
+}
 function bossCheckpointFloors(){
  return Object.keys(s?.bossReadyFloors||{}).map(Number).filter(i=>s.bossReadyFloors[i]&&i<=s.highestUnlocked&&!s.clearedFloors[i]).sort((a,b)=>b-a);
 }
@@ -3727,6 +3810,7 @@ function showBossRoamFloors(floor){
 function returnFromFloorSelect(){
  if(!s)return;
  if(s.floorSelectMode==='boss-roam'&&s.bossChoiceStage!==null){showBossApproach(s.bossChoiceStage);return;}
+ if(s.floorSelectMode==='battle-roam'&&s.selectedRetryKey&&s.retryEncounters?.[s.selectedRetryKey]){showNormalBattleChoice(s.selectedRetryKey);return;}
  s.floorSelectMode='normal';returnFloorMap();
 }
 function showFloorSelect(mode='normal'){
@@ -3736,12 +3820,12 @@ function showFloorSelect(mode='normal'){
   const unlocked=i<=s.highestUnlocked,done=!!s.clearedFloors[i],icon=['🌿','🦇','☣️','🌋','🏰','🧟','🪓','🗿','🐉','👑'][i];
   return '<button class="floor-choice'+(i===s.stage?' current':'')+'" data-action="floor-enter" data-floor="'+i+'" '+(unlocked?'':'disabled')+'><span class="floor-choice-icon">'+(unlocked?icon:'🔒')+'</span><span class="floor-choice-info"><b>'+(i+1)+'층 · '+stage.name+'</b><small>'+(unlocked?(s.bossReadyFloors[i]?'☠ 보스 도전 대기 · 순회 가능':done?'클리어 완료 · 자유 재도전':i===s.stage?'현재 탐험 층':'해금 완료 · 도전 가능'):'이전 층의 관문을 통과하면 해금')+'</small></span><span class="floor-choice-count">'+(unlocked?'탐험 '+s.floorRuns[i]+'회':'잠김')+'</span></button>';
  }).join('');
- showModal('<div class="floor-select-screen"><div class="eyebrow">CHOOSE UNLOCKED FLOOR</div><h2>🗺 '+(mode==='boss-roam'?'순회할 층을 선택하세요':'탐험할 층 선택')+'</h2><p>룬 파밍을 위해 <b>해금한 층을 몇 번이든 다시 탐험</b>할 수 있어요. 성장한 룬과 골드는 유지되며 몬스터마다 새로운 100G 수익 한도가 시작됩니다. 일반 전투와 보스의 드롭 확률은 동일합니다. 6~10층에서 히든 룬·인챈트 계열이 다시 순환합니다. <b>히든 룬 1% · 보스 확정 지급 없음.</b></p><div class="floor-choice-list">'+cards+'</div><div class="floor-select-bottom"><span>♥ '+s.hp+' / '+s.maxHp+'　◆ '+s.coins+'G</span><button class="btn-secondary" data-action="floor-back">'+(mode==='boss-roam'?'← 보스 선택으로':'← 현재 지도로')+'</button></div></div>');
+ showModal('<div class="floor-select-screen"><div class="eyebrow">CHOOSE UNLOCKED FLOOR</div><h2>🗺 '+(mode==='boss-roam'||mode==='battle-roam'?'순회할 층을 선택하세요':'탐험할 층 선택')+'</h2><p>룬 파밍을 위해 <b>해금한 층을 몇 번이든 다시 탐험</b>할 수 있어요. 성장한 룬과 골드는 유지되며 몬스터마다 새로운 100G 수익 한도가 시작됩니다. 일반 전투와 보스의 드롭 확률은 동일합니다. 6~10층에서 히든 룬·인챈트 계열이 다시 순환합니다. <b>히든 룬 1% · 보스 확정 지급 없음.</b></p><div class="floor-choice-list">'+cards+'</div><div class="floor-select-bottom"><span>♥ '+s.hp+' / '+s.maxHp+'　◆ '+s.coins+'G</span><button class="btn-secondary" data-action="floor-back">'+(mode==='boss-roam'?'← 보스 선택으로':mode==='battle-roam'?'← 일반 몬스터 선택으로':'← 현재 지도로')+'</button></div></div>');
  render();
 }
 function enterFloor(floor){
  if(!s||!Number.isInteger(floor)||floor<0||floor>Math.min(STAGES.length-1,s.highestUnlocked))return;
- battleToken++;stopTimers();s.bossChoiceStage=null;s.floorSelectMode='normal';s.stage=floor;s.fight=0;s.reelCount=reelCountForStage(floor);s.floorRuns[floor]++;
+ battleToken++;stopTimers();s.bossChoiceStage=null;s.selectedRetryKey=null;s.activeRetryKey=null;s.floorSelectMode='normal';s.stage=floor;s.fight=0;s.reelCount=reelCountForStage(floor);s.floorRuns[floor]++;
  s.enemy=null;s.skill=null;s.spinning=false;s.resolving=false;s.deckPending=false;s.activeNodeType=null;s.guards=[0,0,0];sumGuards();
  s.reelSymbols=Array.from({length:s.reelCount},()=>rollRune());s.stops=Array(s.reelCount).fill(true);s.reelVersions=Array(s.reelCount).fill(0);
  $('game').classList.remove('deck-pending');hideSkill();resetReels();makeFloorMap();sfx('stop');log('🗺 '+(floor+1)+'층 탐험 '+s.floorRuns[floor]+'회차 시작!');showMap();
@@ -3770,7 +3854,7 @@ function showMap(){
  const ready=mapReachable(5,1);
  buttons+='<button class="map-node type-boss'+(ready?' reachable':'')+'" style="left:50%;top:'+(mapY(5)/560*100)+'%" data-action="map-node" data-row="5" data-col="1" '+(ready?'':'disabled')+' title="층 보스" aria-label="층 보스'+(ready?', 진입 가능':'')+'"><span class="map-icon">☠</span><span class="map-node-name">BOSS</span></button>';
  let progress=m.row<0?'출발 지점':m.row===MAP_ROWS?'보스 도착':(m.row+1)+' / '+MAP_ROWS+' 갈림길 통과';
- showModal('<div class="eyebrow">CHOOSE YOUR PATH · FLOOR '+(s.stage+1)+'</div><h2>🗺 '+STAGES[s.stage].name+' · 모험 지도</h2><div class="map-header-stats"><span>♥ '+s.hp+' / '+s.maxHp+'</span><span>◆ '+s.coins+'G</span><span>🏦 다음 전투 이자 +'+bankInterest(s.coins)+'G</span></div><p class="map-instructions">빛나는 연결 지점을 클릭하세요. <b>전투에서 룬을 모으고, 상점에서는 소모품·고가 상자·상점마다 무작위 특수 장비를 구매하며, ? 사건에서는 위험과 보상 중 선택</b>할 수 있어요.</p><div class="map-board"><svg class="route-svg" viewBox="0 0 660 560" preserveAspectRatio="none" aria-hidden="true">'+lines+'</svg><div class="map-start">START</div>'+buttons+'</div><div class="map-legend"><span>⚔ 전투</span><span>🛒 상점</span><span>❔ 사건</span><span>☠ 보스</span></div>'+(bossCheckpointFloors().length?'<button class="btn-primary boss-return-map" data-action="boss-resume" data-floor="'+bossCheckpointFloors()[0]+'">☠ '+(bossCheckpointFloors()[0]+1)+'층 보스 도전으로 돌아가기</button>':'')+(s.highestUnlocked>0?'<button class="btn-secondary floor-switch-btn" data-action="floor-select">↺ 해금한 층 다시 탐험하기</button>':'')+'<p class="smallnote">'+progress+' · 한 번 선택한 길은 되돌릴 수 없습니다. 보스 처치 후 인수분해 관문이 열립니다.</p>');
+ showModal('<div class="eyebrow">CHOOSE YOUR PATH · FLOOR '+(s.stage+1)+'</div><h2>🗺 '+STAGES[s.stage].name+' · 모험 지도</h2><div class="map-header-stats"><span>♥ '+s.hp+' / '+s.maxHp+'</span><span>◆ '+s.coins+'G</span><span>🏦 다음 전투 이자 +'+bankInterest(s.coins)+'G</span></div><p class="map-instructions">빛나는 연결 지점을 클릭하세요. <b>전투에서 룬을 모으고, 상점에서는 소모품·고가 상자·상점마다 무작위 특수 장비를 구매하며, ? 사건에서는 위험과 보상 중 선택</b>할 수 있어요.</p><div class="map-board"><svg class="route-svg" viewBox="0 0 660 560" preserveAspectRatio="none" aria-hidden="true">'+lines+'</svg><div class="map-start">START</div>'+buttons+'</div><div class="map-legend"><span>⚔ 전투</span><span>🛒 상점</span><span>❔ 사건</span><span>☠ 보스</span></div>'+(bossCheckpointFloors().length?'<button class="btn-primary boss-return-map" data-action="boss-resume" data-floor="'+bossCheckpointFloors()[0]+'">☠ '+(bossCheckpointFloors()[0]+1)+'층 보스 도전으로 돌아가기</button>':'')+(normalRetryEntries().length?'<button class="btn-primary battle-return-map" data-action="normal-retry-list">⚔ 보류 중인 일반 전투 '+normalRetryEntries().length+'개 · 다시 도전하기</button>':'')+(s.highestUnlocked>0?'<button class="btn-secondary floor-switch-btn" data-action="floor-select">↺ 해금한 층 다시 탐험하기</button>':'')+'<p class="smallnote">'+progress+' · 한 번 선택한 길은 되돌릴 수 없습니다. 보스 처치 후 인수분해 관문이 열립니다.</p>');
  $('modal').scrollTop=0;render();
 }
 function chooseMapNode(row,col){
@@ -3780,7 +3864,7 @@ function chooseMapNode(row,col){
  sfx('stop');
  const type=s.map.rows[row][col].type;s.activeNodeType=type;
  if(type==='battle'){
-  s.stageFightCount++;s.fight=(s.stageFightCount-1)%2;
+  s.stageFightCount++;s.fight=(s.stageFightCount-1)%2;s.activeRetryKey=null;
   newEnemy();return;
  }
  if(type==='shop'){
@@ -3860,7 +3944,14 @@ function startRevivalQuiz(source='battle',reason=''){
  battleToken++;stopTimers();s.skill=null;hideSkill();s.spinning=false;s.resolving=false;
  s.awaitingRespin=false;s.rerolling=false;s.turnEnding=false;s.deckPending=false;
  $('game').classList.remove('deck-pending');
- s.revival={source,reason,wrong:0,seen:[],question:null};
+ // Drop half the CURRENT purse exactly once on entering the death/revival state.
+ // The remaining whole gold is rounded down (e.g. 101G -> 50G remaining, 51G lost).
+ const coinsBefore=Math.max(0,Math.floor(Number(s.coins)||0));
+ const coinsAfter=Math.floor(coinsBefore/2);
+ const coinsLost=coinsBefore-coinsAfter;
+ s.coins=coinsAfter;
+ s.revival={source,reason,wrong:0,seen:[],question:null,coinsBefore,coinsAfter,coinsLost};
+ log('☠ 사망 패널티 · 보유 주화 50% 손실: '+coinsBefore+'G → '+coinsAfter+'G (−'+coinsLost+'G)');
  s.view='revival-quiz';drawRevivalQuestion();showRevivalQuiz();render();
 }
 function showRevivalQuiz(msg=''){
@@ -3868,7 +3959,7 @@ function showRevivalQuiz(msg=''){
  const r=s.revival,q=r.question;
  const where=r.source==='battle'?'제 '+(s.stage+1)+'층 · '+s.enemy.name:'제 '+(s.stage+1)+'층 지도 사건';
  const lives=Array.from({length:REVIVAL_MAX_WRONG},(_,i)=>'<span class="revival-heart '+(i<r.wrong?'spent':'')+'">'+(i<r.wrong?'✕':'♥')+'</span>').join('');
- showModal('<div class="revival-screen"><div class="eyebrow">SECOND CHANCE · FACTORIZATION</div><h2>💫 인수분해로 부활하라!</h2><p class="revival-intro">'+where+'에서 쓰러졌습니다. <b>정답이면 체력 100% 회복!</b> '+(r.source==='battle'?(s.activeNodeType==='boss'?'보스 재도전 또는 하위 층 순회를 선택합니다.':'같은 몬스터를 처음부터 다시 상대합니다.'):'이어서 지도를 탐험합니다.')+'</p><div class="revival-counter"><span>남은 기회</span><strong>'+lives+'</strong><small>3문제 연속 오답이면 모험 종료</small></div><p class="revival-question-label">다음 식을 인수분해하세요</p><div class="quiz-expr">'+q.q.q+'</div><div class="quiz-grid">'+q.choices.map((opt,i)=>'<button type="button" class="quiz-choice" data-action="revival-answer" data-index="'+i+'">'+String.fromCharCode(65+i)+'. '+opt+'</button>').join('')+'</div><div class="quiz-feedback" role="status">'+msg+'</div><p class="revival-hint">정답: HP 최대치 회복 · 적 HP 초기화 · 룬·장비·골드 유지</p></div>');
+ showModal('<div class="revival-screen"><div class="eyebrow">SECOND CHANCE · FACTORIZATION</div><h2>💫 인수분해로 부활하라!</h2><p class="revival-intro">'+where+'에서 쓰러졌습니다. <b>정답이면 체력 100% 회복!</b> '+(r.source==='battle'?(s.activeNodeType==='boss'?'보스 재도전 또는 하위 층 순회를 선택합니다.':'일반 몬스터 재도전 또는 해금된 층 순회를 선택합니다.'):'이어서 지도를 탐험합니다.')+'</p><div class="revival-coin-loss" role="status"><b>☠ 사망 패널티 · 보유 주화 50% 손실</b><span>◆ '+r.coinsBefore+'G → <strong>'+r.coinsAfter+'G</strong> <em>(−'+r.coinsLost+'G)</em></span></div><div class="revival-counter"><span>남은 기회</span><strong>'+lives+'</strong><small>3문제 연속 오답이면 모험 종료</small></div><p class="revival-question-label">다음 식을 인수분해하세요</p><div class="quiz-expr">'+q.q.q+'</div><div class="quiz-grid">'+q.choices.map((opt,i)=>'<button type="button" class="quiz-choice" data-action="revival-answer" data-index="'+i+'">'+String.fromCharCode(65+i)+'. '+opt+'</button>').join('')+'</div><div class="quiz-feedback" role="status">'+msg+'</div><p class="revival-hint">정답: HP 최대치 회복 · 적 HP 초기화 · 룬·장비·남은 주화 유지 (잃은 주화는 복구되지 않음)</p></div>');
  $('modal').scrollTop=0;
 }
 function answerRevivalQuiz(index){
@@ -3887,15 +3978,14 @@ function answerRevivalQuiz(index){
  }
  const source=r.source,priorEarned=Math.max(0,s.battleCoinsEarned||0),healed=s.maxHp,wasBoss=source==='battle'&&s.activeNodeType==='boss',bossStage=s.stage;
  s.revival=null;s.revivals=(s.revivals||0)+1;s.hp=healed;sfx('victory');
- log('✦ 인수분해 정답! 체력 '+healed+'/'+healed+' 회복 · '+(source==='battle'?'같은 적 재도전':'지도 탐험 계속'));
+ log('✦ 인수분해 정답! 체력 '+healed+'/'+healed+' 회복 · '+(source==='battle'?'재도전 또는 순회 선택':'지도 탐험 계속'));
  if(wasBoss){
   s.bossRetryGold[bossStage]=Math.min(BATTLE_GOLD_LIMIT,Math.max(priorEarned,s.bossRetryGold[bossStage]||0));
   s.bossReadyFloors[bossStage]=true;showBossApproach(bossStage,true);render();
  }else if(source==='battle'){
-  newEnemy();
-  // Earning 100G per monster includes ALL attempts, not 100G per death/retry.
-  s.battleCoinsEarned=Math.min(BATTLE_GOLD_LIMIT,priorEarned);
-  render();
+  const key=rememberNormalBattle();
+  if(key){showNormalBattleChoice(key,true);render();}
+  else {newEnemy();s.battleCoinsEarned=Math.min(BATTLE_GOLD_LIMIT,priorEarned);render();}
  }else{ s.activeEvent=null;showMap(); }
 }
 function gameOver(){if(!s||s.view!=='fight')return;startRevivalQuiz('battle');}
@@ -3914,7 +4004,7 @@ function showRecords(){
 function showEnchantmentGear(){showRecords();}
 function attachElement(){/* Fusion is permanent. Reassignment deliberately disabled. */}
 function showHelp(){
- showModal('<div class="mini-screen"><div class="eyebrow">HOW TO PLAY</div><h2>ⓘ 게임 안내</h2><div class="help-grid"><div><b>🎴 시작 / 덱</b><span>초기 5개(3종 이상, 중복 가능), 매 턴 보유한 룬 중 3~6개 선택.</span></div><div><b>⚔ 보상 드롭</b><span>일반 룬 15% · 히든 룬 1% · 레벨업 룬 10%(보유 룬 1종 Lv.+1) · 보스도 동일.</span></div><div><b>✨ 인챈트</b><span>일반 강화는 레벨업 룬 10%로 통일. 희귀 인챈트 1%와 중복 드롭되지 않으며, 1~10층에 특수 효과 총 15종이 등장해요. 전격 10% 마비·빙결 10% 지연·화염 지속 피해·흡혈 등의 효과를 보유 공격 룬에 영구 합성할 수 있어요. 룬 종류당 희귀 인챈트는 하나만 장착할 수 있습니다.</span></div><div><b>🛒 상점</b><span>소모품·룬 보물상자·1,650G 이상 특수 장비를 골드로 구매. 모든 상점 상품은 기존 가격의 3배. 상점 방문마다 일반 아이템 재고가 무작위로 바뀝니다. 상자는 낮은 확률로 일반 룬 또는 해당 층 히든 룬 획득, 빈 상자도 나옵니다. 확률은 구매 전에 공개됩니다.</span></div><div><b>🔄 재회전</b><span>히든 룬: 회전검 연타 · 다이아 눈치게임(골드 후 자기 슬롯 재회전) · 되감기 6박자 리듬게임 · 새싹 타이밍 · 심연의 별 탄막. 적 분노 100이면 연쇄 중단.</span></div><div><b>🔊 전투 효과음</b><span>총은 파열음·저음·잔향을 겹친 음향, 일치 보너스는 전용 팬파레가 나오며 적 공격·방어와 인챈트도 별도 소리가 납니다. 상단 🔊 버튼으로 켜고 끌 수 있어요.</span></div><div><b>🎯 약점 발견 · ◆ 전투 주화 제한</b><span>몬스터 약점은 처음에는 ??로 표시되며 약점 무기로 실제 HP 피해를 주면 발견됩니다. 몬스터 한 마리당 주화 획득은 룬·승리 보상·이자·전리품 보상 합계 최대 100G입니다. 주화 룬은 3상자 중 하나를 골라 당첨이면 큰 보상, 꽝이어도 소액의 주화를 받습니다. 보스 앞에서 순회할 층을 선택하고 하위 층을 파밍한 뒤 보스로 돌아올 수 있습니다.</span></div><div><b>✦ 수학 관문</b><span>총 10층 · 각 층 최초 보스를 격파하면 인수분해를 맞혀 다음 층 해금. 해금한 층은 지도에서 여러 번 탐험할 수 있습니다.</span></div><div><b>💫 수학 부활</b><span>전투나 지도 사건에서 HP가 0이 되면 인수분해 문제 출제. 정답이면 HP 완전 회복 후 같은 적부터 재도전(적 HP 초기화). 3번 연속 오답이면 모험 종료, 1층부터 다시 시작. 재도전해도 같은 몬스터의 100G 획득 상한은 유지됩니다.</span></div></div><div class="tool-actions">'+(s?'<button class="btn-secondary" data-action="records">▤ 룬·인챈트 확인</button>':'')+'<button class="btn-secondary" data-action="codex">📜 룬 도감 13종</button><button class="btn-secondary" data-action="enchant-codex">✨ 희귀 인챈트 15종</button>'+'<button class="btn-secondary" data-action="sound-gallery">🔊 효과음 들어보기</button><button class="btn-secondary" data-action="tutorial-replay">📖 튜토리얼</button><button class="btn-primary" data-action="close-tools">닫기</button></div></div>');
+ showModal('<div class="mini-screen"><div class="eyebrow">HOW TO PLAY</div><h2>ⓘ 게임 안내</h2><div class="help-grid"><div><b>🎴 시작 / 덱</b><span>초기 5개(3종 이상, 중복 가능), 매 턴 보유한 룬 중 3~6개 선택.</span></div><div><b>⚔ 보상 드롭</b><span>일반 룬 15% · 히든 룬 1% · 레벨업 룬 10%(보유 룬 1종 Lv.+1) · 보스도 동일.</span></div><div><b>✨ 인챈트</b><span>일반 강화는 레벨업 룬 10%로 통일. 희귀 인챈트 1%와 중복 드롭되지 않으며, 1~10층에 특수 효과 총 15종이 등장해요. 전격 10% 마비·빙결 10% 지연·화염 지속 피해·흡혈 등의 효과를 보유 공격 룬에 영구 합성할 수 있어요. 룬 종류당 희귀 인챈트는 하나만 장착할 수 있습니다.</span></div><div><b>🛒 상점</b><span>소모품·룬 보물상자·1,650G 이상 특수 장비를 골드로 구매. 모든 상점 상품은 기존 가격의 3배. 상점 방문마다 일반 아이템 재고가 무작위로 바뀝니다. 상자는 낮은 확률로 일반 룬 또는 해당 층 히든 룬 획득, 빈 상자도 나옵니다. 확률은 구매 전에 공개됩니다.</span></div><div><b>🔄 재회전</b><span>히든 룬: 회전검 연타 · 다이아 눈치게임(골드 후 자기 슬롯 재회전) · 되감기 6박자 리듬게임 · 새싹 타이밍 · 심연의 별 탄막. 적 분노 100이면 연쇄 중단.</span></div><div><b>🔊 전투 효과음</b><span>총은 파열음·저음·잔향을 겹친 음향, 일치 보너스는 전용 팬파레가 나오며 적 공격·방어와 인챈트도 별도 소리가 납니다. 상단 🔊 버튼으로 켜고 끌 수 있어요.</span></div><div><b>🎯 약점 발견 · ◆ 전투 주화 제한</b><span>몬스터 약점은 처음에는 ??로 표시되며 약점 무기로 실제 HP 피해를 주면 발견됩니다. 몬스터 한 마리당 주화 획득은 룬·승리 보상·이자·전리품 보상 합계 최대 100G입니다. 주화 룬은 3상자 중 하나를 골라 당첨이면 큰 보상, 꽝이어도 소액의 주화를 받습니다. 보스 앞에서 순회할 층을 선택하고 하위 층을 파밍한 뒤 보스로 돌아올 수 있습니다.</span></div><div><b>✦ 수학 관문</b><span>총 10층 · 각 층 최초 보스를 격파하면 인수분해를 맞혀 다음 층 해금. 해금한 층은 지도에서 여러 번 탐험할 수 있습니다.</span></div><div><b>💫 수학 부활 · ☠ 사망 패널티</b><span>전투나 지도 사건에서 HP가 0이 되면 즉시 보유 주화의 50%를 잃습니다(홀수 주화는 남는 금액을 내림). 인수분해 문제 정답 시 HP를 완전 회복하고 재도전 또는 해금 층 순회를 선택합니다. 잃은 주화는 돌려받지 않습니다. 3문제 연속 오답이면 모험 종료, 1층부터 다시 시작. 같은 몬스터의 100G 획득 상한은 유지됩니다.</span></div></div><div class="tool-actions">'+(s?'<button class="btn-secondary" data-action="records">▤ 룬·인챈트 확인</button>':'')+'<button class="btn-secondary" data-action="codex">📜 룬 도감 13종</button><button class="btn-secondary" data-action="enchant-codex">✨ 희귀 인챈트 15종</button>'+'<button class="btn-secondary" data-action="sound-gallery">🔊 효과음 들어보기</button><button class="btn-secondary" data-action="tutorial-replay">📖 튜토리얼</button><button class="btn-primary" data-action="close-tools">닫기</button></div></div>');
 }
 // Optional sound check accessible from help: no external audio files or network required.
 let runeCodexTab=0;
@@ -4005,6 +4095,10 @@ $('game').addEventListener('click',event=>{
  if(a==='boss-fight'){beginReadyBoss(Number(b.dataset.floor));return;}
  if(a==='boss-roam'){showBossRoamFloors(Number(b.dataset.floor));return;}
  if(a==='boss-resume'){showBossApproach(Number(b.dataset.floor));return;}
+ if(a==='normal-retry'){resumeNormalBattle(b.dataset.retry);return;}
+ if(a==='normal-roam'){roamFromNormalBattle(b.dataset.retry);return;}
+ if(a==='normal-retry-list'){showNormalRetryList();return;}
+ if(a==='retry-list-back'){showMap();return;}
  if(a==='leave-shop'){leaveShop();return;}
  if(a==='after-battle'){afterBattle();return;}
  if(a==='event-choice'){resolveMapEvent(b.dataset.opt);return;}
@@ -4472,7 +4566,7 @@ window.V39_MONSTERS={abilities:MONSTER_SUPPORT,details:(name,stage)=>supportDesc
 
 document.addEventListener('click',event=>{if(event.target.closest('#v38-bestiary-button,[data-v38-open]'))showV38Bestiary(0);});
 document.addEventListener('keydown',event=>{if(event.key==='Escape')document.getElementById('v38-bestiary')?.classList.remove('opened');});
-window.V38_MONSTERS={floors:STAGES.map((f,stage)=>({name:f.name,enemies:f.enemies.map((a,index)=>({name:a[0],kind:a[1],baseHP:a[2],newHP:monsterFullHP(stage,index),attack:a[3],armor:a[5]}))})),renderPortrait:renderMonsterPortrait,weakness:monsterWeakness,open:showV38Bestiary};
+window.V38_MONSTERS={floors:STAGES.map((f,stage)=>({name:f.name,enemies:f.enemies.map((a,index)=>({name:a[0],kind:a[1],baseHP:a[2],newHP:monsterFullHP(stage,index),attack:a[3]*ENEMY_ATTACK_MULTIPLIER,armor:a[5]}))})),renderPortrait:renderMonsterPortrait,weakness:monsterWeakness,open:showV38Bestiary};
 
 function drawEffects(ts){effects=effects.filter(e=>ts-e.start<e.life);for(const f of effects){let p=cap((ts-f.start)/f.life,0,1);cx.save();cx.globalAlpha=(1-p)*.98;
  if(f.type==='slash'){cx.globalAlpha=.90*(1-p);cx.shadowBlur=20;cx.shadowColor='#fcebad';line([[200+150*p,225-150*p],[525-75*p,55+158*p]],'#fff4ce',12-5*p);line([[235+105*p,55+120*p],[500-87*p,240-150*p]],'#ffe29d',6);cx.shadowBlur=0;}
