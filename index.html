@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>폐허의 슬롯 던전 V59 — 모든 몬스터 공격력 20% 하향</title>
+<title>폐허의 슬롯 던전 V60 — 마법 입력 5초</title>
 <style>
 .v39-preview-actions{display:flex;flex-wrap:wrap;gap:7px;padding:4px 10px 12px;}
 .v39-preview-actions button{font-size:11px;padding:7px 9px;border:1px solid #789f8a;border-radius:7px;background:#1a3236;color:#c3f4db;cursor:pointer;}
@@ -2996,7 +2996,7 @@ function showSkill(kind,action){
   sk.crack=rand(5);sk.readyAt=now+1000;sk.nextShift=sk.readyAt+500;sk.deadline=sk.readyAt+6500;
   simpleSkill(kind,'⚒ 균열 강타 · 5바위','<div class="rune-desc">시작까지 <b id="hammer-countdown" class="hammer-countdown">1</b> · 이후 0.5초마다 이동</div><div class="rock-row">'+[0,1,2,3,4].map(i=>'<button class="rock-tile" id="rock-'+i+'" data-action="hammer-strike" data-pos="'+i+'" disabled><span>🪨</span><b>╱</b></button>').join('')+'</div><div class="rune-note" id="hammer-note">1초 준비 · 시작 전 클릭 불가<br>기본 '+(BALANCE.hammer[0]+(action.lv-1)*BALANCE.hammer[1])+' · 균열 적중 '+(SPECIAL_DAMAGE.hammerAccurate[0]+(action.lv-1)*SPECIAL_DAMAGE.hammerAccurate[1])+' + 적 공격력 −50%</div>');updateRocks(now);
  } else if(kind==='flame'){
-  sk.sequence=Array.from({length:MAGIC_LENGTH},()=>rand(3));sk.index=0;sk.previewStart=now+2000;sk.previewEnd=sk.previewStart+MAGIC_LENGTH*MAGIC_PREVIEW_MS+150;sk.deadline=sk.previewEnd+14500;sk.previewStep=-1;sk.countdownShown=3;
+  sk.sequence=Array.from({length:MAGIC_LENGTH},()=>rand(3));sk.index=0;sk.previewStart=now+2000;sk.previewEnd=sk.previewStart+MAGIC_LENGTH*MAGIC_PREVIEW_MS+150;sk.deadline=sk.previewEnd+5000;sk.previewStep=-1;sk.countdownShown=3;
   simpleSkill(kind,'✹ 마법 · 7문양 기억',
    '<div class="rune-desc" id="flame-caption">2초 뒤 7개 문양이 시작됩니다! 준비하세요.</div><div class="flame-preview" id="flame-preview">2</div><div class="memory-track" id="memory-track">'+Array.from({length:MAGIC_LENGTH},()=>'<span></span>').join('')+'</div><div class="rune-choice-row">'+miniControls.flame.map((d,i)=>'<button class="rune-choice spell-key" id="spell-'+i+'" data-action="flame-pick" data-pos="'+i+'" disabled>'+d+'</button>').join('')+'</div><div class="rune-note" id="flame-progress">7개 전부 성공 시 <span class="magic-payoff">'+Math.min(damageCap('flame',action.lv),magicFullDamage(action.lv))+' 마법 피해 (Lv.'+action.lv+' 최종 상한 '+damageCap('flame',action.lv)+')</span></div>');
   sfx('spellcast');
@@ -3317,6 +3317,7 @@ function guardShield(pos){const sk=s?.skill;if(!sk||sk.kind!=='shield'||pos<0||p
  const guardianBoost=shopRelicActive('guardian')?1.25:1;const amount=Math.max(1,Math.round((6+(act.lv-1)*2+(s.enchants.warding?3:0)+(s.enchants.fortress?4:0))*act.mult*(s.enchants.shieldcore?1.5:1)*guardianBoost));const before=s.guards[pos];s.guards[pos]=cap(before+amount,0,Math.round((s.enchants.shieldcore?40:28)*guardianBoost));sumGuards();
  fx('shield',{life:680,dir:pos});fx('guardRaise',{life:760,dir:pos});sfx('shield');if(s.enchants.warding)sfx('warding');log('⬡ '+LANES[pos]+' 방어막 +'+(s.guards[pos]-before)+' (다른 방향은 막을 수 없음)');finishMini(sk,440);}
 function chooseFlame(pos){const sk=s?.skill;if(!sk||sk.kind!=='flame'||performance.now()<sk.previewEnd)return;
+ if(performance.now()>=sk.deadline){finishFlame(sk.index);return;}
  if(pos!==sk.sequence[sk.index]){sfx('wrong');finishFlame(sk.index);return;}
  sk.index++;sfx('puzzle');if($('flame-progress'))$('flame-progress').textContent='정답 '+sk.index+' / '+MAGIC_LENGTH+'!';
  const dots=$('memory-track');if(dots)Array.from(dots.children).forEach((d,i)=>d.classList.toggle('done',i<sk.index));
@@ -3413,10 +3414,11 @@ function updateSkill(ts){
    if($('flame-preview'))$('flame-preview').textContent=elapsed%MAGIC_PREVIEW_MS<540?miniControls.flame[sk.sequence[st]]:'·';
    const dots=$('memory-track');if(dots)Array.from(dots.children).forEach((d,i)=>d.classList.toggle('seen',i===st));
   }else if(!sk.previewDone){sk.previewDone=true;if($('flame-preview'))$('flame-preview').textContent='❓';
-   if($('flame-caption'))$('flame-caption').textContent='외운 순서대로 7번 입력하세요!';
+   if($('flame-caption'))$('flame-caption').textContent='외운 순서대로 5초 안에 7번 입력하세요!';
    if($('flame-progress'))$('flame-progress').textContent='7개 모두 정답이면 초강력! · 입력 시작';
    const dots=$('memory-track');if(dots)Array.from(dots.children).forEach(d=>d.classList.remove('seen'));
    document.querySelectorAll('.spell-key').forEach(e=>e.disabled=false);}
+  else if($('flame-caption'))$('flame-caption').textContent='입력 남은 시간 '+Math.max(0,(sk.deadline-ts)/1000).toFixed(1)+'초 · 순서대로 입력하세요!';
  } else if(sk.kind==='heal'){
   const phase=healPulse(ts),dist=Math.min(phase,1-phase),bright=1-cap(dist/.5,0,1);
   const heart=$('heart-visual'),ring=$('pulse-ring');
