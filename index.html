@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>V71 · 몬스터 체력 30% 하향 및 독날 조정 · 폐허의 슬롯 던전</title>
+<title>V73 · 총 발사 버튼 간소화 · 몬스터 왼쪽 행동 말풍선 · 폐허의 슬롯 던전</title>
 <style>
 .v39-preview-actions{display:flex;flex-wrap:wrap;gap:7px;padding:4px 10px 12px;}
 .v39-preview-actions button{font-size:11px;padding:7px 9px;border:1px solid #789f8a;border-radius:7px;background:#1a3236;color:#c3f4db;cursor:pointer;}
@@ -105,11 +105,11 @@ button{font:inherit;cursor:pointer;transition:filter .15s,transform .1s}button:h
 .skill-fire.ready{background:linear-gradient(#dfad63,#9e6034);border-color:#ffe7a5;text-shadow:0 0 12px #fff3ca}
 .skill-caption{font-size:12px;color:#d0d2b9;line-height:1.55;text-align:center;margin:4px 0 0}.skill-caption b{color:#ffe2a6}
 .skill-caption kbd{border:1px solid #827556;background:#17231f;padding:1px 5px;border-radius:3px;color:#f7d398}
-.gun-play{display:flex;align-items:center;justify-content:center;gap:22px;min-height:130px}
+.gun-play{position:relative;display:flex;align-items:center;justify-content:center;gap:22px;min-height:130px;padding-top:10px}
 .gun-weapon{font-size:70px;animation:gun-breathe 1.5s ease-in-out infinite alternate}
 @keyframes gun-breathe{to{transform:rotate(-4deg) translateY(-2px)}}
 .gun-right{flex:1;max-width:480px;display:flex;align-items:center;flex-direction:column;gap:7px}
-.gun-button{background:linear-gradient(#636c52,#344e40);border-color:#bfe1a2;box-shadow:inset 0 2px #acc78d,0 5px 0 #25382b,0 8px 16px #0008}
+.gun-button{position:absolute;top:4px;right:4px;z-index:4;width:auto;min-width:118px;min-height:44px;padding:8px 12px;font-size:15px;background:linear-gradient(#636c52,#344e40);border-color:#bfe1a2;box-shadow:inset 0 2px #acc78d,0 5px 0 #25382b,0 8px 16px #0008}
 .shop-title{text-align:left;color:#eed0a0;font-size:15px;letter-spacing:.03em;margin:16px 1px 5px;padding:5px 7px;border-left:3px solid #d2b073;background:#212e27}
 .gold-text{color:#ffe38b;font:700 17px 'Space Mono',monospace}
 @media(max-width:650px){
@@ -125,8 +125,9 @@ button{font:inherit;cursor:pointer;transition:filter .15s,transform .1s}button:h
  .skill-weapon{font-size:42px}
  .skill-fire{font-size:13px;min-height:47px;padding:8px 5px}
  .skill-caption{font-size:10px}
- .gun-play{gap:9px}
+ .gun-play{gap:9px;padding-top:8px}
  .gun-weapon{font-size:45px}
+ .gun-button{top:2px;right:2px;min-width:96px;min-height:36px;padding:6px 8px;font-size:12px}
  .aim-zone span{font-size:7px}
  .crosshair{width:30px;height:30px}
  .crosshair:before{top:-9px;left:12px;height:44px}
@@ -151,8 +152,9 @@ button{font:inherit;cursor:pointer;transition:filter .15s,transform .1s}button:h
 .viewport .skill-fire{width:100%;min-height:43px;padding:6px 4px;font-size:12px;line-height:1.2;letter-spacing:0;touch-action:manipulation}
 .viewport .skill-caption{font-size:10px;line-height:1.35;margin:0;word-break:keep-all}
 .viewport .skill-caption kbd{font-size:9px}
-.viewport .gun-play{flex:1;min-height:0;height:auto;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px}
+.viewport .gun-play{flex:1;min-height:0;height:auto;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;padding-top:6px}
 .viewport .gun-weapon{font-size:35px}
+.viewport .gun-button{width:auto;min-width:86px;min-height:34px;padding:5px 7px;font-size:11px;line-height:1.1}
 .viewport .gun-play .skill-caption{font-size:10px}
 @media(max-width:650px){
  .viewport .skill-panel{top:32px;bottom:10px;right:5px;width:min(134px,41%);max-width:41%;padding:6px 5px;gap:3px}
@@ -167,6 +169,7 @@ button{font:inherit;cursor:pointer;transition:filter .15s,transform .1s}button:h
  .viewport .skill-caption{font-size:9px;line-height:1.26}
  .viewport .gun-play .skill-caption{font-size:9px}
  .viewport .gun-weapon{font-size:27px}
+ .viewport .gun-button{min-width:78px;min-height:30px;padding:4px 6px;font-size:10px}
 }
 @media(max-width:360px){.viewport .skill-panel{width:41%;max-width:41%}.viewport .skill-caption{font-size:8px}.viewport .sword-play{grid-template-columns:29px minmax(0,1fr)}.viewport .sword-rail{width:21px}}
 
@@ -1863,6 +1866,63 @@ body{touch-action:manipulation}
  .deck-screen .deck-stepper button{height:32px}
  .deck-screen .deck-stepper-value strong{font-size:15px}
 }
+
+/* V73 — gun: ONLY a small shoot button, no surrounding minigame panel. */
+#game #scene-wrap > #skill-panel.gun-mode {
+ position:absolute!important;z-index:9!important;
+ top:6px!important;right:7px!important;bottom:auto!important;left:auto!important;
+ display:block!important;width:auto!important;max-width:none!important;min-width:0!important;
+ height:auto!important;min-height:0!important;max-height:none!important;
+ margin:0!important;padding:0!important;gap:0!important;
+ border:0!important;border-radius:0!important;outline:0!important;
+ box-shadow:none!important;background:transparent!important;overflow:visible!important;
+}
+#game #scene-wrap > #skill-panel.gun-mode .gun-button {
+ display:block;position:static!important;z-index:10!important;
+ min-width:86px;min-height:43px;max-width:none;width:auto!important;
+ margin:0!important;padding:7px 13px!important;
+ font-size:15px!important;line-height:1.2!important;
+ color:#fff6cc;background:linear-gradient(#587e55,#275140);
+ border:2px solid #e9d596;border-radius:8px;
+ box-shadow:0 4px 12px #000a,inset 0 1px #d4e2ad70;
+ touch-action:manipulation;
+}
+/* Retain the moving crosshair and target ellipses, but remove numeric HUD text. */
+#game #scene-wrap:has(#skill-panel.gun-mode:not(.hidden)) .aim-zone span{display:none}
+/* V73 — compact speech bubble LEFT of the character, never under gun controls. */
+#game .enemy-speech-bubble{
+ position:absolute;z-index:4;pointer-events:none;
+ left:9px;top:46px;width:min(42%,248px);max-height:calc(100% - 53px);
+ display:flex;flex-direction:column;gap:2px;box-sizing:border-box;
+ padding:8px 9px 8px;border:2px solid #ab8958;border-radius:12px;
+ background:linear-gradient(140deg,rgba(255,248,223,.97),rgba(249,226,185,.97));
+ color:#312318;text-shadow:none;
+ box-shadow:0 5px 16px #0d1316ac;overflow:visible;
+}
+#game .enemy-speech-bubble[hidden]{display:none!important}
+#game .enemy-speech-bubble:after{
+ content:'';position:absolute;right:-13px;top:49%;width:0;height:0;
+ border-top:10px solid transparent;border-bottom:10px solid transparent;
+ border-left:13px solid #f9e8c7;
+ filter:drop-shadow(1px 1px #9b7c53);
+}
+#game .enemy-speech-bubble .speech-head{font-size:clamp(11px,1.55vw,16px);font-weight:900;line-height:1.2;color:#402818}
+#game .enemy-speech-bubble .speech-detail{font-size:clamp(9px,1.25vw,11px);font-weight:700;line-height:1.16;color:#80512c}
+#game .enemy-speech-bubble .speech-hits{margin-top:3px;padding-top:4px;border-top:1px solid #b6a07c;display:flex;flex-direction:column;gap:2px;font-size:clamp(9px,1.4vw,12px);font-weight:800;line-height:1.28;word-break:keep-all;overflow-wrap:anywhere}
+#game .enemy-speech-bubble .speech-hits>div{margin:0}
+@media(max-width:650px){
+ #game .enemy-speech-bubble{left:5px;top:42px;width:42%;max-height:calc(100% - 48px);border-width:1px;padding:5px 6px;gap:1px;border-radius:9px}
+ #game .enemy-speech-bubble .speech-head{font-size:11px}
+ #game .enemy-speech-bubble .speech-detail{font-size:9px}
+ #game .enemy-speech-bubble .speech-hits{font-size:9px;line-height:1.18;gap:2px;padding-top:3px;margin-top:1px}
+ #game #scene-wrap > #skill-panel.gun-mode .gun-button{min-width:77px;min-height:39px;padding:7px 10px!important;font-size:13px!important}
+}
+@media(max-width:370px){
+ #game .enemy-speech-bubble{width:43%;top:38px;padding:4px 5px}
+ #game .enemy-speech-bubble .speech-detail{font-size:8px}
+ #game .enemy-speech-bubble .speech-hits{font-size:8.5px}
+}
+
 </style>
 </head>
 <body>
@@ -1872,7 +1932,7 @@ body{touch-action:manipulation}
   <main class="machine">
     <div class="machine-head"><div class="floor" id="floor-name">FLOOR 01 · 균열의 초원</div><div class="battle-no mono" id="battle-no">ENCOUNTER 1 / 3</div></div>
     <div class="screen-grid">
-      <section class="viewport" id="scene-wrap"><canvas id="scene" width="720" height="290" aria-label="전투 중인 몬스터의 그림"></canvas><div class="aim-layer hidden" id="aim-layer"><div class="aim-zone head" id="aim-head"><span>HEAD 35</span></div><div class="aim-zone body" id="aim-body"><span>BODY 9</span></div><div class="crosshair" id="crosshair"><div class="dot"></div></div></div><div class="skill-panel hidden" id="skill-panel" aria-live="polite"></div><div class="combat-toast" id="combat-toast" role="status" aria-live="polite"></div><div class="element-procs" id="element-procs" role="status" aria-live="polite" aria-atomic="false"></div><span class="coin-reward" id="coin-reward" aria-live="polite"></span><div id="heal-feedback" class="heal-feedback" role="status" aria-live="polite" aria-atomic="true"></div><span class="scene-label" id="scene-label">MONSTER APPROACHING</span><div class="enemy-name" id="enemy-name">이끼 고블린</div></section>
+      <section class="viewport" id="scene-wrap"><canvas id="scene" width="720" height="290" aria-label="전투 중인 몬스터의 그림"></canvas><div class="enemy-speech-bubble" id="enemy-speech-bubble" role="status" aria-live="polite" hidden></div><div class="aim-layer hidden" id="aim-layer"><div class="aim-zone head" id="aim-head"><span>HEAD 35</span></div><div class="aim-zone body" id="aim-body"><span>BODY 9</span></div><div class="crosshair" id="crosshair"><div class="dot"></div></div></div><div class="skill-panel hidden" id="skill-panel" aria-live="polite"></div><div class="combat-toast" id="combat-toast" role="status" aria-live="polite"></div><div class="element-procs" id="element-procs" role="status" aria-live="polite" aria-atomic="false"></div><span class="coin-reward" id="coin-reward" aria-live="polite"></span><div id="heal-feedback" class="heal-feedback" role="status" aria-live="polite" aria-atomic="true"></div><span class="scene-label" id="scene-label">MONSTER APPROACHING</span><div class="enemy-name" id="enemy-name">이끼 고블린</div></section>
       <aside class="side-panel"><div><div class="status-name">ENEMY LIFE</div><div class="status-row"><span>생명력</span><b id="enemy-hp">40 / 40</b></div><div class="meter"><div class="fill" id="enemy-hp-fill"></div></div></div><div class="player-hp"><div class="hp-icon">♥</div><div class="player-hp-info"><div class="status-row" style="margin:0"><span>모험가 HP</span><b id="player-hp">68 / 68</b></div><div class="meter player-meter"><div id="player-hp-fill" class="fill player"></div></div><div class="player-xp-head"><span>✦ 모험가 <strong id="xp-level">Lv.1</strong></span><span id="xp-value">경험치 0 / 3</span></div><div class="player-xp-meter" role="progressbar" aria-label="플레이어 경험치" aria-valuemin="0" aria-valuemax="3" aria-valuenow="0" id="player-xp-meter"><div id="xp-fill" class="player-xp-fill"></div></div></div></div><div><div class="status-row"><span>적 상태</span><span class="tiny" id="enemy-status">정상</span></div><div class="shield-txt" id="enemy-shield">방어막 0</div><div id="enemy-weakness-v38" class="enemy-weakness-v38">🎯 약점: ??</div><div id="battle-coin-limit-v50" class="battle-coin-limit-v50">◆ 이번 몬스터 획득 0 / 100G</div></div><div class="intent">⚠ 적의 다음 행동<br><b id="enemy-intent">공격 8</b><div class="tiny" id="enemy-armor">공격 방향을 예측하세요</div><div class="boss-skill" id="boss-skill"></div><div class="aggro-box" id="aggro-box"><div class="aggro-label"><b>💢 재회전 분노</b><strong id="aggro-value">0 / 100</strong></div><div class="aggro-meter"><div class="aggro-fill" id="aggro-fill"></div></div><small>가득 차면 연쇄가 끊기고 적이 반격!</small></div></div></aside>
     </div>
     <div class="playerstrip"><div class="player-bleed-notice" id="player-bleed-notice" role="status" hidden>🩸 출혈</div><div class="guard-hud" id="guard-hud"><div class="guard-hud-title">⬡ 방향 방어막 <b id="player-shield">0</b></div><div class="guard-hud-lanes"><span id="guard-0">← 0</span><span id="guard-1">↑ 0</span><span id="guard-2">→ 0</span></div></div><div class="hud-num">턴<strong id="turn-count">0</strong></div><div class="hud-num">점수<strong id="score-count">0</strong></div></div>
@@ -3179,13 +3239,32 @@ function advanceEnemyPlan(){if(!s?.enemy)return;s.enemy.round++;refreshEnemyPlan
 
 function newEnemy(forcedIndex=null){if(!s)return;lastCombatCheckpoint=null;battleToken++;stopTimers();effects=[];if($('element-procs'))$('element-procs').replaceChildren();s.reelCount=reelCountForStage(s.stage);const monsters=STAGES[s.stage].enemies;const idx=Number.isInteger(forcedIndex)&&forcedIndex>=0&&forcedIndex<monsters.length?forcedIndex:s.fight===2?monsters.length-1:(s.stageFightCount-1+Math.max(0,(s.map?.runNumber||s.floorRuns[s.stage])-1)*2)% (monsters.length-1);const a=monsters[Math.max(0,idx)];const scaledHP=monsterFullHP(s.stage,Math.max(0,idx));s.enemy={name:a[0],kind:a[1],aggro:0,hp:scaledHP,max:scaledHP,attack:a[3]*ENEMY_ATTACK_MULTIPLIER,shield:a[4],armor:a[5],braceHits:0,supportUsed:0,poison:0,poisonPower:0,poisonTurns:0,burnPower:0,burnTurns:0,bleedPower:0,bleedTurns:0,freezeTurns:0,weakenTurns:0,stun:0,paralyzed:false,mode:0,round:0,plan:null,lockedReel:-1,chargeReady:false,chargeLane:1};s.playerBleedTurns=0;s.turn=0;s.turnDmg=0;s.battleCoinsEarned=0;s.preTurnDamage=0;s.counterAttackReady=false;s.guards=[0,0,0];sumGuards();s.reelSymbols=Array.from({length:s.reelCount},()=>rollRune());s.stops=Array(s.reelCount).fill(true);s.view='fight';s.deckPending=false;s.spinning=false;s.resolving=false;s.skill=null;s.jammedReel=-1;s.reelVersions=Array(s.reelCount).fill(0);s.chainRerolls=0;s.rerollUsed=false;s.awaitingRespin=false;s.rerolling=false;s.turnEnding=false;refreshEnemyPlan();resetReels();hideSkill();log('⚑ '+s.enemy.name+'이(가) 나타났다! '+s.reelCount+'칸 슬롯 · 적의 다음 행동을 확인하고 방어하세요.');hideModal();render();showTurnDeckModal();}
 // The current enemy plan fixes each hit's direction when the turn begins.
-// Ordinary monsters reveal exact pre-shield damage; elites and bosses keep it secret.
+// Elites and bosses now hide only the direction; damage and special effects remain visible.
 function enemyPlanSecret(){return !!s&&(s.fight===1||s.fight===2);}
 function enemyForecastHits(){
- if(!s?.enemy?.plan||enemyPlanSecret())return [];
+ if(!s?.enemy?.plan)return [];
  const e=s.enemy,p=e.plan;
  if(e.stun>0||e.freezeTurns>0)return [];
  return (p.hits||[]).map(h=>({dir:h.dir,damage:Math.max(0,Math.round(e.attack*(h.mult??1)*(e.weakenTurns>0?.5:1))),ignore:!!h.ignore,bleed:!!h.bleed}));
+}
+function enemySpeechBubbleData(){
+ if(!s?.enemy)return {title:'...',detail:''};
+ const e=s.enemy,p=e.plan;
+ if(e.stun>0)return {title:'행동 불가',detail:'기절!'};
+ if(e.freezeTurns>0)return {title:'빙결!',detail:'행동 지연'};
+ if(!p)return {title:'탐색 중',detail:'다음 행동 확인'};
+ if(p.kind==='heal')return {title:'회복 준비',detail:'HP 회복'};
+ if(p.kind==='ward'||p.kind==='guard')return {title:'방어 준비',detail:'방어막 전개'};
+ if(p.kind==='brace')return {title:'철벽 준비',detail:'피해 감소'};
+ if(p.kind==='lock')return {title:'봉인 준비',detail:'슬롯 봉인'};
+ if(p.kind==='charge')return {title:'기 모으기',detail:'다음 턴 강타'};
+ if(p.kind==='charged')return {title:'강타 직전!',detail:'큰 피해 주의'};
+ if(p.kind==='pierce')return {title:'관통 준비',detail:'방어무시 공격'};
+ if(p.kind==='bleed')return {title:'출혈 준비',detail:'방어막 없으면 출혈'};
+ if(p.kind==='flurry')return {title:'연속 공격',detail:'다단 히트'};
+ if(p.hits?.some(h=>h.bleed))return {title:'출혈 준비',detail:'방어막 없으면 출혈'};
+ if(p.hits?.some(h=>h.ignore))return {title:'관통 준비',detail:'방어무시 공격'};
+ return {title:'공격 준비',detail:enemyPlanSecret()?'방향은 비밀':'방향 노림'};
 }
 function intentText(){
  if(!s?.enemy)return '적의 공격 예고';const e=s.enemy,p=e.plan;
@@ -3193,17 +3272,51 @@ function intentText(){
  if(e.freezeTurns>0)return '❄️ 빙결 · 이번 턴 행동 지연 (0 피해)';
  if(!p)return '다음 행동 확인 중';
  if(['heal','ward','brace'].includes(p.kind))return (p.kind==='heal'?'💚 HP +'+p.amount+' 회복 · 공격 없음':p.kind==='ward'?'🛡 적 방어막 +'+p.amount+' · 공격 없음':'🛡 철벽 태세 · 다음 2회 공격 피해 38% 감소 · ⚒ 망치 정타로 해제');
-  if(enemyPlanSecret())return (s.fight===2?'👑 보스':'💀 엘리트')+' · 적의 공격 · 방향 ? / 피해량 ?'+(p.kind==='bleed'?' · 🩸 출혈 주의':'');
  if(p.kind==='lock')return '🔒 슬롯 1칸 봉인 · 피해 0';
  if(p.kind==='guard')return '🛡 방어막 +'+(8+Math.floor(s.stage*1.5))+' · 피해 0';
  if(p.kind==='charge')return '🔴 강타 준비 · 이번 턴 피해 0';
  const hits=enemyForecastHits();
  if(!hits.length)return '공격 없음 · 피해 0';
- return '⚔ 적의 공격 · '+(p.kind==='pierce'?'⚡ 관통 공격':p.title)+' · '+hits.map(h=>LANE_ICONS[h.dir]+' '+LANES[h.dir]+' '+h.damage+' 피해'+(h.ignore?' (관통)':'')+(h.bleed?' (🩸 방어막 0이면 출혈)':'')).join(' · ');
+ const secret=enemyPlanSecret();
+ const attackName=(p.kind==='pierce'?'⚡ 관통 공격':p.title);
+ const hitText=hits.map((h,i)=>(secret?((i+1)+'타 '):LANE_ICONS[h.dir]+' '+LANES[h.dir]+' ')+h.damage+' 피해'+(h.ignore?' (관통)':'')+(h.bleed?' (🩸 방어막 0이면 출혈)':'')).join(' · ');
+ return '⚔ 적의 공격 · '+attackName+' · '+(secret?'방향 비공개 · ':'')+hitText;
+}
+// V73: An easy-to-read speech bubble placed LEFT of the monster illustration.
+// All attack kinds, each hit's damage, and shield-related effects are disclosed.
+// Elite and boss encounters hide the TARGET LANE only.
+function renderEnemySpeechBubble(){
+ const el=$('enemy-speech-bubble');if(!el)return;
+ if(!s||s.view!=='fight'||!s.enemy){el.hidden=true;return;}
+ const e=s.enemy,p=e.plan,info=enemySpeechBubbleData(),secret=enemyPlanSecret();
+ let rows=[];
+ if(e.stun>0||e.freezeTurns>0){rows=['⛔ 방향 없음 · 0 피해'];}
+ else if(!p){rows=['다음 행동 확인 중'];}
+ else if(p.kind==='heal'){rows=['♥ HP +'+(p.amount||0)+' 회복','공격 없음 · 0 피해'];}
+ else if(p.kind==='ward'){rows=['🛡 적 방어막 +'+(p.amount||0),'공격 없음 · 0 피해'];}
+ else if(p.kind==='guard'){rows=['🛡 적 방어막 +'+(8+Math.floor(s.stage*1.5)),'공격 없음 · 0 피해'];}
+ else if(p.kind==='brace'){rows=['🛡 다음 2회 피해 38% 감소','공격 없음 · 0 피해'];}
+ else if(p.kind==='lock'){rows=['🔒 슬롯 1칸 봉인','공격 없음 · 0 피해'];}
+ else if(p.kind==='charge'){rows=['🔴 다음 턴 강타 준비','공격 없음 · 0 피해'];}
+ else {
+  const hits=enemyForecastHits();
+  rows=hits.length?hits.map((h,i)=>{
+   const lane=secret?'방향 ?':LANE_ICONS[h.dir]+' '+LANES[h.dir];
+   return (hits.length>1?(i+1)+'타 ':'')+lane+' · '+h.damage+' 피해'+(h.ignore?' ⚡관통':'')+(h.bleed?' 🩸출혈':'');
+  }):['공격 없음 · 0 피해'];
+  if(hits.some(h=>h.bleed)&&!info.detail.includes('방어막'))rows.push('🩸 방어막 0이면 출혈');
+ }
+ const title=info.title,detail=info.detail;
+ // Everything here comes from in-game static action descriptions and numeric damage values.
+ el.replaceChildren();
+ const hd=document.createElement('strong');hd.className='speech-head';hd.textContent=title;el.appendChild(hd);
+ if(detail){const sub=document.createElement('span');sub.className='speech-detail';sub.textContent=detail;el.appendChild(sub);}
+ const list=document.createElement('div');list.className='speech-hits';for(const r of rows){const line=document.createElement('div');line.textContent=r;list.appendChild(line);}el.appendChild(list);
+ el.hidden=false;
 }
 function render(){if(!s)return;const e=s.enemy;
  $('top-stage').textContent=String(s.stage+1).padStart(2,'0')+' / '+String(STAGES.length).padStart(2,'0');$('top-gold').textContent=s.coins+' G';$('interest-next').textContent='승리 이자 +'+bankInterest(s.coins)+'G';$('floor-name').textContent='FLOOR '+String(s.stage+1).padStart(2,'0')+' · '+STAGES[s.stage].name;$('battle-no').textContent=s.view==='fight'?'ENCOUNTER '+s.encounterCount+' · '+(s.fight===2?'BOSS':s.fight===1?'ELITE':'MONSTER'):'🗺 PATH · '+(s.map?Math.max(0,s.map.row+1):0)+' / '+(MAP_ROWS+1);$('scene-label').textContent=s.view==='fight'?(s.fight===2?'⚠ BOSS ENCOUNTER':s.fight===1?'💀 ELITE ENCOUNTER':'⚔ MONSTER ENCOUNTER'):'🗺 CHOOSE YOUR PATH';$('enemy-name').textContent=e.name;
- $('enemy-hp').textContent=Math.max(0,e.hp)+' / '+e.max;$('enemy-hp-fill').style.width=cap(e.hp/e.max*100,0,100)+'%';$('enemy-status').textContent=[e.stun>0?(e.paralyzed?'⚡ 마비':'💫 기절'):'',e.freezeTurns>0?'❄️ 빙결 · 행동 지연':'',e.poisonTurns>0?'☣ '+e.poisonPower+'/턴 · '+e.poisonTurns+'턴':'',e.burnTurns>0?'🔥 '+e.burnPower+'/턴 · '+e.burnTurns+'턴':'',e.bleedTurns>0?'🩸 '+(e.bleedPower||2)+'/턴 · '+e.bleedTurns+'턴':'',e.weakenTurns>0?'⚒ 공격력 −50% · 다음 공격':'',e.braceHits>0?'🛡 철벽 '+e.braceHits+'회 남음':''].filter(Boolean).join(' / ')||'정상';$('enemy-shield').textContent='방어막 '+e.shield+(e.braceHits>0?' · 철벽 '+e.braceHits+'회':'');$('enemy-weakness-v38').textContent=monsterWeaknessText(e,s.stage);const earned=Math.max(0,s.battleCoinsEarned||0),pressure=$('battle-coin-limit-v50');if(pressure){pressure.textContent='◆ 이번 몬스터 획득 '+earned+' / '+BATTLE_GOLD_LIMIT+'G'+(earned>=BATTLE_GOLD_LIMIT?' · 획득 상한':' · 처치 보상·이자 포함');pressure.classList.toggle('full',earned>=BATTLE_GOLD_LIMIT);} $('enemy-intent').textContent=intentText();$('enemy-armor').textContent=(e.armor?'물리 저항 '+Math.round(e.armor*100)+'% · ':'')+(enemyPlanSecret()?'강적의 공격 정보 비공개':'방향·피해는 방어막 적용 전 예상값');
+ $('enemy-hp').textContent=Math.max(0,e.hp)+' / '+e.max;$('enemy-hp-fill').style.width=cap(e.hp/e.max*100,0,100)+'%';$('enemy-status').textContent=[e.stun>0?(e.paralyzed?'⚡ 마비':'💫 기절'):'',e.freezeTurns>0?'❄️ 빙결 · 행동 지연':'',e.poisonTurns>0?'☣ '+e.poisonPower+'/턴 · '+e.poisonTurns+'턴':'',e.burnTurns>0?'🔥 '+e.burnPower+'/턴 · '+e.burnTurns+'턴':'',e.bleedTurns>0?'🩸 '+(e.bleedPower||2)+'/턴 · '+e.bleedTurns+'턴':'',e.weakenTurns>0?'⚒ 공격력 −50% · 다음 공격':'',e.braceHits>0?'🛡 철벽 '+e.braceHits+'회 남음':''].filter(Boolean).join(' / ')||'정상';$('enemy-shield').textContent='방어막 '+e.shield+(e.braceHits>0?' · 철벽 '+e.braceHits+'회':'');$('enemy-weakness-v38').textContent=monsterWeaknessText(e,s.stage);const earned=Math.max(0,s.battleCoinsEarned||0),pressure=$('battle-coin-limit-v50');if(pressure){pressure.textContent='◆ 이번 몬스터 획득 '+earned+' / '+BATTLE_GOLD_LIMIT+'G'+(earned>=BATTLE_GOLD_LIMIT?' · 획득 상한':' · 처치 보상·이자 포함');pressure.classList.toggle('full',earned>=BATTLE_GOLD_LIMIT);} $('enemy-intent').textContent=intentText();renderEnemySpeechBubble();$('enemy-armor').textContent=(e.armor?'물리 저항 '+Math.round(e.armor*100)+'% · ':'')+(enemyPlanSecret()?'엘리트/보스는 방향만 비공개 · 피해·특수효과는 공개':'방향·피해는 방어막 적용 전 예상값');
  $('boss-skill').textContent=s.fight===2?({lock:'🔒 다음 턴 슬롯 봉인',pierce:'⚡ 방패를 뚫는 공격',charge:'🔴 다음 턴 강력한 공격 충전',charged:'💀 검 PERFECT·총 헤드샷은 저지! 망치는 피해 반감',flurry:'⚔ 연속 다방향 공격'}[e.plan?.kind]||'특수 패턴 작동 중'):'';
  renderPlayerXP();
  const pb=$('player-bleed-notice');if(pb){pb.hidden=!(s.playerBleedTurns>0);pb.textContent='🩸 출혈 2/턴 · '+(s.playerBleedTurns||0)+'턴';}
@@ -3450,8 +3563,7 @@ function showSkill(kind,action){
    '<div class="sword-play"><div class="sword-meter-wrap"><div class="sword-rail"><div class="sword-perfect" id="sword-perfect"></div><div class="sword-good" id="sword-good"></div><div class="sword-fill" id="sword-fill"></div></div><span class="meter-value" id="meter-value">0%</span></div><div class="sword-right"><div class="skill-weapon">⚔</div><button class="skill-fire sword-button" data-action="sword-strike" id="sword-button">⚔ 지금 베기!</button><p class="skill-caption">게이지를 보며 타이밍에 맞춰 베세요!<br>70% 미만도 약한 공격<br>70% 이상 기본 피해 · 90% PERFECT <b>'+Math.min(damageCap('blade',action.lv),SPECIAL_DAMAGE.bladePerfect[0]+(action.lv-1)*SPECIAL_DAMAGE.bladePerfect[1])+' 피해</b></p></div></div>');
   updateSwordGauge(now);sfx('charge');
  } else if(kind==='gun'){
-  simpleSkill(kind,'🔫 총 · 확대된 조준 영역',
-   '<div class="gun-play"><div class="skill-weapon gun-weapon">🔫</div><button class="skill-fire gun-button" data-action="gun-fire" id="gun-button">◎ 지금 발사!</button><p class="skill-caption">빠르게 움직이는 조준점을 작은 머리 영역에 맞추세요!<br><b>헤드샷 '+Math.min(damageCap('gun',action.lv),Math.round((SPECIAL_DAMAGE.gunHeadshot[0]+(action.lv-1)*SPECIAL_DAMAGE.gunHeadshot[1])*headshotExtra(s?.enemy?.kind)*GUN_DAMAGE_MULTIPLIER))+' · 몸통 '+Math.min(damageCap('gun',action.lv),Math.round((BALANCE.gun[0]+(action.lv-1)*BALANCE.gun[1])*GUN_DAMAGE_MULTIPLIER))+'</b> (Lv.'+action.lv+' 기준 · 보너스 포함 최대 '+damageCap('gun',action.lv)+')<br><kbd>F</kbd> 발사</p></div>');
+  panel.innerHTML='<button class="skill-fire gun-button" type="button" data-action="gun-fire" id="gun-button" aria-label="총 발사">🔫 발사</button>';
   let z=zones();$('aim-layer').classList.remove('hidden');
   ['head','body'].forEach(k=>{const el=$('aim-'+k),p=z[k];el.style.left=(p.x/720*100)+'%';el.style.top=(p.y/290*100)+'%';el.style.width=(p.rx/720*200)+'%';el.style.height=(p.ry/290*200)+'%';});$('aim-head').querySelector('span').textContent='HEAD '+Math.min(damageCap('gun',action.lv),Math.round((SPECIAL_DAMAGE.gunHeadshot[0]+(action.lv-1)*SPECIAL_DAMAGE.gunHeadshot[1])*headshotExtra(s?.enemy?.kind)*GUN_DAMAGE_MULTIPLIER));$('aim-body').querySelector('span').textContent='BODY '+Math.min(damageCap('gun',action.lv),Math.round((BALANCE.gun[0]+(action.lv-1)*BALANCE.gun[1])*GUN_DAMAGE_MULTIPLIER));
  } else if(kind==='venom'){
@@ -3461,7 +3573,7 @@ function showSkill(kind,action){
    '<div class="puzzle-pictures"><div class="puzzle-pic"><span>원본 · '+puzzleThemeName(sk.theme)+'</span>'+poisonScene(sk,false)+'</div><div class="puzzle-pic" id="puzzle-right"><span>변형 · '+puzzleThemeName(sk.theme)+'</span>'+poisonScene(sk,true)+'</div></div>'+ 
    '<div class="puzzle-timer"><div id="puzzle-timer-fill"></div></div><div class="puzzle-footer">6초 제한 · 오답 클릭 즉시 종료 · 독 피해 기존의 20%</div>';sfx('venomReady');
  } else if(kind==='shield'){
-  simpleSkill(kind,'⬡ 방향 방어 예측','<div class="rune-desc">이번 방패를 <b>어디에</b> 세울까요?<br>세 방향은 각각 따로 보호!</div><div class="rune-choice-row">'+LANES.map((d,i)=>'<button class="rune-choice guard-pick" data-action="shield-guard" data-pos="'+i+'">'+LANE_ICONS[i]+'<small>'+d+'</small><small class="guard-value" id="shield-preview-'+i+'">보호 '+s.guards[i]+'</small></button>').join('')+'</div><div class="rune-note">일반 몬스터: 공격 방향·피해량 확정 공개<br>엘리트·보스: 공격 정보 비공개</div>');sfx('shield');
+  simpleSkill(kind,'⬡ 방향 방어 예측','<div class="rune-desc">이번 방패를 <b>어디에</b> 세울까요?<br>세 방향은 각각 따로 보호!</div><div class="rune-choice-row">'+LANES.map((d,i)=>'<button class="rune-choice guard-pick" data-action="shield-guard" data-pos="'+i+'">'+LANE_ICONS[i]+'<small>'+d+'</small><small class="guard-value" id="shield-preview-'+i+'">보호 '+s.guards[i]+'</small></button>').join('')+'</div><div class="rune-note">일반 몬스터: 방향·피해량 공개<br>엘리트·보스: 방향만 숨김</div>');sfx('shield');
  } else if(kind==='hammer'){
   sk.crack=rand(5);sk.readyAt=now+1000;sk.nextShift=sk.readyAt+500;sk.deadline=sk.readyAt+6500;
   simpleSkill(kind,'⚒ 균열 강타 · 5바위','<div class="rune-desc">시작까지 <b id="hammer-countdown" class="hammer-countdown">1</b> · 이후 0.5초마다 이동</div><div class="rock-row">'+[0,1,2,3,4].map(i=>'<button class="rock-tile" id="rock-'+i+'" data-action="hammer-strike" data-pos="'+i+'" disabled><span>🪨</span><b>╱</b></button>').join('')+'</div><div class="rune-note" id="hammer-note">1초 준비 · 시작 전 클릭 불가<br>기본 '+(BALANCE.hammer[0]+(action.lv-1)*BALANCE.hammer[1])+' · 균열 적중 '+(SPECIAL_DAMAGE.hammerAccurate[0]+(action.lv-1)*SPECIAL_DAMAGE.hammerAccurate[1])+' + 적 공격력 −50%</div>');updateRocks(now);
@@ -3729,7 +3841,7 @@ function fireSword(){
  else{fx('whiff',{life:410});sfx('miss');log('⚔ 검 공격이 방어막에 막혔습니다.');}
  s.skill=null;hideSkill();render();later(token,570,()=>runNextAction(token));
 }
-function zones(){let k=s?.enemy?.kind||'goblin';const lookup={goblin:[354,110,353,172],ogre:[354,95,353,169],skeleton:[354,94,354,172],knight:[354,74,354,168],golem:[354,74,354,170],bat:[354,112,354,174],mushroom:[354,120,354,193],serpent:[461,73,392,169],witch:[354,86,354,175],reaper:[354,87,354,169],lord:[354,46,354,155]};let a=lookup[k]||lookup.goblin;return{head:{x:a[0],y:a[1],rx:(k==='lord'?35:31)*GUN_TARGET_SIZE_MULTIPLIER,ry:(k==='mushroom'?23:26)*GUN_TARGET_SIZE_MULTIPLIER},body:{x:a[2],y:a[3],rx:(k==='serpent'?95:68)*GUN_TARGET_SIZE_MULTIPLIER,ry:(k==='lord'?64:62)*GUN_TARGET_SIZE_MULTIPLIER}};}
+function zones(){let k=s?.enemy?.kind||'goblin';const lookup={goblin:[354,110,353,172],ogre:[354,95,353,169],skeleton:[354,94,354,172],knight:[354,74,354,168],golem:[354,74,354,170],bat:[354,112,354,174],mushroom:[354,120,354,193],serpent:[461,73,392,169],witch:[354,86,354,175],reaper:[354,87,354,169],lord:[354,46,354,155]};let a=lookup[k]||lookup.goblin;const weakGun=s?.enemy&&monsterWeakness('gun',s.enemy,s.stage)>1.01?1.3:1;return{head:{x:a[0],y:a[1],rx:(k==='lord'?35:31)*GUN_TARGET_SIZE_MULTIPLIER*weakGun,ry:(k==='mushroom'?23:26)*GUN_TARGET_SIZE_MULTIPLIER*weakGun},body:{x:a[2],y:a[3],rx:(k==='serpent'?95:68)*GUN_TARGET_SIZE_MULTIPLIER,ry:(k==='lord'?64:62)*GUN_TARGET_SIZE_MULTIPLIER}};}
 function inside(pos,zone){return ((pos.x-zone.x)/zone.rx)**2+((pos.y-zone.y)/zone.ry)**2<=1;}
 function fireGun(){let sk=s?.skill;if(!sk||sk.kind!=='gun')return;let {action,token,aim}=sk,z=zones();const place=inside(aim,z.head)?'HEADSHOT':inside(aim,z.body)?'BODY':'MISS';let shot=(place==='HEADSHOT'?SPECIAL_DAMAGE.gunHeadshot[0]+(action.lv-1)*SPECIAL_DAMAGE.gunHeadshot[1]:place==='BODY'?BALANCE.gun[0]+(action.lv-1)*BALANCE.gun[1]:0)+(place==='MISS'?0:(s.enchants.precision?5:0));if(place==='HEADSHOT')shot=Math.round(shot*headshotExtra(s.enemy.kind));
  shot=Math.round(shot*GUN_DAMAGE_MULTIPLIER);
