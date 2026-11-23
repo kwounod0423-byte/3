@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>V69 · 마검 5회 0.4초 반응 · 미니게임 연습장 · 폐허의 슬롯 던전</title>
+<title>V70 · 턴별 룬 선택 UI 개선 · 폐허의 슬롯 던전</title>
 <style>
 .v39-preview-actions{display:flex;flex-wrap:wrap;gap:7px;padding:4px 10px 12px;}
 .v39-preview-actions button{font-size:11px;padding:7px 9px;border:1px solid #789f8a;border-radius:7px;background:#1a3236;color:#c3f4db;cursor:pointer;}
@@ -1820,6 +1820,49 @@ body{touch-action:manipulation}
 @media(max-width:640px){#game .practice-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}#game .practice-card{min-height:94px;padding:5px 2px;gap:2px}#game .practice-card .practice-icon{height:35px;width:42px}#game .practice-card small{font-size:9px}#game .save-practice{padding:6px 7px;font-size:11px}}
 @media(max-width:380px){#game .practice-toolbar span{display:none}#game .save-bar{gap:5px}#game .save-practice{font-size:10px;padding:5px 6px}}
 @media(max-height:650px){#game .practice-screen p{display:none}#game .practice-card{min-height:76px}#game .practice-card .practice-icon{height:28px}#game .practice-card small{display:none}#game .practice-grid{grid-template-columns:repeat(5,minmax(0,1fr))}}
+/* V70: keep rune selection clear on phones. The persistent top actions remain
+   available everywhere else, but should not shrink the per-turn rune editor. */
+#game .overlay:has(.deck-screen) > .save-overlay-toolbar{display:none!important}
+#game .overlay .modal:has(.deck-screen){padding:clamp(6px,1dvh,11px)}
+.deck-screen .deck-picked{display:none!important}
+.deck-screen .deck-options{
+ overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;
+ scrollbar-width:thin;scrollbar-color:#b59a65 #192720;
+ grid-auto-rows:minmax(70px,max-content);align-content:start;
+ gap:6px;margin:3px 0;min-height:0;padding:2px 3px 6px;
+}
+.deck-screen .deck-option{
+ display:grid;grid-template-columns:auto minmax(0,1fr) auto;
+ align-items:center;min-height:70px;height:auto;
+ padding:6px 8px;gap:8px;overflow:visible;
+}
+.deck-screen .deck-option .deck-ico{display:grid;place-items:center;min-width:30px;font-size:29px}
+.deck-screen .deck-option .deck-label{min-width:0}
+.deck-screen .deck-option .deck-label b{white-space:normal;line-height:1.12;font-size:13px}
+.deck-screen .deck-option .deck-label small{font-size:10px}
+.deck-screen .deck-stepper{display:flex;align-items:center;gap:4px;flex:0 0 auto}
+.deck-screen .deck-stepper-value{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;min-width:36px;padding:3px 2px;border:1px solid #7f7651;border-radius:6px;background:#14211b;color:#f8de9e}
+.deck-screen .deck-stepper-value small{font:800 10px/1.05 ui-monospace,monospace;color:#f5dd9a;white-space:nowrap}
+.deck-screen .deck-stepper-value strong{font:900 17px/1.1 ui-monospace,monospace;min-width:0;color:#fff2c5}
+.deck-screen .deck-stepper button{width:34px;height:36px;min-width:34px;flex:0 0 auto;font-size:20px;touch-action:manipulation}
+@media(max-width:540px){
+ .deck-screen .deck-options{grid-template-columns:1fr;gap:5px;grid-auto-rows:minmax(68px,max-content)}
+ .deck-screen .deck-option{min-height:68px;padding:5px 6px;gap:6px}
+ .deck-screen .deck-option .deck-ico{font-size:26px;min-width:29px}
+ .deck-screen .deck-option .deck-label b{font-size:12px}
+ .deck-screen .deck-option .deck-label .deck-range{font-size:11px;margin:2px 0}
+ .deck-screen .deck-stepper{gap:3px}
+ .deck-screen .deck-stepper button{width:30px;min-width:30px;height:35px;font-size:19px}
+ .deck-screen .deck-stepper-value{min-width:32px}
+ .deck-screen .deck-stepper-value small{font-size:9px}
+}
+@media(max-height:700px){
+ .deck-screen .deck-options{grid-auto-rows:minmax(59px,max-content);gap:4px}
+ .deck-screen .deck-option{min-height:59px;padding:3px 5px}
+ .deck-screen .deck-option .deck-ico{font-size:23px;min-width:25px}
+ .deck-screen .deck-stepper button{height:32px}
+ .deck-screen .deck-stepper-value strong{font-size:15px}
+}
 </style>
 </head>
 <body>
@@ -2986,7 +3029,7 @@ function showTurnDeckModal(){
 }
 function deckPageSize(){
  const phone=window.innerWidth<=540,screenH=window.innerHeight||760;
- return phone?(screenH<=600?3:screenH<=740?4:5):6;
+ return phone?(screenH<=600?2:screenH<=700?3:screenH<=815?4:5):6;
 }
 function runeTurnRange(id){
  const base=runeBase(id),lv=Math.max(1,s?.levels?.[base]||1),e=s?.enchants||{};
@@ -3025,9 +3068,8 @@ function renderTurnDeckModal(){
  const stock=s.deck.slice(deckPage*pageSize,(deckPage+1)*pageSize).map(id=>{
   const r=R[id],have=s.copies[id],used=deckCount(draft,id);
   const output=runeTurnRange(id);
-  return '<div class="deck-option"><span class="deck-ico" style="color:'+r.color+'">'+runeVisual(id)+(enchantMark(id)?'<sup class="rune-enchant-symbol">'+enchantMark(id)+'</sup>':'')+'</span><div class="deck-label"><b>'+runeDisplayName(id)+' <em class="deck-rune-lv">'+runeLevelLabel(id)+'</em>'+(runeStatBoostCount(id)?'<em class="deck-boost-tag">강화+'+runeStatBoostCount(id)+'</em>':'')+'</b><span class="deck-range '+output.style+'">'+output.text+'</span><small>장착 '+used+' / 보유 '+have+'</small></div><button data-action="deck-remove" data-rune="'+id+'" '+(used===0?'disabled':'')+' aria-label="'+r.name+' 빼기">−</button><strong>'+used+'</strong><button data-action="deck-add" data-rune="'+id+'" '+(draft.length>=MAX_DECK||used>=have?'disabled':'')+' aria-label="'+r.name+' 넣기">＋</button></div>';
+  return '<div class="deck-option"><span class="deck-ico" style="color:'+r.color+'">'+runeVisual(id)+(enchantMark(id)?'<sup class="rune-enchant-symbol">'+enchantMark(id)+'</sup>':'')+'</span><div class="deck-label"><b>'+runeDisplayName(id)+(runeStatBoostCount(id)?'<em class="deck-boost-tag">강화+'+runeStatBoostCount(id)+'</em>':'')+'</b><span class="deck-range '+output.style+'">'+output.text+'</span><small>보유 '+have+'개</small></div><div class="deck-stepper" role="group" aria-label="'+r.name+' 장착 수량"><button type="button" data-action="deck-remove" data-rune="'+id+'" '+(used===0?'disabled':'')+' aria-label="'+r.name+' 한 개 빼기">−</button><span class="deck-stepper-value"><small>'+runeLevelLabel(id)+'</small><strong aria-label="장착 '+used+'개">'+used+'</strong></span><button type="button" data-action="deck-add" data-rune="'+id+'" '+(draft.length>=MAX_DECK||used>=have?'disabled':'')+' aria-label="'+r.name+' 한 개 넣기">＋</button></div></div>';
  }).join('');
- const picked=draft.length?draft.map(id=>'<span title="'+runeDisplayName(id)+'">'+runeVisual(id)+' '+runeLevelLabel(id)+'</span>').join(''):'<span>룬을 선택하세요</span>';
  const e=s.enemy;
  const heroPct=cap(s.hp/Math.max(1,s.maxHp)*100,0,100),enemyPct=cap(e.hp/Math.max(1,e.max)*100,0,100);
  const intent=intentText();
@@ -3047,7 +3089,7 @@ function renderTurnDeckModal(){
   '<div class="deck-intent"><span class="intent-title">⚠ 적의 다음 행동</span><span class="intent-detail">'+intent+'</span></div>'+
   (forecastVisible?'<p class="deck-tactical-note">※ 각 타격의 피해량은 방어막 차감 전 수치입니다.</p>':'')+
  '</section>';
- showModal('<div class="deck-screen"><div class="eyebrow">TURN '+(s.turn+1)+' · RUNE LOADOUT</div><h2>🎴 이번 턴 룬 선택</h2>'+tactics+'<div class="deck-picked">'+picked+'</div><div class="deck-status '+(valid?'good':'warn')+'">'+draft.length+'/6개 · 서로 다른 룬 '+kinds+'/3종 '+(valid?'✓ 슬롯 준비 완료':'· 최소 3종 이상의 룬을 골라 주세요')+'</div><div class="deck-options">'+stock+'</div><div class="pager">'+(pages>1?'<button data-action="deck-page" data-page="'+(deckPage-1)+'" '+(deckPage===0?'disabled':'')+'>◀</button><b>보유 룬 '+(deckPage+1)+' / '+pages+'</b><button data-action="deck-page" data-page="'+(deckPage+1)+'" '+(deckPage>=pages-1?'disabled':'')+'>▶</button>':'<span>같은 룬은 보유한 개수만큼 여러 칸에 넣을 수 있어요</span>')+'</div>'+odds+'<button class="btn-primary" data-action="confirm-deck" '+(valid?'':'disabled')+'>✓ 슬롯 열기</button></div>');
+ showModal('<div class="deck-screen"><div class="eyebrow">TURN '+(s.turn+1)+' · RUNE LOADOUT</div><h2>🎴 이번 턴 룬 선택</h2>'+tactics+'<div class="deck-status '+(valid?'good':'warn')+'">'+draft.length+'/6개 · 서로 다른 룬 '+kinds+'/3종 '+(valid?'✓ 슬롯 준비 완료':'· 최소 3종 이상의 룬을 골라 주세요')+'</div><div class="deck-options">'+stock+'</div><div class="pager">'+(pages>1?'<button data-action="deck-page" data-page="'+(deckPage-1)+'" '+(deckPage===0?'disabled':'')+'>◀</button><b>보유 룬 '+(deckPage+1)+' / '+pages+'</b><button data-action="deck-page" data-page="'+(deckPage+1)+'" '+(deckPage>=pages-1?'disabled':'')+'>▶</button>':'<span>같은 룬은 보유한 개수만큼 여러 칸에 넣을 수 있어요</span>')+'</div>'+odds+'<button class="btn-primary" data-action="confirm-deck" '+(valid?'':'disabled')+'>✓ 슬롯 열기</button></div>');
 }
 
 function deckAdd(id){if(!s?.deckPending||!s.deck.includes(id))return;
