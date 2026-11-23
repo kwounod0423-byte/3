@@ -2286,6 +2286,44 @@ body{touch-action:manipulation}
 @media(max-height:590px){.friendship-fin{gap:5px;padding:9px}.fin-word{font-size:clamp(61px,17dvh,110px)}.fin-korean{font-size:clamp(22px,5dvh,31px)}.fin-actions{gap:4px;margin-top:3px}.fin-actions .btn-primary,.fin-actions .btn-secondary{min-height:30px!important;padding:4px 9px!important}}
 @media(prefers-reduced-motion:reduce){.friendship-fin *{animation:none!important}}
 
+
+/* V93 · Keep the monster's attack forecast visible while the Shield rune is in use.
+   V16's phone-wide guard panel used to sit ON TOP of the speech bubble. */
+@media(max-width:650px){
+ #game #scene-wrap > #skill-panel.rune-mode:has(.guard-pick){
+   position:absolute;
+   top:auto;bottom:6px;left:5px;right:5px;
+   width:auto;max-width:none;height:auto;min-height:0;
+   max-height:48%;transform:none;
+   padding:6px 7px;gap:3px;justify-content:center;
+   background:linear-gradient(145deg,#243c34fa,#10251ff7);
+   border:1px solid #c6a777;box-shadow:0 -5px 15px #030b09b8;
+   overflow:hidden;backdrop-filter:none;
+ }
+ #game #scene-wrap > #skill-panel.rune-mode:has(.guard-pick) .skill-tag{font-size:11px;line-height:1.15;padding:0}
+ #game #scene-wrap > #skill-panel.rune-mode:has(.guard-pick) .rune-desc{font-size:10px;line-height:1.18}
+ #game #scene-wrap > #skill-panel.rune-mode:has(.guard-pick) .rune-choice-row{gap:4px}
+ #game #scene-wrap > #skill-panel.rune-mode:has(.guard-pick) .guard-pick{
+   min-height:43px;font-size:19px;padding:2px 1px;gap:0;
+ }
+ #game #scene-wrap > #skill-panel.rune-mode:has(.guard-pick) .guard-pick small{font-size:9px;line-height:1.12}
+ #game #scene-wrap > #skill-panel.rune-mode:has(.guard-pick) .rune-note{font-size:9px;line-height:1.15}
+ /* Make the enemy's real attack bubble legible and keep it in front of scenery. */
+ #game #scene-wrap:has(#skill-panel.rune-mode:not(.hidden) .guard-pick) > #enemy-speech-bubble:not([hidden]){
+   z-index:9;top:40px;left:5px;width:min(65%,180px);max-height:43%;
+   padding:6px 7px;overflow:visible;box-shadow:0 3px 15px #000b,0 0 0 1px #ffc97d88;
+ }
+ #game #scene-wrap:has(#skill-panel.rune-mode:not(.hidden) .guard-pick) > #enemy-speech-bubble .speech-head{font-size:12px}
+ #game #scene-wrap:has(#skill-panel.rune-mode:not(.hidden) .guard-pick) > #enemy-speech-bubble .speech-detail{font-size:9px}
+ #game #scene-wrap:has(#skill-panel.rune-mode:not(.hidden) .guard-pick) > #enemy-speech-bubble .speech-hits{font-size:10px;line-height:1.23}
+}
+@media(max-width:650px) and (max-height:620px){
+ #game #scene-wrap > #skill-panel.rune-mode:has(.guard-pick){bottom:4px;padding:4px 5px;gap:2px;max-height:51%}
+ #game #scene-wrap > #skill-panel.rune-mode:has(.guard-pick) .guard-pick{min-height:38px;font-size:17px}
+ #game #scene-wrap > #skill-panel.rune-mode:has(.guard-pick) .rune-desc{font-size:9px}
+ #game #scene-wrap > #skill-panel.rune-mode:has(.guard-pick) .rune-note{font-size:8px}
+}
+
 </style>
 </head>
 <body>
@@ -2454,16 +2492,19 @@ function monsterWeakness(rune,enemy,stage=0){
  // Named boss strength is conserved by scaling HP using this exact same factor.
  return Math.max(.4,Math.min(2,Math.round(mult*100)/100));
 }
-// V77: one HP reduction for all 60 monsters, except the 2F guardian boss.
-// The boss '망자의 파수꾼' must stay exactly 200 HP at every encounter.
+// V95: multiply every V93 monster's actual HP by 2, including all five bosses.
+// Apply the scale AFTER the original V93 HP rounding for consistent balancing.
 const MONSTER_HP_MULTIPLIER=0.70;
+const V95_MONSTER_HP_SCALE=2;
 function monsterFullHP(stage,index){
  const a=STAGES[stage].enemies[index];
- if(stage===2&&index===STAGES[stage].enemies.length-1)return 200;
+ const guardian=stage===2&&index===STAGES[stage].enemies.length-1;
+ if(guardian)return Math.round(200*V95_MONSTER_HP_SCALE);
  const enemy={name:a[0],kind:a[1],armor:a[5]};
  const maxWeak=Math.max(1,...Object.keys(ATTACK_LABELS).map(id=>monsterWeakness(id,enemy,stage)));
  const originalHP=Math.ceil(a[2]*maxWeak);
- return Math.max(1,Math.round(originalHP*MONSTER_HP_MULTIPLIER));
+ const v93HP=Math.max(1,Math.round(originalHP*MONSTER_HP_MULTIPLIER));
+ return Math.max(1,Math.round(v93HP*V95_MONSTER_HP_SCALE));
 }
 function knownMonsterWeaknesses(name){
  return s?.discoveredWeaknesses?.[name]||[];
@@ -3346,9 +3387,9 @@ function restoreSavedGame(){
    u.questionOrder.length<STAGES.length-1)throw Error('저장 데이터 형식 불일치');
   battleToken++;stopTimers();effects=[];
   s=g;
-  // One-time V70 -> V71 save migration. Preserve HP percentage during an active encounter.
-  // Do NOT reduce a newly saved V71 monster twice after repeated refreshes.
-  if((Number(s.hpBalanceVersion)||0)<71&&s.view==='fight'&&s.enemy){
+  // V95 migration: preserve an old saved encounter's remaining HP percentage, including V94 saves.
+  // Version mark prevents repeatedly multiplying HP after each refresh.
+  if((Number(s.hpBalanceVersion)||0)<95&&s.view==='fight'&&s.enemy){
    const mIdx=STAGES[s.stage].enemies.findIndex(e=>e[0]===s.enemy.name);
    if(mIdx>=0&&Number.isFinite(s.enemy.max)&&s.enemy.max>0){
     const nextMax=monsterFullHP(s.stage,mIdx);
@@ -3356,7 +3397,12 @@ function restoreSavedGame(){
     s.enemy.max=nextMax;
    }
   }
-  s.hpBalanceVersion=71;
+  s.hpBalanceVersion=95;
+  if((Number(s.mapBalanceVersion)||0)<94){
+   normalizeV94FloorMap(s.map);
+   for(const record of Object.values(s.retryEncounters||{}))normalizeV94FloorMap(record?.map);
+   s.mapBalanceVersion=94;
+  }
   normalizePlayerLevel();s.comboCount=Math.max(0,Math.floor(Number(s.comboCount)||0));s.levels=s.levels||{};s.copies=s.copies||{};for(const id of Object.keys(R)){if(!Number.isFinite(s.levels[id]))s.levels[id]=1;if(!Number.isFinite(s.copies[id]))s.copies[id]=0;}s.levels.shield=1;s.levels.heal=1;normalizeActiveDeck();if(Array.isArray(s.deckDraft)){const draftSeen={};s.deckDraft=s.deckDraft.filter(id=>{draftSeen[id]=(draftSeen[id]||0)+1;return draftSeen[id]<=Math.min(MAX_ACTIVE_PER_RUNE,s.copies[id]||0);});if(!isValidDeck(s.deckDraft,s.copies))s.deckDraft=[...s.activeRunes];}if(s.enemy)s.enemy.armorCracks=Math.max(0,Math.floor(Number(s.enemy.armorCracks)||0));s.playerBleedTurns=Math.max(0,Number(s.playerBleedTurns)||0);if(s.enemy){s.enemy.bleedTurns=Math.max(0,Number(s.enemy.bleedTurns)||0);s.enemy.bleedPower=Math.max(0,Number(s.enemy.bleedPower)||0);}selected=Array.isArray(u.selected)?u.selected:[...s.activeRunes];
   questionOrder=u.questionOrder;deckPage=u.deckPage||0;shopTab=u.shopTab||0;shopPage=u.shopPage||0;
   if(typeof u.audioOn==='boolean')setAudioEnabled(u.audioOn);
@@ -3781,7 +3827,7 @@ function showVictorySummary(){
 function start(){
  if(!isValidStarter(selected))return;
  const init=[...selected],owned=[...new Set(init)];
- s={hpBalanceVersion:71,stage:0,highestUnlocked:0,clearedFloors:Array(STAGES.length).fill(false),floorRuns:Array(STAGES.length).fill(0),fight:0,view:'map',map:null,activeNodeType:null,stageFightCount:0,encounterCount:0,playerLevel:1,playerXP:0,monstersDefeated:0,lastXPReward:null,shopVisitId:null,activeEvent:null,hp:68,maxHp:68,shield:0,guards:[0,0,0],coins:20,score:0,turn:0,deck:owned,activeRunes:[...init],deckDraft:null,deckPending:false,levels:Object.fromEntries(Object.keys(R).map(x=>[x,1])),copies:Object.fromEntries(Object.keys(R).map(x=>[x,deckCount(init,x)])),rerollPower:false,rerollUsed:false,awaitingRespin:false,rerolling:false,chainRerolls:0,comboCount:0,chainMotion:null,turnEnding:false,reelVersions:[],weights:Object.fromEntries(Object.keys(R).map(x=>[x,1])),reelCount:3,reelSymbols:[],stops:[],reelMotion:[],spinning:false,resolving:false,skill:null,log:[],enemy:null,question:null,wrong:0,actions:[],actionPos:0,turnDmg:0,turnEarned:0,battleCoinsEarned:0,discoveredWeaknesses:{},stunChance:0,jammedReel:-1,inventory:Object.fromEntries(Object.keys(ITEMS).map(x=>[x,0])),nextBoost:false,enchants:{},enchantAttach:{},specialFusion:{},pendingFusion:null,pendingRuneLevelUp:false,drops:[],respinTicketArmed:false,lastReward:0,lastInterest:0,lastSaved:0,totalInterest:0,relics:{},healingCritReady:false,shopChestsOpened:0,shopStock:null,counterAttackReady:false,revival:null,revivals:0,playerBleedTurns:0,bossReadyFloors:{},bossRetryGold:{},retryEncounters:{},retrySerial:0,activeRetryKey:null,selectedRetryKey:null,floorSelectMode:'normal',bossChoiceStage:null,worldVersion:STORY_WORLD_VERSION,storySeen:{b1_start:true},storyPending:null,storyLineIndex:0,endingDone:false};
+ s={hpBalanceVersion:95,mapBalanceVersion:94,stage:0,highestUnlocked:0,clearedFloors:Array(STAGES.length).fill(false),floorRuns:Array(STAGES.length).fill(0),fight:0,view:'map',map:null,activeNodeType:null,stageFightCount:0,encounterCount:0,playerLevel:1,playerXP:0,monstersDefeated:0,lastXPReward:null,shopVisitId:null,activeEvent:null,hp:68,maxHp:68,shield:0,guards:[0,0,0],coins:20,score:0,turn:0,deck:owned,activeRunes:[...init],deckDraft:null,deckPending:false,levels:Object.fromEntries(Object.keys(R).map(x=>[x,1])),copies:Object.fromEntries(Object.keys(R).map(x=>[x,deckCount(init,x)])),rerollPower:false,rerollUsed:false,awaitingRespin:false,rerolling:false,chainRerolls:0,comboCount:0,chainMotion:null,turnEnding:false,reelVersions:[],weights:Object.fromEntries(Object.keys(R).map(x=>[x,1])),reelCount:3,reelSymbols:[],stops:[],reelMotion:[],spinning:false,resolving:false,skill:null,log:[],enemy:null,question:null,wrong:0,actions:[],actionPos:0,turnDmg:0,turnEarned:0,battleCoinsEarned:0,discoveredWeaknesses:{},stunChance:0,jammedReel:-1,inventory:Object.fromEntries(Object.keys(ITEMS).map(x=>[x,0])),nextBoost:false,enchants:{},enchantAttach:{},specialFusion:{},pendingFusion:null,pendingRuneLevelUp:false,drops:[],respinTicketArmed:false,lastReward:0,lastInterest:0,lastSaved:0,totalInterest:0,relics:{},healingCritReady:false,shopChestsOpened:0,shopStock:null,counterAttackReady:false,revival:null,revivals:0,playerBleedTurns:0,bossReadyFloors:{},bossRetryGold:{},retryEncounters:{},retrySerial:0,activeRetryKey:null,selectedRetryKey:null,floorSelectMode:'normal',bossChoiceStage:null,worldVersion:STORY_WORLD_VERSION,storySeen:{b1_start:true},storyPending:null,storyLineIndex:0,endingDone:false};
  questionOrder=shuffle(Array.from({length:QUESTIONS.length},(_,i)=>i)).slice(0,STAGES.length-1);s.floorRuns[0]++;sfx('victory');makeFloorMap();showMap();
 }
 function pool(){return s.activeRunes.slice();}
@@ -4335,7 +4381,7 @@ function showSkill(kind,action){
    '<div class="puzzle-pictures"><div class="puzzle-pic"><span>원본 · '+puzzleThemeName(sk.theme)+'</span>'+poisonScene(sk,false)+'</div><div class="puzzle-pic" id="puzzle-right"><span>변형 · '+puzzleThemeName(sk.theme)+'</span>'+poisonScene(sk,true)+'</div></div>'+ 
    '<div class="puzzle-timer"><div id="puzzle-timer-fill"></div></div><div class="puzzle-footer">6초 제한 · 오답 즉시 종료 · 독 피해 추가 30% 하향</div>';sfx('venomReady');
  } else if(kind==='shield'){
-  simpleSkill(kind,'⬡ 방향 방어 예측','<div class="rune-desc">이번 방패를 <b>어디에</b> 세울까요?<br>세 방향은 각각 따로 보호!</div><div class="rune-choice-row">'+LANES.map((d,i)=>'<button class="rune-choice guard-pick" data-action="shield-guard" data-pos="'+i+'">'+LANE_ICONS[i]+'<small>'+d+'</small><small class="guard-value" id="shield-preview-'+i+'">보호 '+s.guards[i]+'</small></button>').join('')+'</div><div class="rune-note">일반 몬스터: 방향·피해량 공개<br>엘리트·보스: 방향만 숨김</div>');sfx('shield');
+  simpleSkill(kind,'⬡ 방향 방어 예측','<div class="rune-desc">이번 방패를 <b>어디에</b> 세울까요?<br>세 방향은 각각 따로 보호!</div><div class="rune-choice-row">'+LANES.map((d,i)=>'<button class="rune-choice guard-pick" data-action="shield-guard" data-pos="'+i+'">'+LANE_ICONS[i]+'<small>'+d+'</small><small class="guard-value" id="shield-preview-'+i+'">보호 '+s.guards[i]+'</small></button>').join('')+'</div><div class="rune-note">일반 몬스터: 방향·피해량 공개<br>엘리트·보스: 방향만 숨김</div>');sfx('shield');renderEnemySpeechBubble();
  } else if(kind==='hammer'){
   sk.crack=rand(5);sk.readyAt=now+1000;sk.nextShift=sk.readyAt+500;sk.deadline=sk.readyAt+6500;
   simpleSkill(kind,'⚒ 균열 강타 · 5바위','<div class="rune-desc">시작까지 <b id="hammer-countdown" class="hammer-countdown">1</b> · 이후 0.5초마다 이동</div><div class="rock-row">'+[0,1,2,3,4].map(i=>'<button class="rock-tile" id="rock-'+i+'" data-action="hammer-strike" data-pos="'+i+'" disabled><span>🪨</span><b>╱</b></button>').join('')+'</div><div class="rune-note" id="hammer-note">1초 준비 · 시작 전 클릭 불가<br>기본 '+(BALANCE.hammer[0]+(action.lv-1)*BALANCE.hammer[1])+' · 균열 적중 '+(SPECIAL_DAMAGE.hammerAccurate[0]+(action.lv-1)*SPECIAL_DAMAGE.hammerAccurate[1])+' + 적 공격력 −50%</div>');updateRocks(now);
@@ -5160,17 +5206,37 @@ const MAP_LABEL={battle:'전투',shop:'상점',event:'미지의 사건',boss:'�
 const MAP_X=[125,330,535];
 function mapY(row){return 485-row*88;}
 function makeFloorMap(){
- const patterns=[
-  ['battle','event','battle'],
-  ['shop','battle','event'],
-  ['event','battle','shop'],
-  ['battle','event','battle'],
-  ['event','shop','battle']
- ];
- s.map={rows:patterns.map(row=>shuffle(row).map(type=>({type}))),row:-1,col:1,visited:[],runNumber:s.floorRuns[s.stage]};
+ // V94: exactly one shop and just three mystery nodes per 15-node floor map.
+ // The shop sits in the centre column on a random middle row, so it is always reachable
+ // regardless of which previous branch the player selected.
+ const patterns=Array.from({length:MAP_ROWS},()=>Array(3).fill('battle'));
+ const shopRow=1+rand(MAP_ROWS-2);
+ patterns[shopRow][1]='shop';
+ const eventRows=shuffle(Array.from({length:MAP_ROWS},(_,i)=>i).filter(i=>i!==shopRow)).slice(0,3);
+ for(const row of eventRows)patterns[row][rand(3)]='event';
+ s.map={rows:patterns.map(row=>row.map(type=>({type}))),row:-1,col:1,visited:[],runNumber:s.floorRuns[s.stage]};
+ s.mapBalanceVersion=94;
  s.stageFightCount=0;s.activeNodeType=null;
  if(!s.enemy)s.enemy={name:'갈림길의 안개',kind:'goblin',aggro:0,hp:1,max:1,attack:0,shield:0,armor:0,stun:0,poisonTurns:0,poisonPower:0,burnPower:0,burnTurns:0,weakenTurns:0,plan:null};
  if(s.reelSymbols.length!==s.reelCount){s.reelCount=reelCountForStage(s.stage);s.reelSymbols=Array.from({length:s.reelCount},()=>rollRune());s.stops=Array(s.reelCount).fill(true);resetReels();}
+}
+// Upgrade existing V93 saves: old maps had three shops and five mystery nodes.
+// Keep the player's visited route and one shop; convert extra markers to battles.
+function normalizeV94FloorMap(map){
+ if(!map||!Array.isArray(map.rows)||map.rows.length!==MAP_ROWS)return;
+ const shop=[],mystery=[];
+ for(let row=0;row<MAP_ROWS;row++)for(let col=0;col<3;col++){
+  const node=map.rows[row]?.[col];if(!node)continue;
+  if(node.type==='shop')shop.push({row,col});
+  else if(node.type==='event')mystery.push({row,col});
+ }
+ const visited=key=>(map.visited||[]).includes(key.row+'-'+key.col);
+ const canStillReach=key=>key.row>map.row&&(map.row<0||Math.abs(key.col-map.col)<=key.row-map.row);
+ const keepShop=shop.find(visited)||shop.find(canStillReach)||shop[0];
+ for(const key of shop){if(key!==keepShop)map.rows[key.row][key.col].type='battle';}
+ // Fewer mystery icons while leaving already visited events intact whenever possible.
+ const keepEvents=[...mystery.filter(visited),...mystery.filter(key=>!visited(key))].slice(0,3);
+ for(const key of mystery){if(!keepEvents.includes(key))map.rows[key.row][key.col].type='battle';}
 }
 function mapReachable(row,col){
  if(!s||!s.map||s.view!=='map')return false;
@@ -5310,7 +5376,7 @@ function showMap(){
  const ready=mapReachable(5,1);
  buttons+='<button class="map-node type-boss'+(ready?' reachable':'')+'" style="left:50%;top:'+(mapY(5)/560*100)+'%" data-action="map-node" data-row="5" data-col="1" '+(ready?'':'disabled')+' title="층 보스" aria-label="층 보스'+(ready?', 진입 가능':'')+'"><span class="map-icon">☠</span><span class="map-node-name">BOSS</span></button>';
  let progress=m.row<0?'출발 지점':m.row===MAP_ROWS?'보스 도착':(m.row+1)+' / '+MAP_ROWS+' 갈림길 통과';
- showModal('<div class="eyebrow">CHOOSE YOUR PATH · '+floorCode(s.stage)+'</div><h2>🗺 '+STAGES[s.stage].name+' · 모험 지도</h2><div class="map-header-stats"><span>♥ '+s.hp+' / '+s.maxHp+'</span><span>✦ Lv.'+s.playerLevel+' · '+s.playerXP+'/'+xpNeededForLevel(s.playerLevel)+' EXP</span><span>◆ '+s.coins+'G</span><span>🏦 다음 전투 이자 +'+bankInterest(s.coins)+'G</span></div><p class="map-instructions">빛나는 연결 지점을 클릭하세요. <b>전투에서 룬을 모으고, 상점에서는 소모품·고가 상자·상점마다 무작위 특수 장비를 구매하며, ? 사건에서는 위험과 보상 중 선택</b>할 수 있어요.</p><div class="map-board"><svg class="route-svg" viewBox="0 0 660 560" preserveAspectRatio="none" aria-hidden="true">'+lines+'</svg><div class="map-start">START</div>'+buttons+'</div><div class="map-legend"><span>⚔ 전투</span><span>🛒 상점</span><span>❔ 사건</span><span>☠ 보스</span></div>'+(bossCheckpointFloors().length?'<button class="btn-primary boss-return-map" data-action="boss-resume" data-floor="'+bossCheckpointFloors()[0]+'">☠ '+floorLabel(bossCheckpointFloors()[0])+' 보스 도전으로 돌아가기</button>':'')+(normalRetryEntries().length?'<button class="btn-primary battle-return-map" data-action="normal-retry-list">⚔ 보류 중인 일반 전투 '+normalRetryEntries().length+'개 · 다시 도전하기</button>':'')+(s.highestUnlocked>0?'<button class="btn-secondary floor-switch-btn" data-action="floor-select">↺ 해금한 층 다시 탐험하기</button>':'')+'<p class="smallnote">'+progress+' · 한 번 선택한 길은 되돌릴 수 없습니다. 보스 처치 후 인수분해 관문이 열립니다.</p>');
+ showModal('<div class="eyebrow">CHOOSE YOUR PATH · '+floorCode(s.stage)+'</div><h2>🗺 '+STAGES[s.stage].name+' · 모험 지도</h2><div class="map-header-stats"><span>♥ '+s.hp+' / '+s.maxHp+'</span><span>✦ Lv.'+s.playerLevel+' · '+s.playerXP+'/'+xpNeededForLevel(s.playerLevel)+' EXP</span><span>◆ '+s.coins+'G</span><span>🏦 다음 전투 이자 +'+bankInterest(s.coins)+'G</span></div><p class="map-instructions">빛나는 연결 지점을 클릭하세요. <b>⚔ 전투 · 🛒 층당 상점 1곳 · ❔ 사건(50% 확률로 몬스터 조우)</b> 중 갈림길을 선택하세요.</p><div class="map-board"><svg class="route-svg" viewBox="0 0 660 560" preserveAspectRatio="none" aria-hidden="true">'+lines+'</svg><div class="map-start">START</div>'+buttons+'</div><div class="map-legend"><span>⚔ 전투</span><span>🛒 상점</span><span>❔ 사건</span><span>☠ 보스</span></div>'+(bossCheckpointFloors().length?'<button class="btn-primary boss-return-map" data-action="boss-resume" data-floor="'+bossCheckpointFloors()[0]+'">☠ '+floorLabel(bossCheckpointFloors()[0])+' 보스 도전으로 돌아가기</button>':'')+(normalRetryEntries().length?'<button class="btn-primary battle-return-map" data-action="normal-retry-list">⚔ 보류 중인 일반 전투 '+normalRetryEntries().length+'개 · 다시 도전하기</button>':'')+(s.highestUnlocked>0?'<button class="btn-secondary floor-switch-btn" data-action="floor-select">↺ 해금한 층 다시 탐험하기</button>':'')+'<p class="smallnote">'+progress+' · 한 번 선택한 길은 되돌릴 수 없습니다. 보스 처치 후 인수분해 관문이 열립니다.</p>');
  $('modal').scrollTop=0;render();
 }
 function chooseMapNode(row,col){
@@ -5326,6 +5392,14 @@ function chooseMapNode(row,col){
  if(type==='shop'){
   s.view='shop';shopTab=0;shopPage=0;s.shopRemovalUsed=false;s.shopVisitId=s.stage+'-'+row+'-'+col;generateShopStock();
   log('🛒 상점 방문! 고가 룬 보물상자와 영구 특수 장비 판매 중');sfx('coin');showShop();render();return;
+ }
+ // Exactly half of mystery-node entries become real monster encounters.
+ // Use the normal battle pipeline so rewards, EXP, retry and auto-save work unchanged.
+ if(type==='event'&&Math.random()<.5){
+  s.activeEvent=null;s.activeNodeType='battle';s.stageFightCount++;
+  s.fight=(s.stageFightCount-1)%2;
+  log('❔ 수상한 인기척! 사건 장소에서 몬스터와 마주쳤다!');
+  newEnemy();return;
  }
  s.view='event';openMapEvent();render();
 }
