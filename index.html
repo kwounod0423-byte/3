@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>V106 · 폐허의 슬롯 던전</title>
+<title>V107 · 폐허의 슬롯 던전</title>
 <style>
 .v39-preview-actions{display:flex;flex-wrap:wrap;gap:7px;padding:4px 10px 12px;}
 .v39-preview-actions button{font-size:11px;padding:7px 9px;border:1px solid #789f8a;border-radius:7px;background:#1a3236;color:#c3f4db;cursor:pointer;}
@@ -2377,6 +2377,44 @@ body{touch-action:manipulation}
 /* V106: matched slots alone spin on 3+ matching auto combos. */
 .reel.combo-held{border-color:#e1c58d;box-shadow:inset 0 0 0 2px #a88b5766,0 0 13px #f0ce8752;filter:saturate(.76)}
 .reel.combo-held .chain-notice{display:block!important;background:#343122e9;color:#ffe7b1;border-color:#c5ae78;font-size:clamp(8px,1.9vw,10px)}
+
+/* V107: a true cinematic cut between present-day ruined school and school-day memories. */
+#game .overlay .modal:has(.vn-screen.is-memory){background:linear-gradient(155deg,#543b31,#382d38 55%,#2c283c);border-color:#c9a26e}
+.vn-screen.is-memory .vn-head h2{color:#ffe5ac;text-shadow:0 0 12px #ffe2ad4d}
+.vn-screen.is-memory .vn-kicker{color:#f6d49e}
+.vn-time-marker{position:absolute;z-index:7;top:9px;left:9px;max-width:50%;padding:5px 9px;border-radius:8px;font-size:clamp(9px,1.35dvh,12px);font-weight:900;letter-spacing:.03em;white-space:nowrap;pointer-events:none}
+.vn-time-marker.now{color:#d4ecff;background:#162c41e9;border:1px solid #9bc7dabc;box-shadow:0 0 9px #295b7580}
+.vn-time-marker.past{color:#422915;background:#ffdf9df2;border:2px solid #fff0c5;box-shadow:0 0 15px #fff3b785}
+.vn-stage.flashback{border-color:#f9d6a3;box-shadow:inset 0 0 26px #fff6bb52,0 0 16px #d4a76f99,0 7px 23px #0006}
+.vn-stage.memory-enter{animation:vn-flashback-enter .45s ease-out both}
+.vn-stage.memory-exit{animation:vn-present-return .35s ease-out both}
+.vn-stage.flashback-floor1{background:linear-gradient(150deg,#d8bc93,#91a8a3 47%,#4c6d81 80%,#273849)!important}
+.vn-stage.flashback-floor2{background:linear-gradient(125deg,#eed1a4,#b9ab90 49%,#686e75 88%)!important}
+.vn-stage.flashback-floor3{background:radial-gradient(ellipse at 58% 35%,#edbf88,#a06e7a 55%,#433a67 99%)!important}
+.vn-stage.flashback-floor4{background:linear-gradient(145deg,#f3d5a0,#b98e83 46%,#65577c 90%)!important}
+.vn-stage.flashback::before{border-color:#f9e9c7aa;box-shadow:inset 0 0 38px #eecf926b,0 0 0 6px #866e5b6a;filter:sepia(.37) brightness(1.22)}
+.vn-stage.flashback::after{background:repeating-linear-gradient(90deg,#896b4da6 0 36px,#b58e689e 36px 40px);opacity:.72}
+.vn-stage.flashback-floor3::before{inset:12% 17% 17%;border:11px solid #8a624c;border-radius:9px;background:radial-gradient(circle at 45% 32%,#ffd393c7,#a685a9 65%,#4e4268);box-shadow:0 0 0 6px #604944,0 0 25px #ffe5a985}
+.vn-stage.flashback-floor4::before{inset:13% 16% 17%;border:8px solid #9b7152;background:linear-gradient(100deg,#f1d7aa88 0 47%,#7c5c647e 47% 52%,#f3d2ad9c 52%);box-shadow:inset 0 0 48px #f1b773a3}
+.vn-stage.flashback .vn-glow{background:radial-gradient(ellipse at 50% 27%,#ffe9b54a,transparent 60%),linear-gradient(0deg,#4028257d,transparent 65%);z-index:1}
+.vn-memory-prop{position:absolute;left:50%;top:14%;transform:translateX(-50%);z-index:2;display:flex;flex-direction:column;align-items:center;gap:3px;pointer-events:none;filter:drop-shadow(0 4px 10px #4a332288)}
+.vn-memory-emoji{font-size:clamp(47px,9dvh,78px);line-height:1.1;opacity:.80}
+.vn-memory-label{padding:2px 7px;border-radius:9px;background:#f3d3a0cc;border:1px solid #fff1c6;color:#543822;font-size:clamp(8px,1.35dvh,11px);font-weight:900;white-space:nowrap}
+.vn-memory-film{position:absolute;inset:0;z-index:5;pointer-events:none;opacity:.8;background:repeating-linear-gradient(0deg,transparent 0 3px,#6043260c 3px 4px),radial-gradient(ellipse at center,transparent 43%,#5b34234f 100%);box-shadow:inset 0 0 35px #ad80565c;border:6px solid #f6dfba16}
+.vn-stage.flashback .vn-person.hyuk{filter:sepia(.26) saturate(.94) drop-shadow(0 4px 11px #66492c99)}
+.vn-stage.flashback .vn-person.seung.memory{opacity:.89;filter:sepia(.2) saturate(.9) drop-shadow(0 0 8px #ffe8b0b5)}
+.vn-stage.flashback .vn-person.seung.memory.dim{opacity:.53}
+.vn-stage.flashback .vn-person.seung.memory.speaking{opacity:1;filter:sepia(.15) drop-shadow(0 0 15px #ffdf96cc);transform:translateY(-5px) scale(1.04)}
+.vn-screen.is-memory .vn-narration{background:linear-gradient(150deg,#3d302be8,#2f2932ee);border-color:#e1bf8e;color:#fff3db}
+.vn-screen.is-memory .vn-narration .vn-name{color:#ffd9a2}
+.vn-screen.is-memory .vn-bubble{border-color:#e5c08c;background:linear-gradient(145deg,#fff4dc,#f2dbb7);color:#4a3025}
+.vn-screen.is-memory .vn-bubble::before{background:#fff1d7;border-color:#e5c08c}
+@keyframes vn-flashback-enter{from{opacity:.55;filter:brightness(1.8) sepia(.95);transform:scale(1.015)}to{opacity:1;filter:brightness(1) sepia(0);transform:scale(1)}}
+@keyframes vn-present-return{from{opacity:.72;filter:grayscale(.7) brightness(1.35)}to{opacity:1;filter:grayscale(0) brightness(1)}}
+@media(max-width:550px){.vn-time-marker{top:6px;left:5px;padding:3px 5px;font-size:9px}.vn-stage.flashback .vn-location{top:6px;right:5px;max-width:46%;font-size:8px}.vn-memory-prop{top:19%}.vn-memory-emoji{font-size:clamp(40px,7dvh,58px)}.vn-memory-label{font-size:8px;max-width:105px;text-align:center;white-space:normal}}
+@media(max-height:540px){.vn-memory-prop{top:18%}.vn-memory-emoji{font-size:34px}.vn-memory-label{font-size:8px}}
+@media(prefers-reduced-motion:reduce){.vn-stage.memory-enter,.vn-stage.memory-exit{animation:none}}
+
 </style>
 </head>
 <body>
@@ -3905,19 +3943,34 @@ function playPrologueScare(){
  texture(.43,.065,1700,180,.93,'bandpass',.008,.50);
  tone(125,.42,'sawtooth',.05,57,1.03,.018);
 }
+// V107: Strict time boundaries for the four ascending-floor memory sequences.
+// Only the narrator and the two boys appear within these ranges; once back in
+// the present, Seung-hwi is completely absent, including his disembodied voice.
+const STORY_FLASHBACK_RANGES={floor1:[4,7],floor2:[2,6],floor3:[2,6],floor4:[2,9]};
+let storyVisualPreviousTime=null;
+const STORY_FLASHBACK_PROPS={
+ floor1:['☔','비 내리던 하굣길'],
+ floor2:['🧪','함께했던 과학 실험'],
+ floor3:['🎮','방과 후 게임의 시간'],
+ floor4:['🎙️','체육관 방송실의 추억']
+};
+function storyIsFlashback(key,index){
+ const range=STORY_FLASHBACK_RANGES[key];
+ return !!(range&&index>=range[0]&&index<=range[1]);
+}
 function storyCharacters(key,who,index=0){
+ const upperFloor=Object.prototype.hasOwnProperty.call(STORY_FLASHBACK_RANGES,key);
+ const memory=storyIsFlashback(key,index);
  const hyukOn=!['hospital','migration'].includes(key);
- // On the early floors Seung-hwi only appears as a translucent recollection,
- // never as an in-battle helper.  His main scenario sprite remains available.
- let seungOn=['b1_start','b1_mid','floor1','floor2','floor3','floor4','engrave','hospital'].includes(key);
+ // During floors 1-4, Seung-hwi appears *only* in memory, never in present time.
+ let seungOn=upperFloor?memory:['b1_start','b1_mid','engrave','hospital'].includes(key);
  if(key==='b1_start'&&index<3)seungOn=false;
  const active=who.includes('권혁준')?'hyuk':who.includes('박승휘')?'seung':'';
  let result='';
  if(hyukOn)result+='<div class="vn-person hyuk '+(active==='hyuk'?'speaking':active==='seung'?'dim':'')+'" role="img" aria-label="권혁준의 검은 머리 교복 SD 캐릭터"></div>';
  if(seungOn){
   let extra=active==='seung'?'speaking':active==='hyuk'?'dim':'';
-  if(key==='floor4'&&active!=='seung')extra+=' silhouette';
-  if(key==='floor1'||key==='floor2'||(key==='floor3'&&active!=='seung'))extra+=' memory';
+  if(memory)extra+=' memory';
   result+='<div class="vn-person seung '+extra+'" role="img" aria-label="박승휘의 갈색 머리 교복 SD 캐릭터"></div>';
  }
  return result;
@@ -3932,15 +3985,25 @@ function renderStoryLine(){
  const last=index===sc.lines.length-1;
  const words=raw.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>');
  const narrator=whoKind==='narrator';
+ const flashback=storyIsFlashback(key,index);
+ const floorMemory=Object.prototype.hasOwnProperty.call(STORY_FLASHBACK_RANGES,key);
+ const timeKey=key+':'+(flashback?'past':'present');
+ const timeChanged=storyVisualPreviousTime!==timeKey;
+ const enteringMemory=flashback&&timeChanged;
+ const returningNow=floorMemory&&!flashback&&timeChanged&&storyVisualPreviousTime===key+':past';
+ storyVisualPreviousTime=timeKey;
+ const flashbackProp=flashback?STORY_FLASHBACK_PROPS[key]:null;
+ const timeMarker=floorMemory?'<div class="vn-time-marker '+(flashback?'past':'now')+'">'+(flashback?'✦ 회상 · 학창 시절':'● 현재 · 혼자 남은 학교')+'</div>':'';
+ const memoryProps=flashback?'<div class="vn-memory-prop" aria-hidden="true"><span class="vn-memory-emoji">'+flashbackProp[0]+'</span><span class="vn-memory-label">'+flashbackProp[1]+'</span></div><div class="vn-memory-film" aria-hidden="true"></div>':'';
  const note=last?(key==='engrave'?'마지막 이야기로':key==='hospital'?'후일담으로':sc.button):narrator?'자막을 눌러 계속':'대사를 눌러 계속';
  const prologueDanger=key==='b1_start'&&index>=6;
  const prologueImpact=key==='b1_start'&&index===6;
- const stageTone=prologueDanger?'hall prologue-threat'+(prologueImpact?' prologue-impact':''):sc.tone;
+ const stageTone=(prologueDanger?'hall prologue-threat'+(prologueImpact?' prologue-impact':''):sc.tone)+(flashback?' flashback flashback-'+key:'')+(enteringMemory?' memory-enter':returningNow?' memory-exit':'');
  const threat=prologueDanger?'<div class="vn-door-splinters" aria-hidden="true"></div><div class="vn-prologue-monster" role="img" aria-label="교실 문을 부수고 튀어나온 뿔과 붉은 눈의 해골 몬스터"><svg viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><defs><linearGradient id="demon-head" x1="0" y1="0" x2=".7" y2="1"><stop stop-color="#645664"/><stop offset=".45" stop-color="#252331"/><stop offset="1" stop-color="#090e1c"/></linearGradient><radialGradient id="demon-fire"><stop stop-color="#ffb278"/><stop offset=".35" stop-color="#ff262d"/><stop offset="1" stop-color="#7b0b33"/></radialGradient><filter id="demon-eye-glow" x="-70%" y="-70%" width="240%" height="240%"><feGaussianBlur stdDeviation="5" result="soft"/><feMerge><feMergeNode in="soft"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><path d="M17 219 Q17 164 45 137 L65 120 101 123 133 118 157 142 Q183 165 184 219Z" fill="#111525" stroke="#8e4050" stroke-width="4"/><path d="M56 77 Q27 52 13 4 Q36 13 51 30 L75 51M141 77 Q170 52 184 4 Q161 13 146 30 L123 51" fill="#211e2a" stroke="#b88a8c" stroke-width="5" stroke-linejoin="round"/><path d="M46 68 Q60 34 99 38 Q148 31 161 72 L158 127 Q135 181 99 198 Q64 179 40 127Z" fill="url(#demon-head)" stroke="#bc8c84" stroke-width="5"/><path d="M49 83 L87 98 99 104 112 98 150 83 147 112 113 120 99 109 85 120 53 112Z" fill="#0a0a17"/><path d="M54 104 L91 116 70 130 50 116Z M147 104 L109 116 130 130 150 116Z" fill="url(#demon-fire)" stroke="#ff6f5f" stroke-width="3" filter="url(#demon-eye-glow)"/><path d="M99 114 L90 140 109 140Z" fill="#080a12"/><path d="M65 145 Q101 133 135 145 L124 173 103 186 79 170Z" fill="#080b13" stroke="#99545d" stroke-width="3"/><path d="M68 145 L80 144 77 159 88 145 98 143 100 160 109 144 121 145 124 159 132 146 133 155 116 179 101 166 86 179Z" fill="#e2d5c8" stroke="#241923" stroke-width="2"/><path d="M50 132 L38 171 16 180 29 161 10 156 33 151 32 136Z M151 132 L163 171 185 180 172 161 191 156 168 151 169 136Z" fill="#28212c" stroke="#aa5668" stroke-width="3"/><path d="M68 49 79 59 75 78M139 49 127 61 129 78M76 188 99 200 123 188" stroke="#dd6c65" stroke-width="3" fill="none"/></svg></div><div class="vn-danger-alert">⚠ MONSTER APPEARED</div>'+(prologueImpact?'<div class="vn-impact-bang" aria-hidden="true">쾅!!</div><div class="vn-impact-flash" aria-hidden="true"></div>':''):'';
  const inscription=key==='engrave'&&last?'<div class="vn-inscription">✍ 권혁준 · 박승휘</div>':'';
- const body='<div class="vn-screen" data-story="'+key+'" data-line="'+index+'">'+
+ const body='<div class="vn-screen'+(flashback?' is-memory':'')+'" data-story="'+key+'" data-time="'+(flashback?'past':'present')+'" data-line="'+index+'">'+
   '<div class="vn-head"><div class="vn-kicker"><span>'+(movie?'📖 시나리오 감상 · '+(storyCinema.chapter+1)+' / '+STORY_CINEMA_ORDER.length+' · ':'')+sc.no+'</span><span class="vn-count">'+(index+1)+' / '+sc.lines.length+'</span></div><h2>'+sc.title+'</h2></div>'+
-  '<div class="vn-stage '+stageTone+'"><div class="vn-glow"></div>'+threat+storyCharacters(key,who,index)+'<div class="vn-location">'+sc.where+'</div>'+inscription+'</div>'+
+  '<div class="vn-stage '+stageTone+'"><div class="vn-glow"></div>'+memoryProps+threat+storyCharacters(key,who,index)+timeMarker+'<div class="vn-location">'+(flashback?'추억 속 · '+flashbackProp[1]:sc.where)+'</div>'+inscription+'</div>'+
   '<button type="button" class="'+(narrator?'vn-narration':'vn-bubble')+'" data-action="story-next" data-speaker="'+whoKind+'" aria-label="'+(last?'장면 마치기':'다음 대사 보기')+'"><span class="vn-name">'+(narrator?'나레이션':who)+'</span><span class="vn-words">'+words+'</span><span class="vn-continue">'+note+' <span class="vn-continue-arrow">▶</span></span></button>'+
   '<div class="vn-footer"><span>✦ '+(movie?'전투 없이 이야기만 감상':narrator?'나레이션':'대화 중 · '+who)+'</span><div class="cinema-footer-actions"><button type="button" class="vn-skip" data-action="story-skip">장면 넘기기</button>'+(movie?'<button type="button" class="vn-skip" data-action="story-cinema-exit">✕ 종료</button>':'')+'</div></div></div>';
  showModal(body);
