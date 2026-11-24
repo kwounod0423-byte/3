@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>V102 · 폐허의 슬롯 던전</title>
+<title>V103 · 폐허의 슬롯 던전</title>
 <style>
 .v39-preview-actions{display:flex;flex-wrap:wrap;gap:7px;padding:4px 10px 12px;}
 .v39-preview-actions button{font-size:11px;padding:7px 9px;border:1px solid #789f8a;border-radius:7px;background:#1a3236;color:#c3f4db;cursor:pointer;}
@@ -2326,7 +2326,7 @@ body{touch-action:manipulation}
 
 .side-panel > .aggro-box{margin-top:0;padding:7px 5px 3px;border-top:1px solid #755d47}
 @media(max-width:650px){.side-panel > .aggro-box{grid-column:1/-1}}
-/* V102: Fit both the shield gain and every boss strike in the attack bubble. */
+/* V103: Fit both the shield gain and every boss strike in the attack bubble. */
 #game .enemy-speech-bubble.boss-hybrid{gap:1px;padding-top:5px;padding-bottom:5px;width:min(56%,235px)}
 #game .enemy-speech-bubble.boss-hybrid .speech-detail{line-height:1.05}
 #game .enemy-speech-bubble.boss-hybrid .speech-hits{gap:1px;margin-top:1px;padding-top:2px;line-height:1.14}
@@ -2334,6 +2334,35 @@ body{touch-action:manipulation}
  #game .enemy-speech-bubble.boss-hybrid{padding:3px 5px;gap:0}
  #game .enemy-speech-bubble.boss-hybrid .speech-hits{font-size:8.5px;gap:0;line-height:1.11}
 }
+
+/* V103: rerolled rune rewards charge and fly directly from the stopped slot. */
+#game .reel.auto-rune-charging{
+ border-color:#ffe8ac!important;z-index:5;
+ animation:auto-rune-charge .30s ease-in-out infinite alternate;
+ box-shadow:0 0 13px #ffd67bae,0 0 25px #ffcc6866,inset 0 0 13px #fff2c65b;
+}
+#game .reel.auto-rune-charging .chain-notice{
+ display:block;background:#4d361be9;color:#ffefb9;border:1px solid #fff0aa;
+ font-size:clamp(8px,1vw,11px);font-weight:900;
+}
+@keyframes auto-rune-charge{from{filter:brightness(1.04)}to{filter:brightness(1.65)}}
+.auto-rune-beam{
+ position:fixed;z-index:64;pointer-events:none;height:7px;border-radius:12px;
+ transform-origin:left center;transform:rotate(var(--auto-angle)) scaleX(0);
+ background:linear-gradient(90deg,#fff9ccdd,#fff6bb,#ffbf54,#fffef0);
+ box-shadow:0 0 8px #ffefa4,0 0 20px #ffbd57,0 0 38px #fff6ae;
+ animation:auto-beam-flight .32s ease-out forwards;
+}
+.auto-rune-beam.shield{background:linear-gradient(90deg,#b1ffff,#8ce7ff,#4ccaff,#e9ffff);box-shadow:0 0 12px #8df5ff,0 0 28px #43d8ff}
+.auto-rune-beam.healing{background:linear-gradient(90deg,#e9ffc2,#bafc77,#6de8a1,#f5ffe0);box-shadow:0 0 12px #bafa92,0 0 26px #62ffb1}
+.auto-rune-beam.gold{background:linear-gradient(90deg,#fff3ae,#ffd556,#ffa52e,#fff5a6);box-shadow:0 0 13px #ffe17f,0 0 28px #ffb12e}
+.auto-rune-beam.rewind{background:linear-gradient(90deg,#c3faff,#a8abff,#bd9dff,#f2ffff);box-shadow:0 0 12px #b4afff,0 0 28px #a886ff}
+.auto-rune-beam::after{content:'✦';position:absolute;right:-10px;top:50%;transform:translateY(-50%);font-size:24px;color:#fffde9;text-shadow:0 0 10px #fff4bd,0 0 22px #ffcf84}
+@keyframes auto-beam-flight{0%{opacity:.2;transform:rotate(var(--auto-angle)) scaleX(.03)}20%{opacity:1}73%{opacity:1;transform:rotate(var(--auto-angle)) scaleX(1)}100%{opacity:.18;transform:rotate(var(--auto-angle)) scaleX(1)}}
+.auto-rune-burst{position:fixed;pointer-events:none;z-index:65;transform:translate(-50%,-50%) scale(.2);font-size:clamp(21px,3vw,33px);color:#fff7c5;text-shadow:0 0 10px #fff9db,0 0 24px #ffcd74;animation:auto-burst .58s ease-out forwards}
+@keyframes auto-burst{0%{opacity:0;transform:translate(-50%,-50%) scale(.2)}30%{opacity:1;transform:translate(-50%,-50%) scale(1.35)}100%{opacity:0;transform:translate(-50%,-50%) scale(1.8)}}
+@media(prefers-reduced-motion:reduce){#game .reel.auto-rune-charging{animation:none}.auto-rune-beam{animation:auto-beam-flight .10s linear forwards}.auto-rune-burst{animation:auto-burst .20s linear forwards}}
+
 </style>
 </head>
 <body>
@@ -2347,7 +2376,7 @@ body{touch-action:manipulation}
       <aside class="side-panel"><div><div class="status-name">ENEMY LIFE</div><div class="status-row"><span>생명력</span><b id="enemy-hp">40 / 40</b></div><div class="meter"><div class="fill" id="enemy-hp-fill"></div></div></div><div class="player-hp"><div class="hp-icon">♥</div><div class="player-hp-info"><div class="status-row" style="margin:0"><span>모험가 HP</span><b id="player-hp">68 / 68</b></div><div class="meter player-meter"><div id="player-hp-fill" class="fill player"></div></div><div class="player-xp-head"><span>✦ 모험가 <strong id="xp-level">Lv.1</strong></span><span id="xp-value">경험치 0 / 3</span></div><div class="player-xp-meter" role="progressbar" aria-label="플레이어 경험치" aria-valuemin="0" aria-valuemax="3" aria-valuenow="0" id="player-xp-meter"><div id="xp-fill" class="player-xp-fill"></div></div></div></div><div><div class="status-row"><span>적 상태</span><span class="tiny" id="enemy-status">정상</span></div><div class="shield-txt" id="enemy-shield">방어막 0</div><div class="armor-crack-status" id="enemy-cracks">🪓 방어구 균열 0 · 다음 공격 +0</div><div id="enemy-weakness-v38" class="enemy-weakness-v38">🎯 약점: ??</div><div id="battle-coin-limit-v50" class="battle-coin-limit-v50">◆ 이번 몬스터 획득 0 / 200G</div></div><div class="aggro-box" id="aggro-box" aria-label="재회전 분노"><div class="aggro-label"><b>💢 재회전 분노</b><strong id="aggro-value">0 / 100</strong></div><div class="aggro-meter"><div class="aggro-fill" id="aggro-fill"></div></div><small>가득 차면 연쇄가 끊기고 적이 반격!</small></div></aside>
     </div>
     <div class="playerstrip"><div class="player-bleed-notice" id="player-bleed-notice" role="status" hidden>🩸 출혈</div><div class="guard-hud" id="guard-hud"><div class="guard-hud-title">⬡ 방향 방어막 <b id="player-shield">0</b></div><div class="guard-hud-lanes"><span id="guard-0">← 0</span><span id="guard-1">↑ 0</span><span id="guard-2">→ 0</span></div></div><div class="hud-num">턴<strong id="turn-count">0</strong></div><div class="hud-num">점수<strong id="score-count">0</strong></div></div>
-    <section class="reel-module"><div class="reel-header"><b>✦ BRASS SLOT ✦</b><strong id="combo-counter" class="combo-counter" aria-live="polite" hidden>⚡ COMBO 0</strong><span id="reel-status">SPACE 키로 슬롯을 정지시키세요</span></div><div class="rune-prep" id="rune-prep"></div><div class="reels" id="reels" data-count="3"></div><div id="match-burst" class="match-burst" aria-live="polite" aria-atomic="true"></div><div class="reel-controls"><button class="btn-primary" id="spin-btn" data-action="spin">▶ SPIN</button><button class="btn-secondary" id="auto-btn" data-action="autostop" disabled>자동 정지</button></div><div class="respin-choice hidden" id="respin-choice" role="group" aria-label="턴 종료 전 재회전 선택"></div><div id="hint">같은 룬 3개 이상 일치 → 해당 칸만 자동 재회전! · COMBO 연쇄</div></section>
+    <section class="reel-module"><div class="reel-header"><b>✦ BRASS SLOT ✦</b><strong id="combo-counter" class="combo-counter" aria-live="polite" hidden>⚡ COMBO 0</strong><span id="reel-status">SPACE 키로 슬롯을 정지시키세요</span></div><div class="rune-prep" id="rune-prep"></div><div class="reels" id="reels" data-count="3"></div><div id="match-burst" class="match-burst" aria-live="polite" aria-atomic="true"></div><div class="reel-controls"><button class="btn-primary" id="spin-btn" data-action="spin">▶ SPIN</button><button class="btn-secondary" id="auto-btn" data-action="autostop" disabled>자동 정지</button></div><div class="respin-choice hidden" id="respin-choice" role="group" aria-label="턴 종료 전 재회전 선택"></div><div id="hint">첫 슬롯은 직접 미니게임 · 재회전으로 나온 룬은 기를 모아 자동 시전! · COMBO 연쇄</div></section>
   </main>
   <details class="battle-details" hidden><summary>▣ 보유 룬 · 전투 기록 펼치기</summary><div class="bottom-grid"><section class="panel"><h3>▣ 보유 룬 · 업그레이드</h3><div class="loadout" id="loadout"></div></section><section class="panel"><h3>▣ 전투 기록</h3><div class="log" id="log" aria-live="polite"><div>모험가를 기다리고 있습니다.</div></div></section></div></details>
   <details class="guide-details" hidden><summary>ⓘ 게임 가이드</summary><div class="guide">🩸 3층부터 일부 몬스터의 출혈 공격: 공격받는 방향의 방어막이 0이면 3턴간 매 턴 HP −2 · 🔱 희귀 창은 방패 절단 드래그, 적 방어막 무시 · 🗡️ 마검은 적 방어막 0일 때 출혈 · 🗺 지도에서 경로 선택 · 🛒 상점 칸에서 소모품·고가 보물상자·특수 장비 구매 · 운이 좋으면 모험 중 특별한 룬을 얻을 수 있을 거야. · 🗡️ 회전검 기본 7 피해 + 타격 연출 후 느린 재회전 · 💎 다이아 자기 슬롯 재회전 · 🔄 되감기 왼쪽 2칸 슬롯 · 모험 중에 새로운 룬을 발견할 수 있음 · 한 몬스터당 전투 골드 획득 최대 200G · 해금한 층은 반복 탐험 가능 (하위 층은 경험치 없음) · 고가 보물상자로 추가 획득 가능 · 같은 룬 추가 시 보유 개수만 +1 · 장착에 따른 출현 확률 증가 · Lv.은 그대로 · 특수 재회전은 적 분노 100에서 중단 · 3개 일치 자동 콤보는 제한 없음 · 고정 룬 없음 · 매 턴 3~5개 룬 선택 · 서로 다른 룬 최소 3종 · 상점에서 일회용 아이템 구매 후 전투에서 사용 · 미사용 골드 10% 전투 승리 이자 (최대 25G) · 검 최대 18 · 총 최대 52 · 마법 최대 24 (모두 Lv.1 기준, 레벨업 시 증가) · 망치 적중 시 공격력 반감 · 독 제한 6초 · 오답 클릭 즉시 종료 · 즉시·지속 피해 이전의 20% · 검 F · 총 F · 망치 1~5 · 마법 7문양 암기 · 동일 룬 2~5개 보상 ×1.2~×1.5 · 3개 이상 일치 시 무제한 콤보 재회전 · 지하 1층 3칸 → 1층 4칸 → 2~4층 5칸 · 보스 후 인수분해</div></details>
@@ -2410,7 +2439,7 @@ function magicFullDamage(level){return Math.floor((SPECIAL_DAMAGE.gunHeadshot[0]
 // Scale the base attack before flurry, pierce and charge multipliers, then round only each final hit.
 // This single attack value also drives the normal-enemy damage forecast.
 const ENEMY_ATTACK_MULTIPLIER=0.80;
-// V102: 1F, 2F and 3F regular/elite monsters +30% attack; all bosses and B1/4F unchanged.
+// V103: 1F, 2F and 3F regular/elite monsters +30% attack; all bosses and B1/4F unchanged.
 const FIRST_TWO_FLOORS_NON_BOSS_ATTACK_MULTIPLIER=1.30;
 const THIRD_FLOOR_NON_BOSS_ATTACK_MULTIPLIER=1.30;
 const LEGACY_STAGES=[
@@ -3494,7 +3523,7 @@ function restoreSavedGame(){
     s.enemy.attack*=FIRST_TWO_FLOORS_NON_BOSS_ATTACK_MULTIPLIER;
    }
   }
-  // V102: buff an existing 3F non-boss encounter only once on save upgrade.
+  // V103: buff an existing 3F non-boss encounter only once on save upgrade.
   if((Number(s.attackBalanceVersion)||0)<102&&s.view==='fight'&&s.enemy&&s.stage===3&&s.fight!==2){
    const lastIndex=STAGES[3].enemies.length-1;
    if(s.enemy.name!==STAGES[3].enemies[lastIndex][0]&&Number.isFinite(s.enemy.attack)){
@@ -3526,7 +3555,7 @@ function restoreSavedGame(){
   s.reelSymbols=Array.from({length:upgradedReels},(_,i)=>oldSymbols[i]||rollRune());
   s.reelVersions=Array.from({length:upgradedReels},(_,i)=>Number(s.reelVersions?.[i])||0);
   s.reelMotion=Array(s.reelCount).fill(null);s.chainMotion=null;s.skill=null;
-  s.spinning=false;s.resolving=false;s.rerolling=false;s.turnEnding=false;
+  s.spinning=false;s.resolving=false;s.rerolling=false;s.turnEnding=false;s.autoCasting=false;
   s.awaitingRespin=false;s.actions=[];s.actionPos=0;
   s.stops=Array(s.reelCount).fill(true);
   $('game').classList.toggle('deck-pending',s.view==='fight'&&!!s.deckPending);
@@ -4118,7 +4147,7 @@ const count=stage===0?1:stage===1?(round%3===0?1:2):stage===2?2:stage===3?(round
  const kind=hits.some(h=>h.ignore)?'pierce':count>1?'flurry':'hit';
  return {kind,title:kind==='pierce'?'관통 기습':count>1?count+'연속 공격':'방향 공격',hits};
 }
-// V102: 3F/4F bosses always raise their own shield AND land at least one attack
+// V103: 3F/4F bosses always raise their own shield AND land at least one attack
 // in a single enemy action. Keep existing boss phases (seal/charge/heal/brace).
 function upgradeBossHybridPlan(p){
  if(!p||!s||s.fight!==2||s.stage<3||s.stage>4)return p;
@@ -4133,7 +4162,7 @@ function refreshEnemyPlan(){const e=s.enemy;e.plan=upgradeBossHybridPlan(planEne
 
 function advanceEnemyPlan(){if(!s?.enemy)return;s.enemy.round++;refreshEnemyPlan();render();}
 
-function newEnemy(forcedIndex=null){if(!s)return;lastCombatCheckpoint=null;battleToken++;stopTimers();effects=[];if($('element-procs'))$('element-procs').replaceChildren();s.reelCount=reelCountForStage(s.stage);const monsters=STAGES[s.stage].enemies;const idx=Number.isInteger(forcedIndex)&&forcedIndex>=0&&forcedIndex<monsters.length?forcedIndex:s.fight===2?monsters.length-1:(s.stageFightCount-1+Math.max(0,(s.map?.runNumber||s.floorRuns[s.stage])-1)*2)% (monsters.length-1);const a=monsters[Math.max(0,idx)];const scaledHP=monsterFullHP(s.stage,Math.max(0,idx));s.enemy={name:a[0],kind:a[1],aggro:0,hp:scaledHP,max:scaledHP,attack:a[3]*ENEMY_ATTACK_MULTIPLIER*(s.fight!==2&&idx!==monsters.length-1?((s.stage===1||s.stage===2)?FIRST_TWO_FLOORS_NON_BOSS_ATTACK_MULTIPLIER:(s.stage===3?THIRD_FLOOR_NON_BOSS_ATTACK_MULTIPLIER:1)):1),shield:a[4],armor:a[5],armorCracks:0,braceHits:0,supportUsed:0,poison:0,poisonPower:0,poisonTurns:0,burnPower:0,burnTurns:0,bleedPower:0,bleedTurns:0,freezeTurns:0,weakenTurns:0,stun:0,paralyzed:false,mode:0,round:0,plan:null,lockedReel:-1,chargeReady:false,chargeLane:1};s.playerBleedTurns=0;s.turn=0;s.turnDmg=0;s.battleCoinsEarned=0;s.preTurnDamage=0;s.counterAttackReady=false;s.guards=[0,0,0];sumGuards();s.reelSymbols=Array.from({length:s.reelCount},()=>rollRune());s.stops=Array(s.reelCount).fill(true);s.view='fight';s.deckPending=false;s.spinning=false;s.resolving=false;s.skill=null;s.jammedReel=-1;s.reelVersions=Array(s.reelCount).fill(0);s.chainRerolls=0;s.comboCount=0;s.rerollUsed=false;s.awaitingRespin=false;s.rerolling=false;s.turnEnding=false;refreshEnemyPlan();resetReels();hideSkill();log('⚑ '+s.enemy.name+'이(가) 나타났다! '+s.reelCount+'칸 슬롯 · 적의 다음 행동을 확인하고 방어하세요.');hideModal();render();showTurnDeckModal();}
+function newEnemy(forcedIndex=null){if(!s)return;lastCombatCheckpoint=null;battleToken++;stopTimers();effects=[];if($('element-procs'))$('element-procs').replaceChildren();s.reelCount=reelCountForStage(s.stage);const monsters=STAGES[s.stage].enemies;const idx=Number.isInteger(forcedIndex)&&forcedIndex>=0&&forcedIndex<monsters.length?forcedIndex:s.fight===2?monsters.length-1:(s.stageFightCount-1+Math.max(0,(s.map?.runNumber||s.floorRuns[s.stage])-1)*2)% (monsters.length-1);const a=monsters[Math.max(0,idx)];const scaledHP=monsterFullHP(s.stage,Math.max(0,idx));s.enemy={name:a[0],kind:a[1],aggro:0,hp:scaledHP,max:scaledHP,attack:a[3]*ENEMY_ATTACK_MULTIPLIER*(s.fight!==2&&idx!==monsters.length-1?((s.stage===1||s.stage===2)?FIRST_TWO_FLOORS_NON_BOSS_ATTACK_MULTIPLIER:(s.stage===3?THIRD_FLOOR_NON_BOSS_ATTACK_MULTIPLIER:1)):1),shield:a[4],armor:a[5],armorCracks:0,braceHits:0,supportUsed:0,poison:0,poisonPower:0,poisonTurns:0,burnPower:0,burnTurns:0,bleedPower:0,bleedTurns:0,freezeTurns:0,weakenTurns:0,stun:0,paralyzed:false,mode:0,round:0,plan:null,lockedReel:-1,chargeReady:false,chargeLane:1};s.playerBleedTurns=0;s.turn=0;s.turnDmg=0;s.battleCoinsEarned=0;s.preTurnDamage=0;s.counterAttackReady=false;s.guards=[0,0,0];sumGuards();s.reelSymbols=Array.from({length:s.reelCount},()=>rollRune());s.stops=Array(s.reelCount).fill(true);s.view='fight';s.deckPending=false;s.spinning=false;s.resolving=false;s.skill=null;s.jammedReel=-1;s.reelVersions=Array(s.reelCount).fill(0);s.chainRerolls=0;s.comboCount=0;s.autoCasting=false;s.rerollUsed=false;s.awaitingRespin=false;s.rerolling=false;s.turnEnding=false;clearAutoRuneCharge();refreshEnemyPlan();resetReels();hideSkill();log('⚑ '+s.enemy.name+'이(가) 나타났다! '+s.reelCount+'칸 슬롯 · 적의 다음 행동을 확인하고 방어하세요.');hideModal();render();showTurnDeckModal();}
 // The current enemy plan fixes each hit's direction when the turn begins.
 // Elites and bosses now hide only the direction; damage and special effects remain visible.
 function enemyPlanSecret(){return !!s&&(s.fight===1||s.fight===2);}
@@ -4237,13 +4266,13 @@ function render(){if(!s)return;const e=s.enemy;
  $('turn-count').textContent=s.turn;$('score-count').textContent=s.score;$('aggro-value').textContent=s.enemy.aggro+' / 100';$('aggro-fill').style.width=cap(s.enemy.aggro,0,100)+'%';$('aggro-box').classList.toggle('hot',s.enemy.aggro>=70);$('loadout').innerHTML=s.deck.map(id=>'<span class="equip" style="border-color:'+R[id].color+'66"><span style="color:'+R[id].color+'">'+runeVisual(id)+'</span> '+runeDisplayName(id)+' '+enchantMark(id)+' '+runeLevelLabel(id)+runeBoostLabel(id)+' ×'+s.copies[id]+(pool().includes(id)?' · 장착':' · 보관')+'</span>').join('')+shopRelicChips();
  if($('reels').children.length!==s.reelCount)resetReels();for(let i=0;i<s.reelCount;i++){const el=$('reels').children[i];el.classList.toggle('spin-now',s.spinning&&!s.stops[i]);el.classList.toggle('stopped',s.stops[i]);el.classList.toggle('jammed-reel',s.jammedReel===i);}
  const available=s.view==='fight'&&!s.deckPending&&!s.resolving&&!s.rerolling;$('spin-btn').disabled=!available||(!s.spinning&&!equipped());$('auto-btn').disabled=!s.spinning;$('spin-btn').textContent=s.spinning?'■ STOP':'▶ SPIN';
- $('hint').textContent=s.skill?'룬 미니게임: '+({sword:'변하는 최고점에 맞춰 베기',gun:'머리 조준 사격',venom:'6초에 차이 5곳 찾기',shield:'방어할 방향을 직접 선택',hammer:'3초 후 0.5초마다 이동하는 균열',flame:'7개 문양의 순서를 기억하기',heal:'박동 타이밍 회복',coin:'3개 상자 중 당첨 1개 선택 · 꽝도 주화 획득'}[s.skill.kind]||'공격하기'):s.spinning?'회전하는 슬롯을 클릭 / STOP으로 정지하세요. 봉인된 슬롯은 무효입니다.':s.rerolling?'🔄 슬롯 자동 재회전 중…':s.awaitingRespin?'재회전 파워업을 사용할지 선택하세요':s.resolving?'연쇄 효과 진행 중…':'직접 선택한 '+pool().length+'개 룬 · '+s.reelCount+'칸 슬롯 · 3개 이상 일치 시 무제한 자동 콤보 · 특수 재회전 분노 '+s.enemy.aggro+'/100 · 골드 이자 10%';
+ $('hint').textContent=s.autoCasting?'⚡ 자동 발동! 슬롯에 기를 모아 중간 판정으로 시전 중…':s.skill?'룬 미니게임: '+({sword:'변하는 최고점에 맞춰 베기',gun:'머리 조준 사격',venom:'6초에 차이 5곳 찾기',shield:'방어할 방향을 직접 선택',hammer:'3초 후 0.5초마다 이동하는 균열',flame:'7개 문양의 순서를 기억하기',heal:'박동 타이밍 회복',coin:'3개 상자 중 당첨 1개 선택 · 꽝도 주화 획득'}[s.skill.kind]||'공격하기'):s.spinning?'회전하는 슬롯을 클릭 / STOP으로 정지하세요. 봉인된 슬롯은 무효입니다.':s.rerolling?'🔄 슬롯 자동 재회전 중…':s.awaitingRespin?'재회전 파워업을 사용할지 선택하세요':s.resolving?'연쇄 효과 진행 중…':'직접 선택한 '+pool().length+'개 룬 · '+s.reelCount+'칸 슬롯 · 3개 이상 일치 시 무제한 자동 콤보 · 특수 재회전 분노 '+s.enemy.aggro+'/100 · 골드 이자 10%';
  const comboEl=$('combo-counter');if(comboEl){comboEl.hidden=!(s.view==='fight'&&s.comboCount>0);comboEl.textContent='⚡ COMBO '+(s.comboCount||0);}
- $('reel-status').textContent=s.skill?'SKILL · '+s.actionPos+' / '+s.actions.length:s.spinning?'STOP · '+s.stops.filter(Boolean).length+'/'+s.reelCount:s.rerolling?'🔄 AUTO RE-SPIN':s.awaitingRespin?'🔄 선택 · 턴 종료':s.resolving?'연쇄 효과 처리 중':'🎰 '+s.reelCount+'칸 슬롯 · '+pool().length+'개 문양 · '+pool().map(id=>R[runeBase(id)].icon).join(' ');
+ $('reel-status').textContent=s.autoCasting?'⚡ AUTO CAST · '+(s.actionPos)+' / '+s.actions.length:s.skill?'SKILL · '+s.actionPos+' / '+s.actions.length:s.spinning?'STOP · '+s.stops.filter(Boolean).length+'/'+s.reelCount:s.rerolling?'🔄 AUTO RE-SPIN':s.awaitingRespin?'🔄 선택 · 턴 종료':s.resolving?'연쇄 효과 처리 중':'🎰 '+s.reelCount+'칸 슬롯 · '+pool().length+'개 문양 · '+pool().map(id=>R[runeBase(id)].icon).join(' ');
  renderPrep();renderRespinChoice();
 }
 function spin(){if(!s||s.view!=='fight'||s.resolving||s.deckPending)return;if(s.spinning){stopOne();return;}if(!equipped()){log('룬 구성이 올바르지 않습니다.');return;}
- clearMatchBurst();s.spinning=true;s.turn++;s.turnDmg=s.preTurnDamage||0;s.preTurnDamage=0;s.turnEarned=0;s.jammedReel=s.enemy.lockedReel;s.reelVersions=Array(s.reelCount).fill(0);s.chainRerolls=0;s.comboCount=0;s.rerollUsed=false;s.awaitingRespin=false;s.rerolling=false;s.turnEnding=false;s.enemy.aggro=0;for(const el of $('reels').children){el.classList.remove('crit','cell-fixed');const badge=el.querySelector('.reel-mult');if(badge){badge.textContent='';badge.classList.remove('activated');}}
+ clearMatchBurst();s.spinning=true;s.turn++;s.turnDmg=s.preTurnDamage||0;s.preTurnDamage=0;s.turnEarned=0;s.jammedReel=s.enemy.lockedReel;s.reelVersions=Array(s.reelCount).fill(0);s.chainRerolls=0;s.comboCount=0;s.autoCasting=false;s.rerollUsed=false;s.awaitingRespin=false;s.rerolling=false;s.turnEnding=false;s.enemy.aggro=0;for(const el of $('reels').children){el.classList.remove('crit','cell-fixed');const badge=el.querySelector('.reel-mult');if(badge){badge.textContent='';badge.classList.remove('activated');}}
  s.stops=Array.from({length:s.reelCount},(_,i)=>i===s.jammedReel);for(let i=0;i<s.reelCount;i++){
  const el=$('reels').children[i],track=el.querySelector('.reel-track');if(i===s.jammedReel){s.reelSymbols[i]='jam';track.style.transition='none';track.style.transform='translate3d(0,0,0)';track.innerHTML=cell('jam');continue;}
  const options=reelPool(i),seq=Array.from({length:20},(_,j)=>options[j]);track.style.transition='none';track.innerHTML=seq.concat(seq).map(cell).join('');const step=track.querySelector('.reel-cell').getBoundingClientRect().height||el.querySelector('.reel-window').clientHeight;s.reelMotion[i]={seq,dist:rand(14)*step,speed:780+i*105,step};track.style.transform='translate3d(0,-'+s.reelMotion[i].dist+'px,0)';}
@@ -4401,7 +4430,11 @@ function runNextAction(token){
   if(action.reel!=null)action.mult=matchMultipliers(s.reelSymbols)[action.reel];
   if(s.enemy.hp<=0&&['blade','gun','venom','hammer','flame','moss','void','spinblade','rewind','spear','darkblade'].includes(runeBase(action.id)))continue;
   const mini={blade:'sword',gun:'gun',venom:'venom',shield:'shield',hammer:'hammer',flame:'flame',heal:'heal',coin:'coin',moss:'moss',spinblade:'spinblade',diamond:'diamond',rewind:'rewind',void:'void',spear:'spear',darkblade:'darkblade'};
-  const baseKind=runeBase(action.id);if(mini[baseKind]){showSkill(mini[baseKind],action);return;}
+  const baseKind=runeBase(action.id);
+  if(mini[baseKind]){
+   if(action.auto){autoCastRerollRune(action,token);return;}
+   showSkill(mini[baseKind],action);return;
+  }
  }
  if(s.enemy.hp>0){
   const match=cascadeMatchingSlots(s.reelSymbols);
@@ -4452,7 +4485,8 @@ function beginChainReroll(indices,source,token){
   s.reelVersions[i]++;
   const id=rollRune(),el=$('reels').children[i],track=el.querySelector('.reel-track');
   const seq=Array.from({length:18},()=>rollRune());
-  outcomes.push({id,reel:i,version:s.reelVersions[i],lv:runeLevel(id),mult:1});
+  // The original spin stays interactive. Every NEW rune from any re-spin auto-casts.
+  outcomes.push({id,reel:i,version:s.reelVersions[i],lv:runeLevel(id),mult:1,auto:true});
   track.style.transition='none';track.innerHTML=seq.concat(seq).map(cell).join('');
   motions.push([i,{seq,dist:0,speed:900+rand(250),elapsed:0,duration:spinDuration,step:track.querySelector('.reel-cell').getBoundingClientRect().height||el.querySelector('.reel-window').clientHeight}]);
   el.classList.add('chain-reroll');el.classList.remove('crit','chain-ready','chain-land');
@@ -4484,6 +4518,148 @@ function paidReroll(){
 function passReroll(){
  if(!s?.awaitingRespin)return;s.awaitingRespin=false;sfx('stop');finishTurn(battleToken);
 }
+
+// V103: Re-spin outputs skip mini-games and use the middle (GOOD/normal) result.
+// The first stopped slot result still opens the normal interactive mini-game.
+function autoCastBeam(action,kind){
+ const reel=$('reels')?.children[action.reel];
+ if(!reel)return;
+ const start=reel.getBoundingClientRect();
+ const sx=start.left+start.width*.5,sy=start.top+start.height*.36;
+ const rectCenter=el=>{if(!el)return null;const r=el.getBoundingClientRect();return {x:r.left+r.width*.5,y:r.top+r.height*.5};};
+ const targets=[];
+ if(kind==='shield')for(let lane=0;lane<3;lane++)targets.push(rectCenter($('guard-'+lane)));
+ else if(kind==='healing')targets.push(rectCenter($('player-hp')));
+ else if(kind==='gold')targets.push(rectCenter($('top-gold')));
+ else if(kind==='rewind')targets.push(rectCenter($('reels')));
+ else {const canvas=$('scene');if(canvas){const r=canvas.getBoundingClientRect();targets.push({x:r.left+r.width*353/720,y:r.top+r.height*145/290});}}
+ for(const [i,target] of targets.entries()){
+  if(!target)continue;
+  const dx=target.x-sx,dy=target.y-sy,dist=Math.hypot(dx,dy);
+  if(dist<12)continue;
+  const ray=document.createElement('div');ray.className='auto-rune-beam '+kind;
+  ray.style.left=sx+'px';ray.style.top=sy+'px';ray.style.width=dist+'px';
+  ray.style.setProperty('--auto-angle',Math.atan2(dy,dx)+'rad');
+  ray.style.animationDelay=(i*55)+'ms';document.body.appendChild(ray);
+  const burst=document.createElement('div');burst.className='auto-rune-burst';
+  burst.style.left=target.x+'px';burst.style.top=target.y+'px';burst.style.animationDelay=(i*55+220)+'ms';burst.textContent=kind==='shield'?'⬡':kind==='healing'?'♥':kind==='gold'?'◆':kind==='rewind'?'✦':'✹';
+  document.body.appendChild(burst);
+  setTimeout(()=>{ray.remove();burst.remove();},950);
+ }
+}
+function clearAutoRuneCharge(){
+ const reels=$('reels');
+ if(reels)for(const reel of reels.children){reel.classList.remove('auto-rune-charging');const n=reel.querySelector('.chain-notice');if(n&&n.textContent==='⚡ 자동 발동')n.textContent='';}
+ if(s)s.autoCasting=false;
+}
+function autoCastRerollRune(action,token){
+ if(!valid(token)||s.turnEnding||s.rerolling)return;
+ const reel=$('reels')?.children[action.reel],base=runeBase(action.id);
+ if(reel){reel.classList.add('auto-rune-charging');const notice=reel.querySelector('.chain-notice');if(notice)notice.textContent='⚡ 자동 발동';}
+ s.autoCasting=true;sfx('charge');render();
+ later(token,285,()=>{
+  if(action.reel!=null&&s.reelVersions[action.reel]!==action.version){clearAutoRuneCharge();runNextAction(token);return;}
+  const kind=base==='shield'?'shield':base==='heal'||base==='moss'?'healing':base==='coin'||base==='diamond'?'gold':base==='rewind'?'rewind':'attack';
+  autoCastBeam(action,kind);
+  later(token,260,()=>{
+   clearAutoRuneCharge();
+   if(action.reel!=null&&s.reelVersions[action.reel]!==action.version){runNextAction(token);return;}
+   // hitEnemy reads the current skill's action for caps and rune levels.
+   s.skill={kind:'auto',action,token};
+   let rerolls=[];
+   try{rerolls=applyAutoRuneMidpoint(action)||[];}finally{s.skill=null;}
+   render();
+   if(rerolls.length&&s.enemy.hp>0){
+    later(token,260,()=>prepareChainReroll(rerolls,base==='spinblade'?'회전검':base==='diamond'?'행운의 다이아':'되감기',token,340));
+   }else later(token,285,()=>runNextAction(token));
+  });
+ });
+}
+function applyAutoRuneMidpoint(a){
+ const base=runeBase(a.id),lv=a.lv||runeLevel(a.id),mult=a.mult||1;
+ const hit=(id,raw,magic=false,point=null,ignoreShield=false)=>hitEnemy(id,raw,magic,point,'AUTO · GOOD',ignoreShield,false);
+ const gainHP=(raw,source)=>{const before=s.hp;s.hp=Math.min(s.maxHp,s.hp+Math.max(0,Math.round(raw)));const got=s.hp-before;
+  armHealingCritical(got,source);fx('heal',{life:720,amount:got});showHealGain(got,source);sfx('heal');return got;};
+ const gainGold=(amount)=>{const got=earnBattleGold(amount);s.turnEarned+=got;fx('coin',{life:890,amount:got});if(got)showCoinGain(got);sfx(got?'coin':'miss');return got;};
+ let damage=0,got=0;
+ if(base==='blade'){
+  damage=hit('blade',(BALANCE.blade[0]+(lv-1)*BALANCE.blade[1]+(s.enchants.edge?4:0))*mult);
+  fx('slash',{life:510});sfx('sword');log('⚡⚔ 재회전 검 · 일반 적중 '+damage+' 피해');
+ }else if(base==='gun'){
+  const shot=Math.round((BALANCE.gun[0]+(lv-1)*BALANCE.gun[1]+(s.enchants.precision?5:0))*GUN_DAMAGE_MULTIPLIER);
+  damage=hit('gun',shot*mult,false,{x:353,y:173});fx('bullet',{x:353,y:173,life:600,hit:true});sfx('gun');log('⚡🔫 재회전 총 · 몸통 적중 '+damage+' 피해');
+ }else if(base==='venom'){
+  const found=3;
+  damage=hit('venom',(BALANCE.venom[0]+(lv-1)*BALANCE.venom[1])*mult*POISON_DAMAGE_FACTOR);
+  const power=poisonTickPower(lv,found,mult),turns=2+Math.floor(found/2)+(s.enchants.toxicity?1:0);
+  s.enemy.poisonPower=cap((s.enemy.poisonPower||0)+power,0,255);s.enemy.poisonTurns=Math.max(s.enemy.poisonTurns,turns);s.enemy.poison=s.enemy.poisonPower;
+  if(specialActive('venomleech'))gainHP(3,'독 흡수');
+  fx('toxic',{life:760});sfx('venom');if(s.enchants.toxicity)sfx('venomBoost');
+  log('⚡☣ 재회전 독날 · 중간 판정 3/5 · '+damage+' 피해 · 중독 '+s.enemy.poisonPower+'/턴');
+ }else if(base==='shield'){
+  const guardian=shopRelicActive('guardian')?1.25:1;
+  const total=Math.max(1,Math.round((6+(runeLevel('shield')-1)*2+(s.enchants.warding?3:0)+(s.enchants.fortress?4:0))*mult*(s.enchants.shieldcore?1.5:1)*guardian));
+  const portions=[Math.floor(total/3),Math.floor(total/3),Math.floor(total/3)];
+  for(let i=0;i<total%3;i++)portions[(i+1)%3]++;
+  const limit=Math.round((s.enchants.shieldcore?40:28)*guardian);
+  let totalAdded=0;
+  for(let pos=0;pos<3;pos++){
+   const before=s.guards[pos];s.guards[pos]=cap(before+portions[pos],0,limit);
+   totalAdded+=s.guards[pos]-before;
+   fx('shield',{life:660,dir:pos});fx('guardRaise',{life:720,dir:pos});
+  }
+  sumGuards();sfx('shield');if(s.enchants.warding)sfx('warding');
+  log('⚡⬡ 재회전 방패 · 좌/중/우 균등 방어 +'+portions.join('/')+' (실제 +'+totalAdded+')');
+ }else if(base==='hammer'){
+  const low=BALANCE.hammer[0]+(lv-1)*BALANCE.hammer[1];
+  const high=SPECIAL_DAMAGE.hammerAccurate[0]+(lv-1)*SPECIAL_DAMAGE.hammerAccurate[1];
+  damage=hit('hammer',(Math.round((low+high)/2)+(s.enchants.shatter?6:0))*mult);
+  fx('hammer',{life:590});sfx('hammer');log('⚡⚒ 재회전 망치 · 중간 피해 '+damage+' (최고 판정 약화 없음)');
+ }else if(base==='flame'){
+  const count=4,raw=MAGIC_PARTIAL[count]+Math.max(0,lv-1)*Math.round(Math.floor(count/3)*1.5);
+  damage=hit('flame',raw*mult*MAGIC_RUNE_DAMAGE_MULTIPLIER,true);fx('flame',{life:850});sfx('flame');
+  log('⚡✹ 재회전 마법 · 4/7 부분 성공 · '+damage+' 피해');
+ }else if(base==='heal'){
+  const amount=(Math.round((4+(runeLevel('heal')-1)*2)*mult)+(s.enchants.bloom?4:0)+(s.enchants.calm?7:0))*enchantHealMultiplier('heal');
+  got=gainHP(amount,'재회전 박동 GOOD');log('⚡✚ 재회전 회복 · HP +'+got);
+ }else if(base==='coin'){
+  const extra=(s.enchants.goldrush?4:0)+(s.enchants.coinluck?5:0);
+  const avg=Math.round((coinRunePayout(lv,true,mult,extra)+2*coinRunePayout(lv,false,mult,extra))/3);
+  got=gainGold(avg);log('⚡◆ 재회전 주화 · 상자 평균 보상 +'+got+'G');
+ }else if(base==='moss'){
+  damage=hit('moss',(10+(lv-1)*2+(s.enchants.mossbloom?4:0))*mult);
+  got=gainHP((4+(s.enchants.mossbloom?2:0))*enchantHealMultiplier('moss'),'재회전 광합성 GOOD');
+  fx('toxic',{life:680});log('⚡🌿 재회전 새싹 · '+damage+' 피해 · HP +'+got);
+ }else if(base==='spinblade'){
+  const taps=11;
+  damage=hit('spinblade',(20+(lv-1)*2+(s.enchants.spinfury?6:0))*mult);
+  fx('slash',{life:750});sfx('sword');log('⚡🗡 재회전 회전검 · 11회 중간 판정 '+damage+' 피해 · 자기 슬롯 재회전');
+  return [a.reel];
+ }else if(base==='diamond'){
+  const amount=Math.round((10+(lv-1)*2)*mult)+(s.enchants.diamondluck?7:0);
+  got=gainGold(amount);log('⚡💎 재회전 다이아 · GOOD +'+got+'G · 자기 슬롯 재회전');
+  return [a.reel];
+ }else if(base==='rewind'){
+  const hits=4,n=2,indices=[];for(let j=Math.max(0,a.reel-n);j<a.reel;j++)indices.push(j);
+  if(specialActive('rewindbeat'))gainHP(4,'재회전 리듬 치유');
+  if(!indices.length)gainGold(3+hits);
+  sfx('spin');log('⚡🔄 재회전 되감기 · 4/6 박자 · 왼쪽 '+indices.length+'칸 재회전');return indices;
+ }else if(base==='void'){
+  const score=.5,raw=Math.round(((12+58*score)+(lv-1)*3+(s.enchants.starsurge?12:0))*mult);
+  damage=hit('void',raw,true);s.hp=Math.max(1,s.hp-4);fx('flame',{life:850});sfx('flame');
+  log('⚡🌑 재회전 심연 · 중간 생존 · '+damage+' 피해 · HP −4');
+ }else if(base==='spear'){
+  damage=hit('spear',(20+(lv-1)*4)*mult,false,{x:353,y:143},true);
+  fx('slash',{life:800});sfx('sword');log('⚡🔱 재회전 창 · 보통 절단 '+damage+' 피해 · 방어막 무시');
+ }else if(base==='darkblade'){
+  const hits=3,shieldBefore=s.enemy.shield;
+  damage=hit('darkblade',(20+(lv-1)*3)*mult,false,{x:352,y:144});
+  if(shieldBefore<=0&&damage>0&&s.enemy.hp>0){s.enemy.bleedTurns=Math.max(s.enemy.bleedTurns||0,3);s.enemy.bleedPower=2;fx('impact',{x:353,y:147,damage:0,text:'BLEED',color:'#ff6b9c',life:850});}
+  fx('slash',{life:700});sfx('sword');log('⚡🩸 재회전 마검 · 3/5 반응 · '+damage+' 피해');
+ }
+ return [];
+}
+
 function hideSkill(){const panel=$('skill-panel');if(panel.parentElement!==$('scene-wrap'))$('scene-wrap').appendChild(panel);panel.classList.add('hidden');panel.classList.remove('sword-mode','gun-mode','puzzle-mode','rune-mode','special-mode','void-mode','preparing');panel.innerHTML='';$('aim-layer').classList.add('hidden');}
 const miniControls={shield:['↖','↑','↗'],flame:['🔥','✦','⚡']};
 function simpleSkill(kind,title,body){
@@ -5081,7 +5257,7 @@ function finishTurn(token){if(!valid(token)||s.turnEnding)return;s.turnEnding=tr
  if(s.playerBleedTurns>0){s.hp=Math.max(0,s.hp-2);s.playerBleedTurns--;fx('playerHit',{life:440});log('🩸 출혈 지속: HP −2 · '+s.playerBleedTurns+'턴 남음');if(s.hp<=0){render();s.turnEnding=false;gameOver();return;}}
  render();
  later(token,260,()=>{const duration=enemyMove(token);render();later(token,duration+130,()=>{
-  s.guards=s.guards.map(v=>Math.max(0,v-1));sumGuards();s.resolving=false;s.jammedReel=-1;s.rerolling=false;s.enemy.aggro=0;s.turnEnding=false;s.turnDmg=0;render();if(s.hp<=0)gameOver();else showTurnDeckModal();
+  s.guards=s.guards.map(v=>Math.max(0,v-1));sumGuards();s.resolving=false;s.jammedReel=-1;s.rerolling=false;s.autoCasting=false;s.enemy.aggro=0;s.turnEnding=false;s.turnDmg=0;render();if(s.hp<=0)gameOver();else showTurnDeckModal();
  });});
 }
 function hurtPlayer(d,dir=1,ignore=false,charged=false,pierceRate=0){const raw=Math.max(0,Math.round(d)),blockable=Math.max(0,Math.floor(raw*(1-cap(pierceRate,0,1)))),blocked=ignore?0:Math.min(s.guards[dir],blockable);if(!ignore)s.guards[dir]-=blocked;
@@ -5676,7 +5852,7 @@ function showRecords(){
 function showEnchantmentGear(){showRecords();}
 function attachElement(){/* Fusion is permanent. Reassignment deliberately disabled. */}
 function showHelp(){
- showModal('<div class="mini-screen"><div class="eyebrow">HOW TO PLAY</div><h2>ⓘ 게임 안내</h2><div class="help-grid"><div><b>🎰 최대 5칸 슬롯</b><span>지하 1층 3칸 · 1층 4칸 · 2~4층 5칸. 같은 룬 3개 이상 일치하면 해당 칸만 자동 재회전하며, 다시 일치하면 같은 룬이 다시 3개 이상 모이면 콤보가 계속됩니다. 2~5개 일치 보너스(×1.2~×1.5) 및 전 칸 일치 +0.2배는 유지합니다.</span></div><div><b>✦ 모험가 레벨 · 경험치</b><span>현재 최고 해금 층에서 몬스터 처치 시 경험치 +1 (보스 포함). 하위 층 재탐험은 룬·아이템·주화만 획득하고 경험치는 0. Lv.1~4는 3마리마다, Lv.5~9는 5마리마다, Lv.10부터는 7마리마다 레벨업! 레벨업 시 최대 HP +5, 현재 HP 완전히 회복. 룬 자체 레벨과는 별개이며 자동 저장됩니다.</span></div><div><b>🎴 시작 / 덱</b><span>초기 5개(3종 이상, 중복 가능), 매 턴 보유 룬 중 3~5개 선택(같은 룬 최대 3개).</span></div><div><b>⚔ 보상 드롭</b><span>운이 좋으면 모험 중 특별한 룬을 얻을 수 있을 거야. 레벨업 룬은 보유 룬을 강화해. 방패와 회복 룬은 레벨업 불가 · 새싹검은 회복량 고정.</span></div><div><b>🪓 PERFECT 방어구 균열</b><span>독을 제외한 공격 무기 직접 피해 +30%. 검 PERFECT·총 헤드샷 등 미니게임 최고 판정이 HP에 적중하면 균열 +1. 이후 공격마다 누적 균열 수치만큼 추가 피해. 독 직접·지속 피해는 추가 30% 하향, 균열 효과 없음.</span></div><div><b>✨ 인챈트</b><span>일반 강화는 레벨업 룬으로 통일. 희귀 인챈트와 중복되지 않으며, 지하 1층~4층에 특수 효과 총 15종이 등장해요. 전격 10% 마비·빙결 10% 지연·화염 지속 피해·흡혈 등의 효과를 보유 공격 룬에 영구 합성할 수 있어요. 룬 종류당 희귀 인챈트는 하나만 장착할 수 있습니다.</span></div><div><b>🛒 상점</b><span>소모품·룬 보물상자·1,650G 이상 특수 장비를 골드로 구매. 모든 상점 상품은 기존 가격의 3배. 상점 방문마다 일반 아이템 재고가 무작위로 바뀝니다. 보물상자에서 특별한 룬을 발견할 수도 있고, 빈 상자를 만날 수도 있습니다.</span></div><div><b>🔄 재회전</b><span>히든 룬: 회전검 연타 · 다이아 눈치게임 · 되감기 리듬 · 새싹 타이밍 · 심연 탄막 · 창 방패 절단(1초 준비, 적 방어막 무시) · 마검 5회 불빛 반응(매번 0.4초 이내, 방어막 없는 적에게 2/턴 출혈). 3층부터 일부 몬스터는 방어막 없는 방향에 출혈 공격을 사용합니다. 특수 룬/아이템의 재회전은 적 분노 100에서 중단되지만, 3개 이상 일치 자동 콤보는 분노와 횟수 제한 없이 계속됩니다.</span></div><div><b>🔊 전투 효과음</b><span>총은 파열음·저음·잔향을 겹친 음향, 일치 보너스는 전용 팬파레가 나오며 적 공격·방어와 인챈트도 별도 소리가 납니다. 상단 🔊 버튼으로 켜고 끌 수 있어요.</span></div><div><b>🎯 약점 발견 · ◆ 전투 주화 제한</b><span>몬스터 약점은 처음에는 ??로 표시되며 약점 무기로 실제 HP 피해를 주면 발견됩니다. 몬스터 한 마리당 주화 획득은 룬·승리 보상·이자·전리품 보상 합계 최대 200G입니다. 일반 몬스터의 HP는 간소화된 층 구성에 맞춰 조정됐고, 강적은 별도의 체력을 가집니다. 주화 룬은 3상자 중 하나를 골라 당첨이면 큰 보상, 꽝이어도 소액의 주화를 받습니다. 보스 앞에서 순회할 층을 선택하고 하위 층을 파밍한 뒤 보스로 돌아올 수 있습니다.</span></div><div><b>✦ 수학 관문</b><span>총 5개 층(B1~4F) · 보스를 격파하고 인수분해 관문을 통과하면 다음 장 해금. 해금한 층은 지도에서 여러 번 탐험할 수 있습니다.</span></div><div><b>💫 수학 부활 · ☠ 사망 패널티</b><span>전투나 지도 사건에서 HP가 0이 되면 즉시 보유 주화의 50%를 잃습니다(홀수 주화는 남는 금액을 내림). 인수분해 문제 정답 시 HP를 완전 회복하고 재도전 또는 해금 층 순회를 선택합니다. 잃은 주화는 돌려받지 않습니다. 3문제 연속 오답이면 모험 종료, 1층부터 다시 시작. 같은 몬스터의 200G 획득 상한은 유지됩니다.</span></div></div><div class="tool-actions">'+(s?'<button class="btn-secondary" data-action="records">▤ 룬·인챈트 확인</button>':'')+'<button class="btn-secondary" data-action="codex">📜 룬 도감 15종</button><button class="btn-secondary" data-action="enchant-codex">✨ 희귀 인챈트 15종</button>'+'<div class="smallnote">💾 진행 상황은 이 기기의 브라우저에 자동 저장됩니다. 새로고침 후 이어서 플레이할 수 있으며, 전투 중에는 현재 턴의 시작 지점으로 복귀합니다. 브라우저 데이터 삭제·시크릿 모드·기기 변경 시 저장이 유지되지 않을 수 있습니다.</div>'+'<button class="btn-secondary" data-action="sound-gallery">🔊 효과음 들어보기</button><button class="btn-secondary" data-action="tutorial-replay">📖 튜토리얼</button><button class="btn-primary" data-action="close-tools">닫기</button></div></div>');
+ showModal('<div class="mini-screen"><div class="eyebrow">HOW TO PLAY</div><h2>ⓘ 게임 안내</h2><div class="help-grid"><div><b>🎰 최대 5칸 슬롯</b><span>지하 1층 3칸 · 1층 4칸 · 2~4층 5칸. 같은 룬 3개 이상 일치하면 해당 칸만 자동 재회전하며, 다시 일치하면 같은 룬이 다시 3개 이상 모이면 콤보가 계속됩니다. 첫 회전에서 나온 룬은 직접 미니게임, 재회전으로 나온 룬은 자동으로 중간 판정(방패는 좌·중·우 분배)으로 발동합니다. 2~5개 일치 보너스(×1.2~×1.5) 및 전 칸 일치 +0.2배는 유지합니다.</span></div><div><b>✦ 모험가 레벨 · 경험치</b><span>현재 최고 해금 층에서 몬스터 처치 시 경험치 +1 (보스 포함). 하위 층 재탐험은 룬·아이템·주화만 획득하고 경험치는 0. Lv.1~4는 3마리마다, Lv.5~9는 5마리마다, Lv.10부터는 7마리마다 레벨업! 레벨업 시 최대 HP +5, 현재 HP 완전히 회복. 룬 자체 레벨과는 별개이며 자동 저장됩니다.</span></div><div><b>🎴 시작 / 덱</b><span>초기 5개(3종 이상, 중복 가능), 매 턴 보유 룬 중 3~5개 선택(같은 룬 최대 3개).</span></div><div><b>⚔ 보상 드롭</b><span>운이 좋으면 모험 중 특별한 룬을 얻을 수 있을 거야. 레벨업 룬은 보유 룬을 강화해. 방패와 회복 룬은 레벨업 불가 · 새싹검은 회복량 고정.</span></div><div><b>🪓 PERFECT 방어구 균열</b><span>독을 제외한 공격 무기 직접 피해 +30%. 검 PERFECT·총 헤드샷 등 미니게임 최고 판정이 HP에 적중하면 균열 +1. 이후 공격마다 누적 균열 수치만큼 추가 피해. 독 직접·지속 피해는 추가 30% 하향, 균열 효과 없음.</span></div><div><b>✨ 인챈트</b><span>일반 강화는 레벨업 룬으로 통일. 희귀 인챈트와 중복되지 않으며, 지하 1층~4층에 특수 효과 총 15종이 등장해요. 전격 10% 마비·빙결 10% 지연·화염 지속 피해·흡혈 등의 효과를 보유 공격 룬에 영구 합성할 수 있어요. 룬 종류당 희귀 인챈트는 하나만 장착할 수 있습니다.</span></div><div><b>🛒 상점</b><span>소모품·룬 보물상자·1,650G 이상 특수 장비를 골드로 구매. 모든 상점 상품은 기존 가격의 3배. 상점 방문마다 일반 아이템 재고가 무작위로 바뀝니다. 보물상자에서 특별한 룬을 발견할 수도 있고, 빈 상자를 만날 수도 있습니다.</span></div><div><b>🔄 재회전</b><span>히든 룬: 회전검 연타 · 다이아 눈치게임 · 되감기 리듬 · 새싹 타이밍 · 심연 탄막 · 창 방패 절단(1초 준비, 적 방어막 무시) · 마검 5회 불빛 반응(매번 0.4초 이내, 방어막 없는 적에게 2/턴 출혈). 3층부터 일부 몬스터는 방어막 없는 방향에 출혈 공격을 사용합니다. 특수 룬/아이템의 재회전은 적 분노 100에서 중단되지만, 3개 이상 일치 자동 콤보는 분노와 횟수 제한 없이 계속됩니다.</span></div><div><b>🔊 전투 효과음</b><span>총은 파열음·저음·잔향을 겹친 음향, 일치 보너스는 전용 팬파레가 나오며 적 공격·방어와 인챈트도 별도 소리가 납니다. 상단 🔊 버튼으로 켜고 끌 수 있어요.</span></div><div><b>🎯 약점 발견 · ◆ 전투 주화 제한</b><span>몬스터 약점은 처음에는 ??로 표시되며 약점 무기로 실제 HP 피해를 주면 발견됩니다. 몬스터 한 마리당 주화 획득은 룬·승리 보상·이자·전리품 보상 합계 최대 200G입니다. 일반 몬스터의 HP는 간소화된 층 구성에 맞춰 조정됐고, 강적은 별도의 체력을 가집니다. 주화 룬은 3상자 중 하나를 골라 당첨이면 큰 보상, 꽝이어도 소액의 주화를 받습니다. 보스 앞에서 순회할 층을 선택하고 하위 층을 파밍한 뒤 보스로 돌아올 수 있습니다.</span></div><div><b>✦ 수학 관문</b><span>총 5개 층(B1~4F) · 보스를 격파하고 인수분해 관문을 통과하면 다음 장 해금. 해금한 층은 지도에서 여러 번 탐험할 수 있습니다.</span></div><div><b>💫 수학 부활 · ☠ 사망 패널티</b><span>전투나 지도 사건에서 HP가 0이 되면 즉시 보유 주화의 50%를 잃습니다(홀수 주화는 남는 금액을 내림). 인수분해 문제 정답 시 HP를 완전 회복하고 재도전 또는 해금 층 순회를 선택합니다. 잃은 주화는 돌려받지 않습니다. 3문제 연속 오답이면 모험 종료, 1층부터 다시 시작. 같은 몬스터의 200G 획득 상한은 유지됩니다.</span></div></div><div class="tool-actions">'+(s?'<button class="btn-secondary" data-action="records">▤ 룬·인챈트 확인</button>':'')+'<button class="btn-secondary" data-action="codex">📜 룬 도감 15종</button><button class="btn-secondary" data-action="enchant-codex">✨ 희귀 인챈트 15종</button>'+'<div class="smallnote">💾 진행 상황은 이 기기의 브라우저에 자동 저장됩니다. 새로고침 후 이어서 플레이할 수 있으며, 전투 중에는 현재 턴의 시작 지점으로 복귀합니다. 브라우저 데이터 삭제·시크릿 모드·기기 변경 시 저장이 유지되지 않을 수 있습니다.</div>'+'<button class="btn-secondary" data-action="sound-gallery">🔊 효과음 들어보기</button><button class="btn-secondary" data-action="tutorial-replay">📖 튜토리얼</button><button class="btn-primary" data-action="close-tools">닫기</button></div></div>');
 }
 // Optional sound check accessible from help: no external audio files or network required.
 let runeCodexTab=0;
