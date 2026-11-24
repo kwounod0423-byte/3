@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>V114 · 폐허의 슬롯 던전</title>
+<title>V119 · 폐허의 슬롯 던전</title>
 <style>
 .v39-preview-actions{display:flex;flex-wrap:wrap;gap:7px;padding:4px 10px 12px;}
 .v39-preview-actions button{font-size:11px;padding:7px 9px;border:1px solid #789f8a;border-radius:7px;background:#1a3236;color:#c3f4db;cursor:pointer;}
@@ -2415,6 +2415,14 @@ body{touch-action:manipulation}
 @media(max-height:540px){.vn-memory-prop{top:18%}.vn-memory-emoji{font-size:34px}.vn-memory-label{font-size:8px}}
 @media(prefers-reduced-motion:reduce){.vn-stage.memory-enter,.vn-stage.memory-exit{animation:none}}
 
+/* V119 · The final boss rescue is a story-only overlay; battle UI remains V110 original. */
+.vn-stage.final-rescue{background:radial-gradient(circle at 57% 33%,#73639a,#3f345e 52%,#1b1d36 100%);box-shadow:inset 0 0 26px #b5a4f957}
+.vn-stage.final-rescue::before{inset:12% 12% 14%;border:7px solid #b4a6cb;border-bottom-color:#d4bd86;border-radius:12px;background:linear-gradient(125deg,#151830,#403552 62%,#21172e);box-shadow:0 0 22px #b6a0ee55,inset 0 0 21px #f3ddba44}
+.vn-stage.final-rescue::after{content:'✦   ✦   ✦';left:0;right:0;top:9%;bottom:auto;text-align:center;font-size:clamp(25px,6vw,47px);color:#f6dbb5aa;text-shadow:0 0 23px #e7aaff;z-index:1;pointer-events:none}
+.vn-stage.final-rescue.rescue-awaken{box-shadow:inset 0 0 57px #fae8b06e,0 0 22px #b6a2fb66}
+.vn-stage.final-rescue .vn-person.seung{filter:drop-shadow(0 0 15px #ffe9ba)}
+.final-rescue-banner{border:1px solid #d9b582;border-radius:10px;background:linear-gradient(105deg,#3d3143,#252c3d);color:#ffe5aa;padding:9px 12px;margin:8px 0;display:flex;flex-direction:column;gap:3px;font-size:13px}
+.final-rescue-banner span{color:#f2dfc5;font-size:12px}
 </style>
 </head>
 <body>
@@ -2425,13 +2433,13 @@ body{touch-action:manipulation}
     <div class="machine-head"><div class="floor" id="floor-name">FLOOR 01 · 균열의 초원</div><div class="battle-no mono" id="battle-no">ENCOUNTER 1 / 3</div></div>
     <div class="screen-grid">
       <section class="viewport" id="scene-wrap"><canvas id="scene" width="720" height="290" aria-label="전투 중인 몬스터의 그림"></canvas><div id="story-ally" class="story-ally" hidden><div class="story-ally-copy"><strong>박승휘 · 함께 탐험</strong><span>“공격 방향을 잘 봐!”</span></div></div><div class="enemy-speech-bubble" id="enemy-speech-bubble" role="status" aria-live="polite" hidden></div><div class="aim-layer hidden" id="aim-layer"><div class="aim-zone head" id="aim-head"><span>HEAD 35</span></div><div class="aim-zone body" id="aim-body"><span>BODY 9</span></div><div class="crosshair" id="crosshair"><div class="dot"></div></div></div><div class="skill-panel hidden" id="skill-panel" aria-live="polite"></div><div class="combat-toast" id="combat-toast" role="status" aria-live="polite"></div><div class="element-procs" id="element-procs" role="status" aria-live="polite" aria-atomic="false"></div><span class="coin-reward" id="coin-reward" aria-live="polite"></span><div id="heal-feedback" class="heal-feedback" role="status" aria-live="polite" aria-atomic="true"></div><span class="scene-label" id="scene-label">MONSTER APPROACHING</span><div class="enemy-name" id="enemy-name">이끼 고블린</div></section>
-      <aside class="side-panel"><div><div class="status-name">ENEMY LIFE</div><div class="status-row"><span>생명력</span><b id="enemy-hp">40 / 40</b></div><div class="meter"><div class="fill" id="enemy-hp-fill"></div></div></div><div class="player-hp"><div class="hp-icon">♥</div><div class="player-hp-info"><div class="status-row" style="margin:0"><span>모험가 HP</span><b id="player-hp">68 / 68</b></div><div class="meter player-meter"><div id="player-hp-fill" class="fill player"></div></div><div class="player-xp-head"><span>✦ 모험가 <strong id="xp-level">Lv.1</strong></span><span id="xp-value">경험치 0 / 3</span></div><div class="player-xp-meter" role="progressbar" aria-label="플레이어 경험치" aria-valuemin="0" aria-valuemax="3" aria-valuenow="0" id="player-xp-meter"><div id="xp-fill" class="player-xp-fill"></div></div></div></div><div><div class="status-row"><span>적 상태</span><span class="tiny" id="enemy-status">정상</span></div><div class="shield-txt" id="enemy-shield">방어막 0</div><div id="enemy-weakness-v38" class="enemy-weakness-v38">🎯 약점: ??</div><div id="battle-coin-limit-v50" class="battle-coin-limit-v50">◆ 이번 몬스터 획득 0 / 200G</div></div><div class="aggro-box" id="aggro-box" aria-label="3개 일치 자동회전 분노"><div class="aggro-label"><b>💢 자동회전 분노</b><strong id="aggro-value">0 / 60</strong></div><div class="aggro-meter"><div class="aggro-fill" id="aggro-fill"></div></div><small>자동 재회전 6회째 중단 · 공격력 66 반격!</small></div></aside>
+      <aside class="side-panel"><div><div class="status-name">ENEMY LIFE</div><div class="status-row"><span>생명력</span><b id="enemy-hp">40 / 40</b></div><div class="meter"><div class="fill" id="enemy-hp-fill"></div></div></div><div class="player-hp"><div class="hp-icon">♥</div><div class="player-hp-info"><div class="status-row" style="margin:0"><span>모험가 HP</span><b id="player-hp">68 / 68</b></div><div class="meter player-meter"><div id="player-hp-fill" class="fill player"></div></div><div class="player-xp-head"><span>✦ 모험가 <strong id="xp-level">Lv.1</strong></span><span id="xp-value">경험치 0 / 3</span></div><div class="player-xp-meter" role="progressbar" aria-label="플레이어 경험치" aria-valuemin="0" aria-valuemax="3" aria-valuenow="0" id="player-xp-meter"><div id="xp-fill" class="player-xp-fill"></div></div></div></div><div><div class="status-row"><span>적 상태</span><span class="tiny" id="enemy-status">정상</span></div><div class="shield-txt" id="enemy-shield">방어막 0</div><div id="enemy-weakness-v38" class="enemy-weakness-v38">🎯 약점: ??</div><div id="battle-coin-limit-v50" class="battle-coin-limit-v50">◆ 이번 몬스터 획득 0 / 200G</div></div><div class="aggro-box" id="aggro-box" aria-label="3개 일치 자동회전 분노"><div class="aggro-label"><b>💢 자동회전 분노</b><strong id="aggro-value">0 / 80</strong></div><div class="aggro-meter"><div class="aggro-fill" id="aggro-fill"></div></div><small>자동 재회전 8회째 중단 · 공격력 66 반격!</small></div></aside>
     </div>
     <div class="playerstrip"><div class="player-bleed-notice" id="player-bleed-notice" role="status" hidden>🩸 출혈</div><div class="guard-hud" id="guard-hud"><div class="guard-hud-title">⬡ 방향 방어막 <b id="player-shield">0</b></div><div class="guard-hud-lanes"><span id="guard-0">← 0</span><span id="guard-1">↑ 0</span><span id="guard-2">→ 0</span></div></div><div class="hud-num">턴<strong id="turn-count">0</strong></div><div class="hud-num">점수<strong id="score-count">0</strong></div></div>
     <section class="reel-module"><div class="reel-header"><b>✦ BRASS SLOT ✦</b><strong id="combo-counter" class="combo-counter" aria-live="polite" hidden>⚡ COMBO 0</strong><span id="reel-status">SPACE 키로 슬롯을 정지시키세요</span></div><div class="rune-prep" id="rune-prep"></div><div class="reels" id="reels" data-count="3"></div><div id="match-burst" class="match-burst" aria-live="polite" aria-atomic="true"></div><div class="reel-controls"><button class="btn-primary" id="spin-btn" data-action="spin">▶ SPIN</button><button class="btn-secondary" id="auto-btn" data-action="autostop" disabled>자동 정지</button></div><div class="respin-choice hidden" id="respin-choice" role="group" aria-label="턴 종료 전 재회전 선택"></div><div id="hint">첫 슬롯은 직접 미니게임 · 재회전으로 나온 룬은 기를 모아 자동 시전! · COMBO 연쇄</div></section>
   </main>
   <details class="battle-details" hidden><summary>▣ 보유 룬 · 전투 기록 펼치기</summary><div class="bottom-grid"><section class="panel"><h3>▣ 보유 룬 · 업그레이드</h3><div class="loadout" id="loadout"></div></section><section class="panel"><h3>▣ 전투 기록</h3><div class="log" id="log" aria-live="polite"><div>모험가를 기다리고 있습니다.</div></div></section></div></details>
-  <details class="guide-details" hidden><summary>ⓘ 게임 가이드</summary><div class="guide">🩸 3층부터 일부 몬스터의 출혈 공격: 공격받는 방향의 방어막이 0이면 3턴간 매 턴 HP −2 · 🔱 희귀 창은 방패 절단 드래그, 적 방어막 무시 · 🗡️ 마검은 적 방어막 0일 때 출혈 · 🗺 지도에서 경로 선택 · 🛒 상점 칸에서 소모품·고가 보물상자·특수 장비 구매 · 운이 좋으면 모험 중 특별한 룬을 얻을 수 있을 거야. · 🗡️ 회전검 기본 7 피해 + 타격 연출 후 느린 재회전 · 💎 다이아 자기 슬롯 재회전 · 🔄 되감기 왼쪽 2칸 슬롯 · 모험 중에 새로운 룬을 발견할 수 있음 · 한 몬스터당 전투 골드 획득 최대 200G · 해금한 층은 반복 탐험 가능 (하위 층은 경험치 없음) · 고가 보물상자로 추가 획득 가능 · 같은 종류의 룬은 보유 1개만 가능 · 다른 종류의 룬을 수집해 전략 확장 · Lv.은 그대로 · 특수 재회전은 적 분노 100에서 중단 · 3개 일치 자동 콤보는 6회째 66 공격력 반격으로 중단 · 고정 룬 없음 · 매 턴 3~5개 룬 선택 · 서로 다른 룬 최소 3종 · 상점에서 일회용 아이템 구매 후 전투에서 사용 · 미사용 골드 10% 전투 승리 이자 (최대 25G) · 검 최대 18 · 총 최대 52 · 마법 최대 30 (모두 Lv.1 기준, 레벨업 시 증가) · 망치 적중 시 공격력 반감 · 독 제한 6초 · 오답 클릭 즉시 종료 · 즉시·지속 피해 이전의 20% · 검 F · 총 F · 망치 1~5 · 마법 7문양 암기 · 동일 룬 2~5개 보상 ×1.2~×1.5 · 3개 이상 일치 시 6회째 중단 · 몬스터 66 반격 · 지하 1층 3칸 → 1층 4칸 → 2~4층 5칸 · 보스 후 인수분해</div></details>
+  <details class="guide-details" hidden><summary>ⓘ 게임 가이드</summary><div class="guide">🩸 3층부터 일부 몬스터의 출혈 공격: 공격받는 방향의 방어막이 0이면 3턴간 매 턴 HP −2 · 🔱 희귀 창은 방패 절단 드래그, 적 방어막 무시 · 🗡️ 마검은 적 방어막 0일 때 출혈 · 🗺 지도에서 경로 선택 · 🛒 상점 칸에서 소모품·고가 보물상자·특수 장비 구매 · 운이 좋으면 모험 중 특별한 룬을 얻을 수 있을 거야. · 🗡️ 회전검 기본 7 피해 + 타격 연출 후 느린 재회전 · 💎 다이아 자기 슬롯 재회전 · 🔄 되감기 왼쪽 2칸 슬롯 · 모험 중에 새로운 룬을 발견할 수 있음 · 한 몬스터당 전투 골드 획득 최대 200G · 해금한 층은 반복 탐험 가능 (하위 층은 경험치 없음) · 고가 보물상자로 추가 획득 가능 · 같은 종류의 룬은 보유 1개만 가능 · 다른 종류의 룬을 수집해 전략 확장 · Lv.은 그대로 · 특수 재회전은 적 분노 100에서 중단 · 3개 일치 자동 콤보는 8회째 66 공격력 반격으로 중단 · 고정 룬 없음 · 매 턴 3~5개 룬 선택 · 서로 다른 룬 최소 3종 · 상점에서 일회용 아이템 구매 후 전투에서 사용 · 미사용 골드 10% 전투 승리 이자 (최대 25G) · 검 최대 18 · 총 최대 52 · 마법 최대 30 (모두 Lv.1 기준, 레벨업 시 증가) · 망치 적중 시 공격력 반감 · 독 제한 6초 · 오답 클릭 즉시 종료 · 즉시·지속 피해 이전의 20% · 검 F · 총 F · 망치 1~5 · 마법 7문양 암기 · 동일 룬 2~5개 보상 ×1.2~×1.5 · 3개 이상 일치 시 8회째 중단 · 몬스터 66 반격 · 지하 1층 3칸 → 1층 4칸 → 2~4층 5칸 · 보스 후 인수분해</div></details>
   <div id="combat-flash" aria-hidden="true"></div>
  <div id="practice-toolbar" class="practice-toolbar hidden" role="group" aria-label="미니게임 연습 조작"><span id="practice-caption">🎮 연습 중 · 저장 기록 불변</span><button type="button" data-action="practice-menu">🎴 다른 룬</button><button type="button" data-action="practice-exit">↩ 모험으로</button></div>
  <div id="new-adventure-confirm" class="reset-confirm hidden" role="alertdialog" aria-modal="true" aria-labelledby="reset-confirm-title" aria-describedby="reset-confirm-text">
@@ -2452,7 +2460,7 @@ const R={
  gun:{icon:'🔫',name:'총',color:'#ffd58b',desc:'넓어진 조준 범위 · 몸통 및 헤드샷 피해 30% 증가'},
  venom:{icon:'☣',name:'독날',color:'#a7d97a',desc:'6초간 틀린 그림 5곳 찾기 · 오답 즉시 종료 · 독 피해 추가 30% 하향'},
  shield:{icon:'⬡',name:'방패',color:'#9bd8e2',desc:'방어막은 선택한 방향만 보호 · Lv.1 고정 (레벨업 불가)'},
- hammer:{icon:'⚒',name:'전투망치',color:'#e9ab74',desc:'몇 번째 균열이든 맞히면 PERFECT · 균열이 나타난 직후 누를수록 높은 점수 · 빗나감 최소 1 피해 · 정타 시 적 공격 피해 50% 감소'},
+ hammer:{icon:'⚒',name:'전투망치',color:'#e9ab74',desc:'피해 1~10 · 적 공격 피해 50% 감소 · 2턴 지속 · 정타 시 약화 발동 (Lv.1) · 자동 재회전은 5 피해'},
  coin:{icon:'◆',name:'주화',color:'#f8d16d',desc:'3개 상자 중 하나 선택 · 당첨 38G / 꽝도 10G (Lv.1)'},
  heal:{icon:'✚',name:'회복',color:'#edae9d',desc:'맥박 타이밍으로 HP 회복 · Lv.1 고정 (레벨업 불가)'},
  flame:{icon:'✹',name:'마법',color:'#df94f9',desc:'7문양 모두 성공: Lv.1 최대 30 마법 피해 · 룬 레벨마다 최대 +5'},
@@ -2483,7 +2491,7 @@ function damageCap(id,lv=1){
  return base==='gun'?Math.round(raw*GUN_DAMAGE_MULTIPLIER):base==='flame'?raw/WEAPON_DAMAGE_MULTIPLIER:raw;
 }
 const BALANCE={blade:[6,2],gun:[9,2],venom:[2,1],poison:[2,1],hammer:[1,0],flame:[25,5],spinblade:[7,1],diamond:[4,2],moss:[7,1],void:[12,3],spear:[10,4],darkblade:[5,3]};
-const SPECIAL_DAMAGE={bladePerfect:[18,4],gunHeadshot:[35,7],hammerAccurate:[15,3],poisonPerDifference:3};
+const SPECIAL_DAMAGE={bladePerfect:[18,4],gunHeadshot:[35,7],hammerAccurate:[10,2],poisonPerDifference:3};
 function magicFullDamage(level){
  // Reverse both retained V101 magic nerf and the normal weapon multiplier
  // so all 7 correct symbols can actually reach the FINAL 30 damage at Lv.1.
@@ -2789,7 +2797,7 @@ const STAGE_ENCHANTS=[
  {id:'swordmaster',floor:0,icon:'💪',name:'검 공격력 강화',target:'blade',desc:'검의 모든 베기 피해 +30% (약한 베기·PERFECT 포함)',group:'strength'},
  {id:'shieldcore',floor:0,icon:'🛡️',name:'방어막 강화',target:'shield',desc:'방패 생성량 +50%, 해당 방향 방어막 최대 28→40',group:'strength'},
  {id:'gunmaster',floor:1,icon:'🔱',name:'총 공격력 강화',target:'gun',desc:'총 몸통 및 헤드샷 피해 +30%',group:'strength'},
- {id:'hammermaster',floor:1,icon:'🔨',name:'망치 공격력 강화',target:'hammer',desc:'전투망치 피해 +30%, 적 공격력 약화 효과도 유지',group:'strength'},
+ {id:'hammermaster',floor:1,icon:'🔨',name:'망치 공격력 강화',target:'hammer',desc:'전투망치 피해 +30%, 적 공격 피해량 −50% (2턴) 유지',group:'strength'},
  {id:'venommaster',floor:2,icon:'🧪',name:'중독 강화',target:'venom',desc:'독날 즉시 피해 +30%, 중독 턴당 피해 +30%',group:'strength'},
  {id:'healmaster',floor:2,icon:'💚',name:'회복 강화',target:'heal',desc:'회복 룬의 미니게임 최종 회복량 +35%',group:'strength'},
  {id:'magicmaster',floor:3,icon:'🔮',name:'마법 공격력 강화',target:'flame',desc:'마법 부분 성공·완벽 성공 피해 모두 +30%',group:'strength'},
@@ -2899,7 +2907,7 @@ const TUTORIAL_RUNE_GUIDE={
  gun:'0~52 피해',
  venom:'즉시 0~1 피해 · 중독 0~3/턴 · 오답 즉시 종료',
  shield:'방어막 +6',
- hammer:'정타면 언제든 PERFECT · 균열이 나타난 직후 누를수록 고득점 · 정타 시 적 공격력 −50%',
+ hammer:'피해 1~10 · 적 공격 피해 50% 감소 · 2턴 지속 · 정타 시 발동 (Lv.1)',
  coin:'10~38G 획득 · 상자 3개 중 1개 당첨',
  heal:'HP 1~5 회복',
  flame:'0~30 마법 피해',
@@ -2917,7 +2925,7 @@ const TUTORIAL_START_RUNE_MINIGAMES={
  gun:'<strong>미니게임:</strong> 조준점 맞혀 쏘기<br>0~52 피해',
  venom:'<strong>미니게임:</strong> 다른 그림 찾기<br>중독 0~3/턴',
  shield:'<strong>미니게임:</strong> 공격 방향 막기<br>방어막 +6',
- hammer:'<strong>미니게임:</strong> 움직이는 균열 정확히 맞히기<br>첫 두 균열을 놓쳐도 세 번째 정타는 PERFECT · 균열마다 속도 점수',
+ hammer:'<strong>미니게임:</strong> 움직이는 균열 정확히 맞히기<br>피해 1~10 · 적 공격 피해 50% 감소 · 2턴 지속 (Lv.1)<br>앞의 두 균열을 놓쳐도 세 번째 정타는 PERFECT',
  coin:'<strong>미니게임:</strong> 상자 1개 고르기<br>주화 10~38G',
  heal:'<strong>미니게임:</strong> 박동 타이밍<br>HP 1~5 회복',
  flame:'<strong>미니게임:</strong> 문양 순서 기억<br>0~30 마법 피해'
@@ -2960,12 +2968,15 @@ const MAGIC_PREVIEW_MS=770;
 const RESPIN_POWER_PRICE=38;
 const RESPIN_USE_PRICE=10;
 const CHAIN_LIMIT=16;
-// V114: A natural three-of-a-kind cascade adds exactly 10 fury per reroll,
-// regardless of how many reels are spinning. The sixth spin is allowed to land,
-// but its newly rolled actions are interrupted by a single 66-power retaliation.
+// V115: A natural three-of-a-kind cascade adds exactly 10 fury per reroll,
+// regardless of how many reels are spinning. The eighth spin lands,
+// then its newly rolled actions are interrupted by a single 66-power retaliation.
 const COMBO_RAGE_PER_REROLL=10;
-const COMBO_RAGE_MAX=60;
+const COMBO_RAGE_MAX=80;
 const COMBO_COUNTERATTACK_POWER=66;
+// Only the charged one-hit boss move is capped; ordinary boss attacks stay intact.
+// Indices 3/4 = 3F/4F. These values are pre-shield, unweakened hit damage.
+const BOSS_CHARGED_ATTACK_DAMAGE={3:66,4:99};
 function aggroPerReel(){return 12+Math.min(12,s.stage*2)+(s.fight===2?4:0);}
 function extraCapacity(id){return MAX_DECK;}
 function deckCount(arr,id){return arr.filter(x=>x===id).length;}
@@ -3571,7 +3582,7 @@ function restoreSavedGame(){
     s.enemy.max=nextMax;
    }
   }
-  s.hpBalanceVersion=95;
+  s.hpBalanceVersion=95;s.finalRescueUsed=!!s.finalRescueUsed;
   // V98 save upgrade: adjust a saved 1F non-boss battle exactly once.
   if((Number(s.attackBalanceVersion)||0)<98&&s.view==='fight'&&s.enemy&&s.stage===1&&s.fight!==2){
    const lastIndex=STAGES[1].enemies.length-1;
@@ -3745,11 +3756,11 @@ function showTutorial(step,returnToGame=tutorialReturn){
  if(n===2)body='<div class="tutorial-quote"><b>박승휘:</b> “마지막은 방패야! <b>몬스터 왼쪽에 뜨는 말풍선</b>을 봐. 공격할 방향이랑 피해가 보이지? <b>그 방향에 방패를 세워!</b>”</div>'+tutorialDefenseMarkup();
  if(n===3)body='<div class="tutorial-quote"><b>박승휘:</b> “첫 번째는 <b>⚔ 검 룬</b>! 몬스터가 보이지? <b>게이지 70% 이상</b>일 때 눌러서 직접 베어 봐!”</div>'+tutorialPracticeMarkup('sword');
  if(n===4)body='<div class="tutorial-quote"><b>박승휘:</b> “다음은 <b>🔫 총 룬</b>이야! 움직이는 조준점을 보고 <b>몬스터의 머리나 몸통</b>에 들어왔을 때 발사해 봐!”</div>'+tutorialPracticeMarkup('gun');
- if(n===8)body='<div class="tutorial-quote"><b>박승휘:</b> “잘했어! <b>같은 룬이 3개 이상</b> 나오면 그 룬을 사용한 뒤 <b>일치한 슬롯만</b> 자동 재회전해. 다른 칸은 고정이야! 새로 나온 룬들은 <b>미니게임 없이 자동 시전</b>이야! 단, 6번째 자동 재회전에는 분노가 60이 돼서 몬스터가 <b>공격력 66으로 반격</b>해.”</div><div class="tutorial-auto-demo"><div class="tutorial-match-reels"><span>⚔<small>검</small></span><span>⚔<small>검</small></span><span>⚔<small>검</small></span></div><div class="tutorial-auto-steps"><strong>⚡ 3개 이상 일치</strong><b>▼</b><strong>🔄 자동 재회전</strong><b>▼</b><strong>✨ 새 룬 자동 시전!</strong></div><p>재회전한 룬은 미니게임 없이 <b>공격 5 · 회복 2 · 주화 3G</b>!<br>⬡ 방패는 왼쪽·가운데·오른쪽에 <b>각각 +1</b> 자동 방어해.</p></div>';
+ if(n===8)body='<div class="tutorial-quote"><b>박승휘:</b> “잘했어! <b>같은 룬이 3개 이상</b> 나오면 그 룬을 사용한 뒤 <b>일치한 슬롯만</b> 자동 재회전해. 다른 칸은 고정이야! 새로 나온 룬들은 <b>미니게임 없이 자동 시전</b>이야! 하지만 자동 재회전마다 <b>분노가 10씩 쌓여!</b> 분노가 <b>80/80</b>이 되는 <b>8번째 자동 재회전</b>에는 몬스터가 연쇄를 끊고 <b>66 피해의 강력한 반격</b>을 해. 조심해!”</div><div class="tutorial-auto-demo"><div class="tutorial-match-reels"><span>⚔<small>검</small></span><span>⚔<small>검</small></span><span>⚔<small>검</small></span></div><div class="tutorial-auto-steps"><strong>⚡ 3개 이상 일치</strong><b>▼</b><strong>🔄 자동 재회전</strong><b>▼</b><strong>✨ 새 룬 자동 시전!</strong></div><p>재회전한 룬은 미니게임 없이 <b>공격 5 · 회복 2 · 주화 3G</b>!<br>⬡ 방패는 왼쪽·가운데·오른쪽에 <b>각각 +1</b> 자동 방어해.</p></div>';
  if(n===5)body='<div class="tutorial-starter-layout"><div class="tutorial-rune-grid tutorial-rune-starter-grid">'+TUTORIAL_START_RUNES.map(id=>'<div class="tutorial-rune-card"><span class="icon">'+runeVisual(id)+'</span><b>'+R[id].name+' 룬</b><small>'+TUTORIAL_START_RUNE_MINIGAMES[id]+'</small></div>').join('')+'</div></div>';
  if(n===6)body='<div class="tutorial-starter-layout"><div class="tutorial-rune-grid tutorial-rune-starter-grid tutorial-hidden-rune-grid">'+DROP_ONLY_RUNES.map(id=>'<div class="tutorial-rune-card"><span class="icon">'+runeVisual(id)+'</span><b>'+R[id].name+' 룬</b><small>'+TUTORIAL_HIDDEN_RUNE_GUIDE[id]+'</small></div>').join('')+'<div class="tutorial-rune-card tutorial-growth-card"><span class="icon">⬆️ ✨</span><b>성장과 특별한 힘</b><small><strong>레벨업 룬</strong> · 보유 룬 강화<br><strong>희귀 인챈트</strong> · 특수 효과 합성</small></div></div></div>';
  if(n===7)body='<p class="story">이제 모험을 떠나자.</p><div class="tutorial-path"><div><strong>⚔ 전투</strong><span>몬스터와 싸우는 곳</span></div><div><strong>🛒 상점</strong><span>물건을 사는 곳</span></div><div><strong>❔ 사건</strong><span>뜻밖의 일이 벌어지는 곳</span></div><div><strong>☠ 보스</strong><span>다음 층으로 가기 위한 강적</span></div></div>';
- const msg=n===1?(tutorialRolled?'✓ 검·총·방패 룬을 얻었어! 이제 검부터 써 보자.':'먼저 슬롯을 한 번 돌려 봐!'):n===2?(tutorialGuarded?'🛡 말풍선을 확인하고 방패로 공격을 막았어!':tutorialDefenseResult==='failed'?'공격 방향과 달랐어! 말풍선을 다시 보고 도전해 봐.':'몬스터 왼쪽 말풍선의 방향을 읽고 방패를 골라 봐.'):n===3?(tutorialSwordDone?'✓ 몬스터를 검으로 베었어! 다음은 총이야.':'전투 속 몬스터를 향해 검 공격을 해 봐.'):n===4?(tutorialGunDone?'✓ 몬스터에게 총을 맞혔어! 마지막은 방패야.':'몬스터의 머리나 몸통을 조준해서 쏴 봐.'):n===8?'3개 이상 일치하면 해당 슬롯만 재회전! 새 룬은 공격 5 · 회복 2 · 방어막 각 1 · 주화 3G로 자동 시전돼.':n===5?'이것들은 시작과 함께 고를 수 있는 룬들이야.':n===6?'이 특별한 룬들은 몬스터를 잡으면 일정 확률로 드랍돼.':'이제 모험을 떠날 준비가 끝났어.';
+ const msg=n===1?(tutorialRolled?'✓ 검·총·방패 룬을 얻었어! 이제 검부터 써 보자.':'먼저 슬롯을 한 번 돌려 봐!'):n===2?(tutorialGuarded?'🛡 말풍선을 확인하고 방패로 공격을 막았어!':tutorialDefenseResult==='failed'?'공격 방향과 달랐어! 말풍선을 다시 보고 도전해 봐.':'몬스터 왼쪽 말풍선의 방향을 읽고 방패를 골라 봐.'):n===3?(tutorialSwordDone?'✓ 몬스터를 검으로 베었어! 다음은 총이야.':'전투 속 몬스터를 향해 검 공격을 해 봐.'):n===4?(tutorialGunDone?'✓ 몬스터에게 총을 맞혔어! 마지막은 방패야.':'몬스터의 머리나 몸통을 조준해서 쏴 봐.'):n===8?'3개 이상 일치한 슬롯만 자동 재회전! 공격 5 · 회복 2 · 방어막 각 1 · 주화 3G. 분노 +10씩, 80 도달 시 66 강력 반격!':n===5?'이것들은 시작과 함께 고를 수 있는 룬들이야.':n===6?'이 특별한 룬들은 몬스터를 잡으면 일정 확률로 드랍돼.':'이제 모험을 떠날 준비가 끝났어.';
  const nav='<div class="tutorial-nav">'+(n!==TUTORIAL_FLOW[0]?'<button class="btn-secondary" data-action="tutorial-prev">◀ 이전</button>':'')+'<button class="btn-primary" data-action="'+(n===7?'tutorial-finish':'tutorial-next')+'" '+(!canNext?'disabled':'')+'>'+(n===7?(tutorialReturn?'게임으로 돌아가기':'내 룬을 선택하고 출발 ▶'):n===1?'검 룬 연습하기 ▶':n===3?'총 룬 연습하기 ▶':n===4?'방패 룬 연습하기 ▶':n===2?'자동 재회전 알아보기 ▶':n===8?'다른 룬도 알아보기 ▶':'다음 이야기 ▶')+'</button></div>';
  showModal('<div class="tutorial-screen" data-step="'+n+'"><div class="tutorial-top"><button type="button" data-action="story-cinema" aria-label="시나리오 감상 시작">📖 시나리오 감상</button><span>⚔ 승휘와 함께하는 첫 전투 · '+(TUTORIAL_FLOW.indexOf(n)+1)+' / '+TUTORIAL_FLOW.length+'</span><button data-action="tutorial-skip">'+(tutorialReturn?'닫기':'건너뛰기')+' ✕</button></div><h2>'+heading[n]+'</h2>'+body+'<div class="tutorial-message '+(canNext?'good':'')+'" id="tutorial-message">'+msg+'</div>'+progress+nav+'</div>');
 }
@@ -3896,9 +3907,10 @@ function renderStarter(){
  $('start-btn').disabled=!ok;
 }
 
-const STORY_SCENES={"b1_start":{"no":"PROLOGUE · 낯선 교실","title":"갑자기 뒤바뀐 세상","emoji":"🏫","tone":"school","where":"익숙하지만 낯선 학교 · 학창 시절","button":"몬스터와 맞서며 전투 배우기","lines":[["나레이션","한순간 세상이 뒤집혔다. 평범한 현실이 사라지고, 눈앞이 게임 속 학교로 바뀌었다. 권혁준은 이유도 모른 채 학창 시절의 교복을 입고 서 있었다."],["권혁준","“뭐야… 여긴 어디야? 잠깐, 이 교복은 뭐지? 내가 왜 다시 학생이 된 거야?”"],["나레이션","유리창에 비친 모습은 학창 시절의 권혁준이다. 학교는 분명 기억 속 모습 그대로인데, 사물 위로 이상한 숫자와 표시들이 떠오른다."],["박승휘","“혁준아!”"],["권혁준","“너 승휘야??”"],["나레이션","눈앞에 학창 시절의 절친인 박승휘가 있었다. 오랜만에 만난 친구와의 재회에 기뻐할 틈도 없이…"],["나레이션","복도 저편에서 끼이이익…… 무언가 문을 긁는 소리가 들렸다. 그 순간, **쾅!!** 교실 문이 부서지며 무시무시한 몬스터가 들이닥쳤다!"],["권혁준","“뭐야?! 문밖에 몬스터가 있어! 갑자기 왜 이런 게 튀어나오는 거야!”"],["박승휘","“너 예전에 우리가 같이하던 룬이랑 슬롯, 설마 잊은 건 아니지? 지금 설명할 테니까 잘 들어. 먼저 슬롯부터 돌려!”"]]},"b1_mid":{"no":"B1 · 함께 싸우는 법","title":"두 사람이 만든 콤보","emoji":"🎮","tone":"school","where":"지하 복도 · 첫 번째 전투 이후","button":"승휘와 다음 갈림길로","lines":[["박승휘","“방패는 몬스터가 노리는 방향에! 검은 정확한 순간에! 우리 옛날에도 이렇게 연습했잖아.”"],["권혁준","“이상하네. 분명 잊고 있었는데, 네 목소리를 들으니 손이 먼저 움직여.”"],["나레이션","뒤틀린 복도 끝에서 게임의 시작을 알리는 듯한 효과음이 울려 퍼졌다."]]},"floor1":{"no":"CHAPTER 1 · 1F","title":"계단에 남은 두 사람의 웃음","emoji":"🔎","tone":"hall","where":"1층 · 오래된 교실 앞 복도","button":"1층에서 승휘 찾기","lines":[["나레이션","지하 1층의 문이 열리자, 조금 전까지 곁에서 떠들던 박승휘가 감쪽같이 사라졌다. 낡은 계단에는 권혁준의 발소리만 울렸다."],["권혁준","“승휘야! 야, 장난치지 마. 방금까지 같이 있었잖아!”"],["나레이션","1층 복도 게시판에 삐뚤빼뚤한 낙서가 보였다. 우산 하나 아래에 꼭 붙어 선 두 사람. 한쪽 옆에는 작은 글씨로 ‘혁준 + 승휘’라고 적혀 있었다."],["권혁준","“이 그림… 설마 우리가 그린 거야?”"],["나레이션","순간 빗소리가 귀에 되살아났다. 학창 시절 어느 늦은 오후, 갑작스러운 소나기에 학교 현관 앞에서 발만 동동 구르던 날이었다."],["박승휘(회상)","“혁준아, 너 또 우산 안 챙겼냐? 어서 와. 오늘은 내가 특별히 태워 준다!”"],["권혁준(회상)","“야, 우산이 너무 작잖아. 네 어깨 다 젖겠다!”"],["나레이션","둘은 작은 우산을 억지로 나눠 썼다. 결국 둘 다 교복 어깨가 흠뻑 젖었지만, 집에 도착할 때까지 웃음이 그치지 않았다."],["권혁준","“그땐 비 좀 맞는 게 뭐가 그렇게 재미있었을까…. 너랑 있으면 별일도 다 추억이 됐지.”"],["나레이션","게시판 아래에는 낡은 종이 한 장이 매달려 있었다. 익숙한 글씨였다. ‘끝에 가면 그때의 약속을 기억할 거야.’"],["권혁준","“이 글씨, 분명 네 거야. 승휘야, 기다려. 이번에는 내가 너를 찾으러 갈게.”"],["나레이션","권혁준은 낙서를 한 번 더 바라본 뒤, 위층으로 이어진 계단을 올랐다. 잊고 지낸 웃음소리가 발걸음 뒤를 따라왔다."]]},"floor2":{"no":"CHAPTER 2 · 2F","title":"과학실에서 되살아난 목소리","emoji":"📻","tone":"class","where":"2층 · 둘이 짝이었던 과학실","button":"2층을 지나 계속 올라가기","lines":[["나레이션","2층 문을 여는 순간 희미한 알코올 냄새와 낡은 실험대가 눈에 들어왔다. 온통 몬스터로 뒤덮인 학교인데도, 이 교실만은 어딘가 평범한 방과 후 같았다."],["권혁준","“과학실… 여기서 승휘랑 같은 조였는데.”"],["나레이션","기억 속에서 두 사람은 실험대 앞에 나란히 서 있었다. 서로 자신만만하게 계산을 끝냈지만, 실험 용기에서는 예상치 못한 거품이 끝없이 올라왔다."],["박승휘(회상)","“야, 야! 혁준아! 이거 계산 맞다며! 우리 과학실 날려 버리는 거 아니냐?”"],["권혁준(회상)","“수치는 맞아! 아니, 잠깐… 네가 시약을 두 번 넣었잖아!”"],["나레이션","거품은 책상까지 넘쳤고, 두 사람은 웃음을 참느라 혼이 났다. 수업이 끝난 뒤에도 함께 남아 실험대를 닦았다."],["박승휘(회상)","“괜찮아. 같이 망쳤으니까 같이 치우면 되지. 대신 다음 실험은 네가 시약 넣어!”"],["권혁준","“항상 그랬지. 내가 실수하면 네가 웃어 줬고, 네가 실수하면 내가 옆에 있었어.”"],["나레이션","서랍을 열자 두 사람이 만든 공략 노트가 나왔다. 공책 모서리는 닳았고, 글씨는 서로 다른 필체로 빼곡했다."],["공략 노트","‘승휘: 방패는 왼쪽! / 혁준: 다음 턴엔 관통 조심. 우리 둘이면 무조건 이긴다.’"],["나레이션","뒷장에는 공략보다 더 큰 글씨가 있었다. ‘실패해도 둘이 하면 다시 시작할 수 있음.’ 오래전에 승휘가 장난처럼 적어 둔 문장이었다."],["권혁준","“그래… 우린 게임에서도 늘 다시 시작했어. 이번엔 네가 어디 있는지 꼭 알아낼 거야.”"],["나레이션","권혁준은 공략 노트를 가슴에 꼭 끌어안았다. 학교 종소리처럼 그리운 웃음이 멀어지고, 위층을 향한 계단이 모습을 드러냈다."]]},"floor3":{"no":"CHAPTER 3 · 3F","title":"방과 후, 우리만의 공략집","emoji":"💾","tone":"game","where":"3층 · 게임을 함께하던 교실","button":"체육관으로 이어지는 문 열기","lines":[["나레이션","3층 복도 끝에 낡은 컴퓨터 한 대가 놓여 있었다. 검은 화면에 오래전 두 사람이 즐기던 슬롯 던전의 제목이 천천히 떠올랐다."],["권혁준","“이거… 우리 둘이 정말 질리도록 하던 게임이잖아.”"],["나레이션","해가 지고 운동장 소리마저 사라지면, 둘은 교실에 남아 모니터 앞에 의자 하나를 더 끌어다 놓곤 했다."],["박승휘(회상)","“야, 이번에는 내 차례다! 너 아까도 검 미니게임 두 번 했어!”"],["권혁준(회상)","“대신 네가 방어 방향 알려 줬잖아. 이번 판만 더 하면 진짜 바꿔 줄게!”"],["나레이션","서로 차례를 빼앗고 놀리면서도, 어려운 몬스터 앞에서는 자연스럽게 힘을 합쳤다. 혁준은 피해량을 계산했고 승휘는 공격 패턴을 기억했다."],["박승휘(회상)","“너는 숫자 잘 보잖아. 난 몬스터 움직임 외울게. 그렇게 하면 못 깰 층이 없지!”"],["권혁준","“그래서 내가 아는 거였구나. 늑대의 연타, 리치의 봉인, 용의 브레스… 네가 몇 번이고 알려 줬던 거야.”"],["나레이션","책상 위 공략집에는 두 사람의 수정 흔적이 겹겹이 남아 있었다. 틀린 공략에는 굵은 줄이 그어졌고, 성공한 날에는 별표가 잔뜩 붙어 있었다."],["권혁준","“이 별표… 너랑 밤늦게 마지막 보스 깨고 그려 둔 거였지.”"],["나레이션","공략집 맨 뒷장에 전투와 상관없는 문장이 작게 적혀 있었다. ‘졸업해도 가끔은 같이 놀자. 우리가 어디에 있든.’"],["권혁준","“별거 아닌 약속이라고 생각했는데… 난 이런 것까지 잊고 살았네.”"],["낡은 게임의 안내문","‘마지막 저장 지점: 4층 체육관 방송실.’"],["권혁준","“승휘야, 거기에 있는 거지? 내가 지금 가고 있어. 이번에는 네 말을 끝까지 들어 줄게.”"],["나레이션","화면 속 저장 표시가 조용히 깜빡였다. 권혁준은 마지막 층을 향해 걸었다."]]},"floor4":{"no":"FINAL CHAPTER · 4F","title":"체육관 방송실의 오래된 약속","emoji":"🏟️","tone":"gym","where":"4층 · 체육관으로 향하는 복도","button":"4층 마지막 구역으로","lines":[["나레이션","마지막 층의 문이 열리자 멀리서 희미한 방송이 들렸다. 학생들의 환호, 체육관 바닥에 닿는 운동화 소리, 그리고 늦은 오후의 따뜻한 햇살."],["권혁준","“체육관… 여기까지 오니까 이상하게 하나도 낯설지 않네.”"],["나레이션","학창 시절 학교 행사가 있던 날, 방송실의 낡은 마이크가 갑자기 작동하지 않았다. 무대 뒤에서 당황한 혁준 옆으로 승휘가 달려왔었다."],["박승휘(회상)","“야, 혁준아! 너 혼자 다 하려고 하지 마. 마이크는 내가 볼게. 넌 준비한 거 잊지 말고!”"],["권혁준(회상)","“근데 네가 옆에 없으면 나 진짜 떨린다니까.”"],["박승휘(회상)","“그러니까 내가 옆에 있잖아. 빨리 가! 너라면 잘할 수 있어.”"],["나레이션","그날 행사는 무사히 끝났다. 학생들이 모두 돌아간 뒤에도 두 사람은 방송실에 남아 오늘 하루가 얼마나 재미있었는지 떠들었다."],["박승휘(회상)","“우리 여기다 이름 새길까? 졸업하고 나서도 왔다 갔던 거 기억나게.”"],["권혁준(회상)","“좋지. 근데 글씨 좀 똑바로 써. 네 이름이 지렁이 같아!”"],["나레이션","책상 아래에 나란히 새긴 이름. 그때는 다음 주에도, 다음 해에도 당연히 함께 웃을 거라고 믿었다."],["권혁준","“나는 결국 이 학교로 돌아와서 선생님이 됐는데… 정작 너랑 같이 있던 방송실에는 한 번도 안 와 봤구나.”"],["나레이션","발걸음을 옮길 때마다 기억이 또렷해졌다. 장난스러운 목소리, 함께 썼던 공략집, 어깨를 적시던 비까지. 모두 승휘가 있는 추억이었다."],["박승휘의 목소리","“혁준아. 그때 우리, 이름을 어디에 새기자고 했었지?”"],["권혁준","“체육관 방송실… 맞아. 나는 기억해. 이번에는 절대 잊지 않을게.”"],["나레이션","낡은 방송실 문틈에서 따뜻한 빛이 흘러나왔다. 권혁준은 숨을 고르고 마지막 문을 향해 손을 뻗었다."]]},"engrave":{"no":"THE END · 두 사람의 약속","title":"영원히 간직할 이름","emoji":"✍️","tone":"gym","where":"4층 · 체육관 방송실","button":"이야기 마무리 · 엔딩 보기","lines":[["나레이션","마지막 몬스터를 쓰러뜨리자 낡은 방송실 문이 열린다. 창밖의 노을 아래, 박승휘가 예전 모습 그대로 기다리고 있다."],["박승휘","“많이 늦었네, 혁준아. 그래도 끝까지 와 줬구나.”"],["권혁준","“당연하지. 내일도, 내년에도 같이 게임하면 되잖아.”"],["박승휘","“그럼 여기에 새기자. 우리가 함께 있었다는 걸. 세월이 지나도 절대 잊지 말자.”"],["나레이션","방송실 책상 아래에 두 이름이 나란히 새겨졌다. **권혁준 · 박승휘**. 승휘가 웃었다. 혁준도 웃었다. 혁준은 내일도 친구를 만날 수 있으리라 믿었다."]]},"hospital":{"no":"AFTER CREDITS · 그날 밤","title":"다른 곳의 조용한 밤","emoji":"🏥","tone":"hospital","where":"현실 · 병원","button":"그 후의 이야기","lines":[["나레이션","같은 시간, 병원의 조용한 병실. 박승휘는 생의 끝에 가까워진 몸으로 긴 잠에 빠져 있었다."],["나레이션","그가 꿈에서 되살린 것은 학창 시절의 복도, 둘이 함께 즐긴 게임, 그리고 오랫동안 마음에 남아 있던 단 한 친구였다."],["박승휘의 작은 목소리","“혁준아... 우리 이름... 잊지 마...”"],["나레이션","지하 1층부터 방송실까지의 긴 모험은, 마지막으로 친구를 만나고 싶었던 박승휘의 꿈이었다."]]},"realization":{"no":"EPILOGUE · 두 사람의 우정","title":"오래도록 남아 있을 이름","emoji":"📷","tone":"gym","where":"동경한국학교 · 체육관 방송실","button":"Fin · 두사람의 우정","lines":[["나레이션","꿈에서 깬 권혁준은 지금은 교사로 재직하는 동경한국학교의 체육관으로 향했다."],["나레이션","기억 속의 체육관 방송실. 그동안 교사로 재직하면서 한 번도 들르지 않았던 곳이었다."],["나레이션","권혁준이 살펴보자 세월이 묻은 책상 아래에는 두 사람이 새긴 이름이 희미하게 남아 있었다."],["권혁준","“...좀 더 빨리 연락하지, 바보 같은 놈.”"],["권혁준","“고마워. 마지막에 나를 불러줘서.”"],["나레이션","두 이름은 손으로 문질러도 지워지지 않았다. 권혁준은 손끝으로 글자를 따라가며, 즐거웠던 그 시절을 오래도록 기억하기로 했다."]]},"migration":{"no":"MEMORY STORY · UPDATE","title":"학교로 돌아온 모험","emoji":"🧭","tone":"school","where":"새로운 다섯 층의 이야기","button":"이어 하던 모험으로","lines":[["안내","10층을 지하 1층부터 4층까지의 5개 장으로 재구성했어. 기존의 60종 몬스터는 모두 남아 있고 그림은 중복 배치하지 않았어."],["안내","이전 모험의 주화·룬·레벨·장비는 이어받았어. 새로 바뀐 지도에서는 현재 해금된 층부터 다시 탐험할 수 있어."],["안내","스토리의 시작부터 경험하고 싶다면 ‘새 모험’을 선택할 수도 있어."]]}};
+const STORY_SCENES={"b1_start":{"no":"PROLOGUE · 낯선 교실","title":"갑자기 뒤바뀐 세상","emoji":"🏫","tone":"school","where":"익숙하지만 낯선 학교 · 학창 시절","button":"몬스터와 맞서며 전투 배우기","lines":[["나레이션","한순간 세상이 뒤집혔다. 평범한 현실이 사라지고, 눈앞이 게임 속 학교로 바뀌었다. 권혁준은 이유도 모른 채 학창 시절의 교복을 입고 서 있었다."],["권혁준","“뭐야… 여긴 어디야? 잠깐, 이 교복은 뭐지? 내가 왜 다시 학생이 된 거야?”"],["나레이션","유리창에 비친 모습은 학창 시절의 권혁준이다. 학교는 분명 기억 속 모습 그대로인데, 사물 위로 이상한 숫자와 표시들이 떠오른다."],["박승휘","“혁준아!”"],["권혁준","“너 승휘야??”"],["나레이션","눈앞에 학창 시절의 절친인 박승휘가 있었다. 오랜만에 만난 친구와의 재회에 기뻐할 틈도 없이…"],["나레이션","복도 저편에서 끼이이익…… 무언가 문을 긁는 소리가 들렸다. 그 순간, **쾅!!** 교실 문이 부서지며 무시무시한 몬스터가 들이닥쳤다!"],["권혁준","“뭐야?! 문밖에 몬스터가 있어! 갑자기 왜 이런 게 튀어나오는 거야!”"],["박승휘","“너 예전에 우리가 같이하던 룬이랑 슬롯, 설마 잊은 건 아니지? 지금 설명할 테니까 잘 들어. 먼저 슬롯부터 돌려!”"]]},"b1_mid":{"no":"B1 · 함께 싸우는 법","title":"두 사람이 만든 콤보","emoji":"🎮","tone":"school","where":"지하 복도 · 첫 번째 전투 이후","button":"승휘와 다음 갈림길로","lines":[["박승휘","“방패는 몬스터가 노리는 방향에! 검은 정확한 순간에! 우리 옛날에도 이렇게 연습했잖아.”"],["권혁준","“이상하네. 분명 잊고 있었는데, 네 목소리를 들으니 손이 먼저 움직여.”"],["나레이션","뒤틀린 복도 끝에서 게임의 시작을 알리는 듯한 효과음이 울려 퍼졌다."]]},"floor1":{"no":"CHAPTER 1 · 1F","title":"계단에 남은 두 사람의 웃음","emoji":"🔎","tone":"hall","where":"1층 · 오래된 교실 앞 복도","button":"1층에서 승휘 찾기","lines":[["나레이션","지하 1층의 문이 열리자, 조금 전까지 곁에서 떠들던 박승휘가 감쪽같이 사라졌다. 낡은 계단에는 권혁준의 발소리만 울렸다."],["권혁준","“승휘야! 야, 장난치지 마. 방금까지 같이 있었잖아!”"],["나레이션","1층 복도 게시판에 삐뚤빼뚤한 낙서가 보였다. 우산 하나 아래에 꼭 붙어 선 두 사람. 한쪽 옆에는 작은 글씨로 ‘혁준 + 승휘’라고 적혀 있었다."],["권혁준","“이 그림… 설마 우리가 그린 거야?”"],["나레이션","순간 빗소리가 귀에 되살아났다. 학창 시절 어느 늦은 오후, 갑작스러운 소나기에 학교 현관 앞에서 발만 동동 구르던 날이었다."],["박승휘(회상)","“혁준아, 너 또 우산 안 챙겼냐? 어서 와. 오늘은 내가 특별히 태워 준다!”"],["권혁준(회상)","“야, 우산이 너무 작잖아. 네 어깨 다 젖겠다!”"],["나레이션","둘은 작은 우산을 억지로 나눠 썼다. 결국 둘 다 교복 어깨가 흠뻑 젖었지만, 집에 도착할 때까지 웃음이 그치지 않았다."],["권혁준","“그땐 비 좀 맞는 게 뭐가 그렇게 재미있었을까…. 너랑 있으면 별일도 다 추억이 됐지.”"],["나레이션","게시판 아래에는 낡은 종이 한 장이 매달려 있었다. 익숙한 글씨였다. ‘끝에 가면 그때의 약속을 기억할 거야.’"],["권혁준","“이 글씨, 분명 네 거야. 승휘야, 기다려. 이번에는 내가 너를 찾으러 갈게.”"],["나레이션","권혁준은 낙서를 한 번 더 바라본 뒤, 위층으로 이어진 계단을 올랐다. 잊고 지낸 웃음소리가 발걸음 뒤를 따라왔다."]]},"floor2":{"no":"CHAPTER 2 · 2F","title":"과학실에서 되살아난 목소리","emoji":"📻","tone":"class","where":"2층 · 둘이 짝이었던 과학실","button":"2층을 지나 계속 올라가기","lines":[["나레이션","2층 문을 여는 순간 희미한 알코올 냄새와 낡은 실험대가 눈에 들어왔다. 온통 몬스터로 뒤덮인 학교인데도, 이 교실만은 어딘가 평범한 방과 후 같았다."],["권혁준","“과학실… 여기서 승휘랑 같은 조였는데.”"],["나레이션","기억 속에서 두 사람은 실험대 앞에 나란히 서 있었다. 서로 자신만만하게 계산을 끝냈지만, 실험 용기에서는 예상치 못한 거품이 끝없이 올라왔다."],["박승휘(회상)","“야, 야! 혁준아! 이거 계산 맞다며! 우리 과학실 날려 버리는 거 아니냐?”"],["권혁준(회상)","“수치는 맞아! 아니, 잠깐… 네가 시약을 두 번 넣었잖아!”"],["나레이션","거품은 책상까지 넘쳤고, 두 사람은 웃음을 참느라 혼이 났다. 수업이 끝난 뒤에도 함께 남아 실험대를 닦았다."],["박승휘(회상)","“괜찮아. 같이 망쳤으니까 같이 치우면 되지. 대신 다음 실험은 네가 시약 넣어!”"],["권혁준","“항상 그랬지. 내가 실수하면 네가 웃어 줬고, 네가 실수하면 내가 옆에 있었어.”"],["나레이션","서랍을 열자 두 사람이 만든 공략 노트가 나왔다. 공책 모서리는 닳았고, 글씨는 서로 다른 필체로 빼곡했다."],["공략 노트","‘승휘:적이 기를 모아 공격하면 전투망치로 딜을 반감시켜! / 혁준: 오케이. 다음 턴엔 관통 조심. 우리 둘이면 무조건 이긴다’"],["나레이션","뒷장에는 공략보다 더 큰 글씨가 있었다. ‘실패해도 둘이 하면 다시 시작할 수 있음.’ 오래전에 승휘가 장난처럼 적어 둔 문장이었다."],["권혁준","“그래… 우린 게임에서도 늘 다시 시작했어. 이번엔 네가 어디 있는지 꼭 알아낼 거야.”"],["나레이션","권혁준은 공략 노트를 가슴에 꼭 끌어안았다. 학교 종소리처럼 그리운 웃음이 멀어지고, 위층을 향한 계단이 모습을 드러냈다."]]},"floor3":{"no":"CHAPTER 3 · 3F","title":"방과 후, 우리만의 공략집","emoji":"💾","tone":"game","where":"3층 · 게임을 함께하던 교실","button":"체육관으로 이어지는 문 열기","lines":[["나레이션","3층 복도 끝에 낡은 컴퓨터 한 대가 놓여 있었다. 검은 화면에 오래전 두 사람이 즐기던 슬롯 던전의 제목이 천천히 떠올랐다."],["권혁준","“이거… 우리 둘이 정말 질리도록 하던 게임이잖아.”"],["나레이션","해가 지고 운동장 소리마저 사라지면, 둘은 교실에 남아 모니터 앞에 의자 하나를 더 끌어다 놓곤 했다."],["박승휘(회상)","“야, 이번에는 내 차례다! 너 아까도 검 미니게임 두 번 했어!”"],["권혁준(회상)","“대신 네가 방어 방향 알려 줬잖아. 이번 판만 더 하면 진짜 바꿔 줄게!”"],["나레이션","서로 차례를 빼앗고 놀리면서도, 어려운 몬스터 앞에서는 자연스럽게 힘을 합쳤다. 혁준은 피해량을 계산했고 승휘는 공격 패턴을 기억했다."],["박승휘(회상)","“너는 숫자 잘 보잖아. 난 몬스터 움직임 외울게. 그렇게 하면 못 깰 층이 없지!”"],["권혁준","“그래서 내가 아는 거였구나. 늑대의 연타, 리치의 봉인, 용의 브레스… 네가 몇 번이고 알려 줬던 거야.”"],["나레이션","책상 위 공략집에는 두 사람의 수정 흔적이 겹겹이 남아 있었다. 틀린 공략에는 굵은 줄이 그어졌고, 성공한 날에는 별표가 잔뜩 붙어 있었다."],["권혁준","“이 별표… 너랑 밤늦게 마지막 보스 깨고 그려 둔 거였지.”"],["나레이션","공략집 맨 뒷장에 전투와 상관없는 문장이 작게 적혀 있었다. ‘졸업해도 가끔은 같이 놀자. 우리가 어디에 있든.’"],["권혁준","“별거 아닌 약속이라고 생각했는데… 난 이런 것까지 잊고 살았네.”"],["낡은 게임의 안내문","‘마지막 저장 지점: 4층 체육관 방송실.’"],["권혁준","“승휘야, 거기에 있는 거지? 내가 지금 가고 있어. 이번에는 네 말을 끝까지 들어 줄게.”"],["나레이션","화면 속 저장 표시가 조용히 깜빡였다. 권혁준은 마지막 층을 향해 걸었다."]]},"floor4":{"no":"FINAL CHAPTER · 4F","title":"체육관 방송실의 오래된 약속","emoji":"🏟️","tone":"gym","where":"4층 · 체육관으로 향하는 복도","button":"4층 마지막 구역으로","lines":[["나레이션","마지막 층의 문이 열리자 멀리서 희미한 방송이 들렸다. 학생들의 환호, 체육관 바닥에 닿는 운동화 소리, 그리고 늦은 오후의 따뜻한 햇살."],["권혁준","“체육관… 여기까지 오니까 이상하게 하나도 낯설지 않네.”"],["나레이션","학창 시절 학교 행사가 있던 날, 방송실의 낡은 마이크가 갑자기 작동하지 않았다. 무대 뒤에서 당황한 혁준 옆으로 승휘가 달려왔었다."],["박승휘(회상)","“야, 혁준아! 너 혼자 다 하려고 하지 마. 마이크는 내가 볼게. 넌 준비한 거 잊지 말고!”"],["권혁준(회상)","“근데 네가 옆에 없으면 나 진짜 떨린다니까.”"],["박승휘(회상)","“그러니까 내가 옆에 있잖아. 빨리 가! 너라면 잘할 수 있어.”"],["나레이션","그날 행사는 무사히 끝났다. 학생들이 모두 돌아간 뒤에도 두 사람은 방송실에 남아 오늘 하루가 얼마나 재미있었는지 떠들었다."],["박승휘(회상)","“우리 여기다 이름 새길까? 졸업하고 나서도 왔다 갔던 거 기억나게.”"],["권혁준(회상)","“좋지. 근데 글씨 좀 똑바로 써. 네 이름이 지렁이 같아!”"],["나레이션","책상 아래에 나란히 새긴 이름. 그때는 다음 주에도, 다음 해에도 당연히 함께 웃을 거라고 믿었다."],["권혁준","“나는 결국 이 학교로 돌아와서 선생님이 됐는데… 정작 너랑 같이 있던 방송실에는 한 번도 안 와 봤구나.”"],["나레이션","발걸음을 옮길 때마다 기억이 또렷해졌다. 장난스러운 목소리, 함께 썼던 공략집, 어깨를 적시던 비까지. 모두 승휘가 있는 추억이었다."],["박승휘의 목소리","“혁준아. 그때 우리, 이름을 어디에 새기자고 했었지?”"],["권혁준","“체육관 방송실… 맞아. 나는 기억해. 이번에는 절대 잊지 않을게.”"],["나레이션","낡은 방송실 문틈에서 따뜻한 빛이 흘러나왔다. 권혁준은 숨을 고르고 마지막 문을 향해 손을 뻗었다."]]},"engrave":{"no":"THE END · 두 사람의 약속","title":"영원히 간직할 이름","emoji":"✍️","tone":"gym","where":"4층 · 체육관 방송실","button":"이야기 마무리 · 엔딩 보기","lines":[["나레이션","마지막 몬스터를 쓰러뜨리자 낡은 방송실 문이 열린다. 창밖의 노을 아래, 박승휘가 예전 모습 그대로 기다리고 있다."],["박승휘","“많이 늦었네, 혁준아. 그래도 끝까지 와 줬구나.”"],["권혁준","“당연하지. 내일도, 내년에도 같이 게임하면 되잖아.”"],["박승휘","“그럼 여기에 새기자. 우리가 함께 있었다는 걸. 세월이 지나도 절대 잊지 말자.”"],["나레이션","방송실 책상 아래에 두 이름이 나란히 새겨졌다. **권혁준 · 박승휘**. 승휘가 웃었다. 혁준도 웃었다. 혁준은 내일도 친구를 만날 수 있으리라 믿었다."]]},"hospital":{"no":"AFTER CREDITS · 그날 밤","title":"다른 곳의 조용한 밤","emoji":"🏥","tone":"hospital","where":"현실 · 병원","button":"그 후의 이야기","lines":[["나레이션","같은 시간, 병원의 조용한 병실. 박승휘는 생의 끝에 가까워진 몸으로 긴 잠에 빠져 있었다."],["나레이션","그가 꿈에서 되살린 것은 학창 시절의 복도, 둘이 함께 즐긴 게임, 그리고 오랫동안 마음에 남아 있던 단 한 친구였다."],["박승휘의 작은 목소리","“혁준아... 우리 이름... 잊지 마...”"],["나레이션","지하 1층부터 방송실까지의 긴 모험은, 마지막으로 친구를 만나고 싶었던 박승휘의 꿈이었다."]]},"realization":{"no":"EPILOGUE · 두 사람의 우정","title":"오래도록 남아 있을 이름","emoji":"📷","tone":"gym","where":"동경한국학교 · 체육관 방송실","button":"Fin · 두사람의 우정","lines":[["나레이션","꿈에서 깬 권혁준은 지금은 교사로 재직하는 동경한국학교의 체육관으로 향했다."],["나레이션","기억 속의 체육관 방송실. 그동안 교사로 재직하면서 한 번도 들르지 않았던 곳이었다."],["나레이션","권혁준이 살펴보자 세월이 묻은 책상 아래에는 두 사람이 새긴 이름이 희미하게 남아 있었다."],["권혁준","“...좀 더 빨리 연락하지, 바보 같은 놈.”"],["권혁준","“고마워. 마지막에 나를 불러줘서.”"],["나레이션","두 이름은 손으로 문질러도 지워지지 않았다. 권혁준은 손끝으로 글자를 따라가며, 즐거웠던 그 시절을 오래도록 기억하기로 했다."]]},"migration":{"no":"MEMORY STORY · UPDATE","title":"학교로 돌아온 모험","emoji":"🧭","tone":"school","where":"새로운 다섯 층의 이야기","button":"이어 하던 모험으로","lines":[["안내","10층을 지하 1층부터 4층까지의 5개 장으로 재구성했어. 기존의 60종 몬스터는 모두 남아 있고 그림은 중복 배치하지 않았어."],["안내","이전 모험의 주화·룬·레벨·장비는 이어받았어. 새로 바뀐 지도에서는 현재 해금된 층부터 다시 탐험할 수 있어."],["안내","스토리의 시작부터 경험하고 싶다면 ‘새 모험’을 선택할 수도 있어."]]}};
 // V79: an independent, story-only mode that never changes the adventure or save data.
-const STORY_CINEMA_ORDER=['b1_start','b1_mid','floor1','floor2','floor3','floor4','engrave','hospital','realization'];
+STORY_SCENES.final_rescue={"no":"SPECIAL CHAPTER · 마지막 약속","title":"끝이 아닌, 우리의 마지막 한 판","emoji":"🤝","tone":"hall","where":"4층 · 수학대마왕의 왕좌 · 무너진 전장","button":"승휘와 함께 마지막 전투로","lines":[["나레이션","수학대마왕의 일격에 권혁준이 쓰러졌다. 슬롯의 불빛이 하나씩 꺼지고, 눈앞에 붉은 글씨가 떠올랐다. **GAME OVER.**"],["권혁준","“여기까지인가… 승휘야. 너를 찾겠다고 올라왔는데, 또 혼자 남고 말았네.”"],["나레이션","그때, 아무도 없던 체육관 저편에서 익숙한 목소리가 들렸다. 멈춘 슬롯에 작은 빛 하나가 돌아왔다."],["박승휘","“야, 권혁준! 우리 같이 하던 게임에서 혼자 끝내는 게 어디 있어?”"],["나레이션","눈부신 빛 사이로 박승휘가 걸어 나왔다. 학창 시절처럼 장난기 어린 얼굴이었다. 혁준은 믿을 수 없다는 듯 고개를 들었다."],["권혁준","“승휘야…? 네가 정말 여기 있었어? 난 네가 사라진 줄 알았는데!”"],["박승휘","“멋대로 포기하지 마! 너랑 나, 둘이서 시작했잖아. 마지막도 당연히 같이 끝내야지.”"],["박승휘","“힘을 합치자, 혁준아! 내가 모아 둔 특별한 룬도 전부 줄게. 이제 **모든 룬으로 함께 싸우는 거야!**”"],["나레이션","꺼져 가던 슬롯이 다시 빛났다. 검, 방패, 전투망치, 마법, 그리고 아직 얻지 못했던 숨겨진 룬까지… **15종의 룬이 전부 해금**되었다!"],["권혁준","“오케이, 승휘야. 우리 둘이면 무조건 이긴다! 이번엔 같이 끝내자!”"],["나레이션","붉은 GAME OVER 글씨가 사라졌다. 혁준의 체력이 회복되고 슬롯이 다시 돌 준비를 마쳤다. **수학대마왕의 남은 체력은 그대로. 두 친구의 마지막 반격이 시작된다.**"]]};
+const STORY_CINEMA_ORDER=['b1_start','b1_mid','floor1','floor2','floor3','floor4','final_rescue','engrave','hospital','realization'];
 let storyCinema=null;
 let storyPrologue=null;
 function beginPrologue(){
@@ -3982,7 +3994,7 @@ function storyCharacters(key,who,index=0){
  const memory=storyIsFlashback(key,index);
  const hyukOn=!['hospital','migration'].includes(key);
  // During floors 1-4, Seung-hwi appears *only* in memory, never in present time.
- let seungOn=upperFloor?memory:['b1_start','b1_mid','engrave','hospital'].includes(key);
+ let seungOn=upperFloor?memory:['b1_start','b1_mid','engrave','hospital'].includes(key)||(key==='final_rescue'&&index>=3);
  if(key==='b1_start'&&index<3)seungOn=false;
  const active=who.includes('권혁준')?'hyuk':who.includes('박승휘')?'seung':'';
  let result='';
@@ -4017,7 +4029,7 @@ function renderStoryLine(){
  const note=last?(key==='engrave'?'마지막 이야기로':key==='hospital'?'후일담으로':sc.button):narrator?'자막을 눌러 계속':'대사를 눌러 계속';
  const prologueDanger=key==='b1_start'&&index>=6;
  const prologueImpact=key==='b1_start'&&index===6;
- const stageTone=(prologueDanger?'hall prologue-threat'+(prologueImpact?' prologue-impact':''):sc.tone)+(flashback?' flashback flashback-'+key:'')+(enteringMemory?' memory-enter':returningNow?' memory-exit':'');
+ const stageTone=(prologueDanger?'hall prologue-threat'+(prologueImpact?' prologue-impact':''):sc.tone)+(flashback?' flashback flashback-'+key:'')+(enteringMemory?' memory-enter':returningNow?' memory-exit':'')+(key==='final_rescue'?' final-rescue'+(index>=7?' rescue-awaken':''):'');
  const threat=prologueDanger?'<div class="vn-door-splinters" aria-hidden="true"></div><div class="vn-prologue-monster" role="img" aria-label="교실 문을 부수고 튀어나온 뿔과 붉은 눈의 해골 몬스터"><svg viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><defs><linearGradient id="demon-head" x1="0" y1="0" x2=".7" y2="1"><stop stop-color="#645664"/><stop offset=".45" stop-color="#252331"/><stop offset="1" stop-color="#090e1c"/></linearGradient><radialGradient id="demon-fire"><stop stop-color="#ffb278"/><stop offset=".35" stop-color="#ff262d"/><stop offset="1" stop-color="#7b0b33"/></radialGradient><filter id="demon-eye-glow" x="-70%" y="-70%" width="240%" height="240%"><feGaussianBlur stdDeviation="5" result="soft"/><feMerge><feMergeNode in="soft"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><path d="M17 219 Q17 164 45 137 L65 120 101 123 133 118 157 142 Q183 165 184 219Z" fill="#111525" stroke="#8e4050" stroke-width="4"/><path d="M56 77 Q27 52 13 4 Q36 13 51 30 L75 51M141 77 Q170 52 184 4 Q161 13 146 30 L123 51" fill="#211e2a" stroke="#b88a8c" stroke-width="5" stroke-linejoin="round"/><path d="M46 68 Q60 34 99 38 Q148 31 161 72 L158 127 Q135 181 99 198 Q64 179 40 127Z" fill="url(#demon-head)" stroke="#bc8c84" stroke-width="5"/><path d="M49 83 L87 98 99 104 112 98 150 83 147 112 113 120 99 109 85 120 53 112Z" fill="#0a0a17"/><path d="M54 104 L91 116 70 130 50 116Z M147 104 L109 116 130 130 150 116Z" fill="url(#demon-fire)" stroke="#ff6f5f" stroke-width="3" filter="url(#demon-eye-glow)"/><path d="M99 114 L90 140 109 140Z" fill="#080a12"/><path d="M65 145 Q101 133 135 145 L124 173 103 186 79 170Z" fill="#080b13" stroke="#99545d" stroke-width="3"/><path d="M68 145 L80 144 77 159 88 145 98 143 100 160 109 144 121 145 124 159 132 146 133 155 116 179 101 166 86 179Z" fill="#e2d5c8" stroke="#241923" stroke-width="2"/><path d="M50 132 L38 171 16 180 29 161 10 156 33 151 32 136Z M151 132 L163 171 185 180 172 161 191 156 168 151 169 136Z" fill="#28212c" stroke="#aa5668" stroke-width="3"/><path d="M68 49 79 59 75 78M139 49 127 61 129 78M76 188 99 200 123 188" stroke="#dd6c65" stroke-width="3" fill="none"/></svg></div><div class="vn-danger-alert">⚠ MONSTER APPEARED</div>'+(prologueImpact?'<div class="vn-impact-bang" aria-hidden="true">쾅!!</div><div class="vn-impact-flash" aria-hidden="true"></div>':''):'';
  const inscription=key==='engrave'&&last?'<div class="vn-inscription">✍ 권혁준 · 박승휘</div>':'';
  const body='<div class="vn-screen'+(flashback?' is-memory':'')+'" data-story="'+key+'" data-time="'+(flashback?'past':'present')+'" data-line="'+index+'">'+
@@ -4051,6 +4063,7 @@ function advanceStory(skip=false){
  const next={engrave:'hospital',hospital:'realization'}[key];
  if(next){showStoryScene(next);return;}
  s.storyPending=null;
+ if(key==='final_rescue'){resumeFinalBossWithFriend();return;}
  if(key==='realization'){showFriendshipFin(false);return;}
  s.view='map';showMap();saveGameNow();
 }
@@ -4065,7 +4078,7 @@ function showVictorySummary(){
 function start(){
  if(!isValidStarter(selected))return;
  const init=[...selected],owned=[...new Set(init)];
- s={hpBalanceVersion:95,mapBalanceVersion:94,attackBalanceVersion:102,runeUniqueVersion:112,stage:0,highestUnlocked:0,clearedFloors:Array(STAGES.length).fill(false),floorRuns:Array(STAGES.length).fill(0),fight:0,view:'map',map:null,activeNodeType:null,stageFightCount:0,encounterCount:0,playerLevel:1,playerXP:0,monstersDefeated:0,lastXPReward:null,shopVisitId:null,activeEvent:null,hp:68,maxHp:68,shield:0,guards:[0,0,0],coins:20,score:0,turn:0,deck:owned,activeRunes:[...init],deckDraft:null,deckPending:false,levels:Object.fromEntries(Object.keys(R).map(x=>[x,1])),copies:Object.fromEntries(Object.keys(R).map(x=>[x,deckCount(init,x)])),rerollPower:false,rerollUsed:false,awaitingRespin:false,rerolling:false,chainRerolls:0,comboCount:0,comboRage:0,chainMotion:null,turnEnding:false,reelVersions:[],weights:Object.fromEntries(Object.keys(R).map(x=>[x,1])),reelCount:3,reelSymbols:[],stops:[],reelMotion:[],spinning:false,resolving:false,skill:null,log:[],enemy:null,question:null,wrong:0,actions:[],actionPos:0,turnDmg:0,turnEarned:0,battleCoinsEarned:0,discoveredWeaknesses:{},stunChance:0,jammedReel:-1,inventory:Object.fromEntries(Object.keys(ITEMS).map(x=>[x,0])),nextBoost:false,enchants:{},enchantAttach:{},specialFusion:{},pendingFusion:null,pendingRuneLevelUp:false,drops:[],respinTicketArmed:false,lastReward:0,lastInterest:0,lastSaved:0,totalInterest:0,relics:{},healingCritReady:false,shopChestsOpened:0,shopStock:null,counterAttackReady:false,revival:null,revivals:0,playerBleedTurns:0,bossReadyFloors:{},bossRetryGold:{},retryEncounters:{},retrySerial:0,activeRetryKey:null,selectedRetryKey:null,floorSelectMode:'normal',bossChoiceStage:null,worldVersion:STORY_WORLD_VERSION,storySeen:{b1_start:true},storyPending:null,storyLineIndex:0,endingDone:false};
+ s={hpBalanceVersion:95,mapBalanceVersion:94,attackBalanceVersion:102,runeUniqueVersion:112,stage:0,highestUnlocked:0,clearedFloors:Array(STAGES.length).fill(false),floorRuns:Array(STAGES.length).fill(0),fight:0,view:'map',map:null,activeNodeType:null,stageFightCount:0,encounterCount:0,playerLevel:1,playerXP:0,monstersDefeated:0,lastXPReward:null,shopVisitId:null,activeEvent:null,hp:68,maxHp:68,shield:0,guards:[0,0,0],coins:20,score:0,turn:0,deck:owned,activeRunes:[...init],deckDraft:null,deckPending:false,levels:Object.fromEntries(Object.keys(R).map(x=>[x,1])),copies:Object.fromEntries(Object.keys(R).map(x=>[x,deckCount(init,x)])),rerollPower:false,rerollUsed:false,awaitingRespin:false,rerolling:false,chainRerolls:0,comboCount:0,comboRage:0,chainMotion:null,turnEnding:false,reelVersions:[],weights:Object.fromEntries(Object.keys(R).map(x=>[x,1])),reelCount:3,reelSymbols:[],stops:[],reelMotion:[],spinning:false,resolving:false,skill:null,log:[],enemy:null,question:null,wrong:0,actions:[],actionPos:0,turnDmg:0,turnEarned:0,battleCoinsEarned:0,discoveredWeaknesses:{},stunChance:0,jammedReel:-1,inventory:Object.fromEntries(Object.keys(ITEMS).map(x=>[x,0])),nextBoost:false,enchants:{},enchantAttach:{},specialFusion:{},pendingFusion:null,pendingRuneLevelUp:false,drops:[],respinTicketArmed:false,lastReward:0,lastInterest:0,lastSaved:0,totalInterest:0,relics:{},healingCritReady:false,shopChestsOpened:0,shopStock:null,counterAttackReady:false,revival:null,revivals:0,playerBleedTurns:0,bossReadyFloors:{},bossRetryGold:{},retryEncounters:{},retrySerial:0,activeRetryKey:null,selectedRetryKey:null,floorSelectMode:'normal',bossChoiceStage:null,worldVersion:STORY_WORLD_VERSION,storySeen:{b1_start:true},storyPending:null,storyLineIndex:0,endingDone:false,finalRescueUsed:false};
  questionOrder=shuffle(Array.from({length:QUESTIONS.length},(_,i)=>i)).slice(0,STAGES.length-1);s.floorRuns[0]++;sfx('victory');makeFloorMap();showMap();
 }
 function pool(){return s.activeRunes.slice();}
@@ -4134,7 +4147,7 @@ function runeTurnRange(id){
   case 'gun':return {style:'offense',text:range(0,capHit(damageCap('gun',lv)),'피해')};
   case 'venom':{const direct=hit((BALANCE.venom[0]+(lv-1)*BALANCE.venom[1])*POISON_DAMAGE_FACTOR);const min=poisonTickPower(lv,0),max=poisonTickPower(lv,PUZZLE_DIFFERENCES);return {style:'offense',text:'즉시 '+direct+' 피해 · 중독 '+range(min,max,'/턴')};}
   case 'shield':{const rate=shopRelicActive('guardian')?1.25:1;const v=Math.max(1,Math.round((6+(lv-1)*2+(e.warding?3:0)+(e.fortress?4:0))*(e.shieldcore?1.5:1)*rate));return {style:'defense',text:'방향별 방어막 +'+v+''};}
-  case 'hammer':{const add=e.shatter?6:0;return {style:'offense',text:range(hit(1+add),hit(SPECIAL_DAMAGE.hammerAccurate[0]+(lv-1)*SPECIAL_DAMAGE.hammerAccurate[1]+add),'피해')+' · 빠른 정타일수록 점수↑ · 정타 시 약화'};}
+  case 'hammer':{const max=SPECIAL_DAMAGE.hammerAccurate[0]+(lv-1)*SPECIAL_DAMAGE.hammerAccurate[1];return {style:'offense',text:'피해 1~'+max+' · 적 공격 피해 50% 감소 · 2턴 지속'+(e.shatter?' · 파쇄 강화 +6':'')};}
   case 'coin':{const add=(e.goldrush?4:0)+(e.coinluck?5:0);return {style:'resources',text:range(coinRunePayout(lv,false,1,add),coinRunePayout(lv,true,1,add),'G 획득 · 3상자 중 선택')};}
   case 'heal':{const baseheal=4+(lv-1)*2,add=(e.bloom?4:0)+(e.calm?7:0);const low=Math.round((Math.round(baseheal*.35)+add)*enchantHealMultiplier(base)),high=Math.round((Math.round(baseheal*1.35)+add)*enchantHealMultiplier(base));return {style:'healing',text:range(low,high,'HP 회복')};}
   case 'flame':return {style:'offense',text:range(0,capHit(damageCap('flame',lv)),'마법 피해')};
@@ -4182,7 +4195,7 @@ function renderTurnDeckModal(){
   '<div class="deck-intent"><span class="intent-title">⚠ 적의 다음 행동</span><span class="intent-detail">'+intent+'</span></div>'+
   (forecastVisible?'<p class="deck-tactical-note">※ 각 타격의 피해량은 방어막 차감 전 수치입니다.</p>':'')+
  '</section>';
- showModal('<div class="deck-screen"><div class="eyebrow">TURN '+(s.turn+1)+' · RUNE LOADOUT</div><h2>🎴 이번 턴 룬 선택</h2>'+tactics+'<div class="deck-status '+(valid?'good':'warn')+'">'+draft.length+'/6개 · 서로 다른 룬 '+kinds+'종 · 중복 장착 불가 '+(valid?'✓ 슬롯 준비 완료':'· 최소 3종 이상 선택')+'</div><div class="deck-options">'+stock+'</div><div class="pager">'+(pages>1?'<button data-action="deck-page" data-page="'+(deckPage-1)+'" '+(deckPage===0?'disabled':'')+'>◀</button><b>보유 룬 '+(deckPage+1)+' / '+pages+'</b><button data-action="deck-page" data-page="'+(deckPage+1)+'" '+(deckPage>=pages-1?'disabled':'')+'>▶</button>':'<span>같은 종류의 룬은 한 턴에 한 번만 장착 가능</span>')+'</div>'+odds+'<button class="btn-primary" data-action="confirm-deck" '+(valid?'':'disabled')+'>✓ 슬롯 열기</button></div>');
+ showModal('<div class="deck-screen"><div class="eyebrow">TURN '+(s.turn+1)+' · RUNE LOADOUT</div><h2>🎴 이번 턴 룬 선택</h2>'+(s.finalRescueUsed&&s.stage===4?'<div class="final-rescue-banner">🤝 <strong>승휘의 지원 · 15종 룬 전부 해금!</strong><span>아래 보유 목록에서 원하는 룬을 최대 6종 선택하세요.</span></div>':'')+tactics+'<div class="deck-status '+(valid?'good':'warn')+'">'+draft.length+'/6개 · 서로 다른 룬 '+kinds+'종 · 중복 장착 불가 '+(valid?'✓ 슬롯 준비 완료':'· 최소 3종 이상 선택')+'</div><div class="deck-options">'+stock+'</div><div class="pager">'+(pages>1?'<button data-action="deck-page" data-page="'+(deckPage-1)+'" '+(deckPage===0?'disabled':'')+'>◀</button><b>보유 룬 '+(deckPage+1)+' / '+pages+'</b><button data-action="deck-page" data-page="'+(deckPage+1)+'" '+(deckPage>=pages-1?'disabled':'')+'>▶</button>':'<span>같은 종류의 룬은 한 턴에 한 번만 장착 가능</span>')+'</div>'+odds+'<button class="btn-primary" data-action="confirm-deck" '+(valid?'':'disabled')+'>✓ 슬롯 열기</button></div>');
 }
 
 function deckAdd(id){if(!s?.deckPending||!s.deck.includes(id))return;
@@ -4223,7 +4236,7 @@ function planEnemy(e,round){
   if(phase===1){return {kind:'lock',title:'룬 봉인',hits:[]};}
   if(phase===2){hit(rand(3),.9,true);if(stage>=2)hit(rand(3),.7,false);return {kind:'pierce',title:'보호막 관통',hits};}
   if(phase===3){return {kind:'charge',title:'파멸의 기 모으기',hits:[]};}
-  if(phase===4&&e.chargeReady){hit(e.chargeLane,5,false);return {kind:'charged',title:'충전한 5배 공격',hits};}
+  if(phase===4&&e.chargeReady){hit(e.chargeLane,5,false);return {kind:'charged',title:BOSS_CHARGED_ATTACK_DAMAGE[stage]?'충전 강타 · '+BOSS_CHARGED_ATTACK_DAMAGE[stage]+' 피해':'충전한 5배 공격',hits};}
   if(phase===5){for(let i=0;i<2+Math.min(stage,2);i++)hit((i+rand(3))%3,.64);if(stage>=3){hits[0].bleed=true;return {kind:'bleed',title:'출혈의 연격',hits};}return {kind:'flurry',title:'전방위 연격',hits};}
  }
 // V66: from floor 4 onwards, predators and armed creatures sometimes inflict a wound
@@ -4255,6 +4268,7 @@ const count=stage===0?1:stage===1?(round%3===0?1:2):stage===2?2:stage===3?(round
 // in a single enemy action. Keep existing boss phases (seal/charge/heal/brace).
 function upgradeBossHybridPlan(p){
  if(!p||!s||s.fight!==2||s.stage<3||s.stage>4)return p;
+ if(p.kind==='charged'&&BOSS_CHARGED_ATTACK_DAMAGE[s.stage])p.title='충전 강타 · '+BOSS_CHARGED_ATTACK_DAMAGE[s.stage]+' 피해';
  if(p.hybridBoss)return p;
  p.hybridBoss=true;
  p.shieldGain=s.stage===3?12:16;
@@ -4270,11 +4284,16 @@ function newEnemy(forcedIndex=null){if(!s)return;lastCombatCheckpoint=null;battl
 // The current enemy plan fixes each hit's direction when the turn begins.
 // Elites and bosses now hide only the direction; damage and special effects remain visible.
 function enemyPlanSecret(){return !!s&&(s.fight===1||s.fight===2);}
+function enemyHitDamage(e,p,h,weakened=e.weakenTurns>0){
+ const capDamage=s?.fight===2&&p?.kind==='charged'?BOSS_CHARGED_ATTACK_DAMAGE[s.stage]:null;
+ const base=capDamage??(e.attack*(h.mult??1));
+ return base*(weakened?.5:1);
+}
 function enemyForecastHits(){
  if(!s?.enemy?.plan)return [];
  const e=s.enemy,p=e.plan;
  if(e.stun>0||e.freezeTurns>0)return [];
- return (p.hits||[]).map(h=>({dir:h.dir,damage:Math.max(0,Math.round(e.attack*(h.mult??1)*(e.weakenTurns>0?.5:1))),ignore:!!h.ignore,bleed:!!h.bleed}));
+ return (p.hits||[]).map(h=>({dir:h.dir,damage:Math.max(0,Math.round(enemyHitDamage(e,p,h))),ignore:!!h.ignore,bleed:!!h.bleed}));
 }
 function enemySpeechBubbleData(){
  if(!s?.enemy)return {title:'...',detail:''};
@@ -4362,15 +4381,15 @@ function render(){if(!s)return;const e=s.enemy;
  const ally=$('story-ally');if(ally){ally.hidden=true;ally.innerHTML='';}
 
  $('top-stage').textContent=String(s.stage+1).padStart(2,'0')+' / '+String(STAGES.length).padStart(2,'0');$('top-gold').textContent=s.coins+' G';$('interest-next').textContent='승리 이자 +'+bankInterest(s.coins)+'G';$('floor-name').textContent=floorCode(s.stage)+' · '+STAGES[s.stage].name;$('battle-no').textContent=s.view==='fight'?'ENCOUNTER '+s.encounterCount+' · '+(s.fight===2?'BOSS':s.fight===1?'ELITE':'MONSTER'):'🗺 PATH · '+(s.map?Math.max(0,s.map.row+1):0)+' / '+(MAP_ROWS+1);$('scene-label').textContent=s.view==='fight'?(s.fight===2?'⚠ BOSS ENCOUNTER':s.fight===1?'💀 ELITE ENCOUNTER':'⚔ MONSTER ENCOUNTER'):'🗺 CHOOSE YOUR PATH';$('enemy-name').textContent=e.name;
- $('enemy-hp').textContent=Math.max(0,e.hp)+' / '+e.max;$('enemy-hp-fill').style.width=cap(e.hp/e.max*100,0,100)+'%';$('enemy-status').textContent=[e.stun>0?(e.paralyzed?'⚡ 마비':'💫 기절'):'',e.freezeTurns>0?'❄️ 빙결 · 행동 지연':'',e.poisonTurns>0?'☣ '+e.poisonPower+'/턴 · '+e.poisonTurns+'턴':'',e.burnTurns>0?'🔥 '+e.burnPower+'/턴 · '+e.burnTurns+'턴':'',e.bleedTurns>0?'🩸 '+(e.bleedPower||2)+'/턴 · '+e.bleedTurns+'턴':'',e.weakenTurns>0?'⚒ 공격력 −50% · 다음 공격':'',e.braceHits>0?'🛡 철벽 '+e.braceHits+'회 남음':''].filter(Boolean).join(' / ')||'정상';$('enemy-shield').textContent='방어막 '+e.shield+(e.braceHits>0?' · 철벽 '+e.braceHits+'회':'');$('enemy-weakness-v38').textContent=monsterWeaknessText(e,s.stage);const earned=Math.max(0,s.battleCoinsEarned||0),pressure=$('battle-coin-limit-v50');if(pressure){pressure.textContent='◆ 이번 몬스터 획득 '+earned+' / '+BATTLE_GOLD_LIMIT+'G'+(earned>=BATTLE_GOLD_LIMIT?' · 획득 상한':' · 처치 보상·이자 포함');pressure.classList.toggle('full',earned>=BATTLE_GOLD_LIMIT);} renderEnemySpeechBubble();
+ $('enemy-hp').textContent=Math.max(0,e.hp)+' / '+e.max;$('enemy-hp-fill').style.width=cap(e.hp/e.max*100,0,100)+'%';$('enemy-status').textContent=[e.stun>0?(e.paralyzed?'⚡ 마비':'💫 기절'):'',e.freezeTurns>0?'❄️ 빙결 · 행동 지연':'',e.poisonTurns>0?'☣ '+e.poisonPower+'/턴 · '+e.poisonTurns+'턴':'',e.burnTurns>0?'🔥 '+e.burnPower+'/턴 · '+e.burnTurns+'턴':'',e.bleedTurns>0?'🩸 '+(e.bleedPower||2)+'/턴 · '+e.bleedTurns+'턴':'',e.weakenTurns>0?'⚒ 적 공격 피해 −50% · '+e.weakenTurns+'턴 남음':'',e.braceHits>0?'🛡 철벽 '+e.braceHits+'회 남음':''].filter(Boolean).join(' / ')||'정상';$('enemy-shield').textContent='방어막 '+e.shield+(e.braceHits>0?' · 철벽 '+e.braceHits+'회':'');$('enemy-weakness-v38').textContent=monsterWeaknessText(e,s.stage);const earned=Math.max(0,s.battleCoinsEarned||0),pressure=$('battle-coin-limit-v50');if(pressure){pressure.textContent='◆ 이번 몬스터 획득 '+earned+' / '+BATTLE_GOLD_LIMIT+'G'+(earned>=BATTLE_GOLD_LIMIT?' · 획득 상한':' · 처치 보상·이자 포함');pressure.classList.toggle('full',earned>=BATTLE_GOLD_LIMIT);} renderEnemySpeechBubble();
  
  renderPlayerXP();
  const pb=$('player-bleed-notice');if(pb){pb.hidden=!(s.playerBleedTurns>0);pb.textContent='🩸 출혈 2/턴 · '+(s.playerBleedTurns||0)+'턴';}
  $('player-hp').textContent=Math.max(0,s.hp)+' / '+s.maxHp;$('player-hp-fill').style.width=cap(s.hp/s.maxHp*100,0,100)+'%';$('player-shield').textContent=sumGuards();for(let i=0;i<3;i++){const el=$('guard-'+i);el.textContent=LANE_ICONS[i]+' '+s.guards[i];el.classList.toggle('guard-active',s.guards[i]>0);}
- $('turn-count').textContent=s.turn;$('score-count').textContent=s.score;const comboRage=cap(Number(s.comboRage)||0,0,COMBO_RAGE_MAX);$('aggro-value').textContent=comboRage+' / '+COMBO_RAGE_MAX;$('aggro-fill').style.width=(comboRage/COMBO_RAGE_MAX*100)+'%';$('aggro-box').classList.toggle('hot',comboRage>=50);$('aggro-box').title='같은 룬 3개 이상으로 자동 재회전할 때마다 +10 · 6번째에 66 반격 / 특수 룬 재회전은 기존 분노 '+s.enemy.aggro+'/100';$('loadout').innerHTML=s.deck.map(id=>'<span class="equip" style="border-color:'+R[id].color+'66"><span style="color:'+R[id].color+'">'+runeVisual(id)+'</span> '+runeDisplayName(id)+' '+enchantMark(id)+' '+runeLevelLabel(id)+runeBoostLabel(id)+' ×'+s.copies[id]+(pool().includes(id)?' · 장착':' · 보관')+'</span>').join('')+shopRelicChips();
+ $('turn-count').textContent=s.turn;$('score-count').textContent=s.score;const comboRage=cap(Number(s.comboRage)||0,0,COMBO_RAGE_MAX);$('aggro-value').textContent=comboRage+' / '+COMBO_RAGE_MAX;$('aggro-fill').style.width=(comboRage/COMBO_RAGE_MAX*100)+'%';$('aggro-box').classList.toggle('hot',comboRage>=70);$('aggro-box').title='같은 룬 3개 이상으로 자동 재회전할 때마다 +10 · 8번째에 66 반격 / 특수 룬 재회전은 기존 분노 '+s.enemy.aggro+'/100';$('loadout').innerHTML=s.deck.map(id=>'<span class="equip" style="border-color:'+R[id].color+'66"><span style="color:'+R[id].color+'">'+runeVisual(id)+'</span> '+runeDisplayName(id)+' '+enchantMark(id)+' '+runeLevelLabel(id)+runeBoostLabel(id)+' ×'+s.copies[id]+(pool().includes(id)?' · 장착':' · 보관')+'</span>').join('')+shopRelicChips();
  if($('reels').children.length!==s.reelCount)resetReels();for(let i=0;i<s.reelCount;i++){const el=$('reels').children[i];el.classList.toggle('spin-now',s.spinning&&!s.stops[i]);el.classList.toggle('stopped',s.stops[i]);el.classList.toggle('jammed-reel',s.jammedReel===i);}
  const available=s.view==='fight'&&!s.deckPending&&!s.resolving&&!s.rerolling;$('spin-btn').disabled=!available||(!s.spinning&&!equipped());$('auto-btn').disabled=!s.spinning;$('spin-btn').textContent=s.spinning?'■ STOP':'▶ SPIN';
- $('hint').textContent=s.autoCasting?'⚡ 자동 발동! 슬롯에 기를 모아 공격 5 · 회복 2 · 방어막 1 · 주화 3 자동 시전 중…':s.skill?'룬 미니게임: '+({sword:'변하는 최고점에 맞춰 베기',gun:'머리 조준 사격',venom:'6초에 차이 5곳 찾기',shield:'방어할 방향을 직접 선택',hammer:'3초 후 0.5초마다 이동하는 균열',flame:'7개 문양의 순서를 기억하기',heal:'박동 타이밍 회복',coin:'3개 상자 중 당첨 1개 선택 · 꽝도 주화 획득'}[s.skill.kind]||'공격하기'):s.spinning?'회전하는 슬롯을 클릭 / STOP으로 정지하세요. 봉인된 슬롯은 무효입니다.':s.rerolling?'🔄 슬롯 자동 재회전 중…':s.awaitingRespin?'재회전 파워업을 사용할지 선택하세요':s.resolving?'연쇄 효과 진행 중…':'직접 선택한 '+pool().length+'개 룬 · '+s.reelCount+'칸 슬롯 · 3개 일치 자동회전마다 분노 +10 (최대 60) · 6회째 공격력 66 반격 · 골드 이자 10%';
+ $('hint').textContent=s.autoCasting?'⚡ 자동 발동! 슬롯에 기를 모아 공격 5 · 회복 2 · 방어막 1 · 주화 3 자동 시전 중…':s.skill?'룬 미니게임: '+({sword:'변하는 최고점에 맞춰 베기',gun:'머리 조준 사격',venom:'6초에 차이 5곳 찾기',shield:'방어할 방향을 직접 선택',hammer:'3초 후 0.5초마다 이동하는 균열',flame:'7개 문양의 순서를 기억하기',heal:'박동 타이밍 회복',coin:'3개 상자 중 당첨 1개 선택 · 꽝도 주화 획득'}[s.skill.kind]||'공격하기'):s.spinning?'회전하는 슬롯을 클릭 / STOP으로 정지하세요. 봉인된 슬롯은 무효입니다.':s.rerolling?'🔄 슬롯 자동 재회전 중…':s.awaitingRespin?'재회전 파워업을 사용할지 선택하세요':s.resolving?'연쇄 효과 진행 중…':'직접 선택한 '+pool().length+'개 룬 · '+s.reelCount+'칸 슬롯 · 3개 일치 자동회전마다 분노 +10 (최대 80) · 8회째 공격력 66 반격 · 골드 이자 10%';
  const comboEl=$('combo-counter');if(comboEl){comboEl.hidden=!(s.view==='fight'&&s.comboCount>0);comboEl.textContent='⚡ COMBO '+(s.comboCount||0);}
  $('reel-status').textContent=s.autoCasting?'⚡ AUTO CAST · '+(s.actionPos)+' / '+s.actions.length:s.skill?'SKILL · '+s.actionPos+' / '+s.actions.length:s.spinning?'STOP · '+s.stops.filter(Boolean).length+'/'+s.reelCount:s.rerolling?'🔄 AUTO RE-SPIN':s.awaitingRespin?'🔄 선택 · 턴 종료':s.resolving?'연쇄 효과 처리 중':'🎰 '+s.reelCount+'칸 슬롯 · '+pool().length+'개 문양 · '+pool().map(id=>R[runeBase(id)].icon).join(' ');
  renderPrep();renderRespinChoice();
@@ -4633,10 +4652,10 @@ function beginChainReroll(indices,source,token){
    const el=$('reels').children[i];if(el){el.classList.remove('combo-held');const note=el.querySelector('.chain-notice');if(note.textContent==='🔒 고정')note.textContent='';}
   }
   s.chainMotion=null;s.rerolling=false;refreshMatchBadges();
-  // The sixth natural auto spin finishes visually, but the new attacks are
+  // The eighth natural auto spin finishes visually, but the new attacks are
   // never auto-cast: the monster immediately interrupts the chain.
   if(comboCounterReady){
-   log('💢 자동회전 분노 '+s.comboRage+'/60! 여섯 번째 연쇄를 끊고 몬스터가 반격합니다.');
+   log('💢 자동회전 분노 '+s.comboRage+'/'+COMBO_RAGE_MAX+'! 8번째 연쇄를 끊고 몬스터가 반격합니다.');
    render();
    later(token,landDuration,()=>{
     for(const a of outcomes){const el=$('reels').children[a.reel];if(el)el.classList.remove('chain-land');}
@@ -4648,7 +4667,7 @@ function beginChainReroll(indices,source,token){
   const best=[...new Set(candidates)].map(id=>({id,n:s.reelSymbols.filter(x=>x===id).length})).filter(x=>x.n>=2).sort((a,b)=>b.n-a.n)[0];
   if(best)celebrateMatch(best.id,best.n);
   s.actions.splice(s.actionPos,0,...outcomes);
-  log('🔄 '+source+' 결과: '+outcomes.map(a=>(a.reel+1)+'번 '+R[a.id].icon).join(' · ')+(naturalCombo?' · 자동회전 분노 '+s.comboRage+'/60':' · 특수 분노 '+s.enemy.aggro+'/100'));
+  log('🔄 '+source+' 결과: '+outcomes.map(a=>(a.reel+1)+'번 '+R[a.id].icon).join(' · ')+(naturalCombo?' · 자동회전 분노 '+s.comboRage+'/'+COMBO_RAGE_MAX:' · 특수 분노 '+s.enemy.aggro+'/100'));
   render();later(token,landDuration,()=>{for(const a of outcomes){const el=$('reels').children[a.reel];if(el)el.classList.remove('chain-land');}runNextAction(token);});
  });
 }
@@ -4659,13 +4678,13 @@ function comboRageCounterattack(token){
  clearAutoRuneCharge();
  const hitLane=s.enemy?.plan?.hits?.[0]?.dir;
  const direction=Number.isInteger(hitLane)&&hitLane>=0&&hitLane<=2?hitLane:1;
- log('💢 분노 폭발! 자동 재회전 6회째 → 연쇄 중단 · '+s.enemy.name+'의 공격력 '+COMBO_COUNTERATTACK_POWER+' 반격!');
+ log('💢 분노 폭발! 자동 재회전 8회째 → 연쇄 중단 · '+s.enemy.name+'의 공격력 '+COMBO_COUNTERATTACK_POWER+' 반격!');
  sfx('bossAttack');flashViewport('attack-motion');
  fx('enemyAttack',{life:570,dir:direction});
  fx('monsterAttack',{life:790,dir:direction,name:s.enemy.name,style:monsterTrait(s.enemy.name).attack,charged:true});
  fx('laneHit',{life:660,dir:direction,charged:true});
  hurtPlayer(COMBO_COUNTERATTACK_POWER,direction,false,true);
- const toast=$('combat-toast');if(toast){toast.className='combat-toast hit visible';toast.innerHTML='<b>💢 분노 반격 · 66!</b><small>6번째 자동 재회전 · '+LANES[direction]+' 공격 · 연쇄 중단</small>';}
+ const toast=$('combat-toast');if(toast){toast.className='combat-toast hit visible';toast.innerHTML='<b>💢 분노 반격 · 66!</b><small>8번째 자동 재회전 · '+LANES[direction]+' 공격 · 연쇄 중단</small>';}
  render();
  later(token,850,()=>{if(s.hp<=0){gameOver();return;}finishTurn(token,true);});
 }
@@ -4865,7 +4884,7 @@ function showSkill(kind,action){
   simpleSkill(kind,'⬡ 방향 방어 예측','<div class="rune-desc">이번 방패를 <b>어디에</b> 세울까요?<br>세 방향은 각각 따로 보호!</div><div class="rune-choice-row">'+LANES.map((d,i)=>'<button class="rune-choice guard-pick" data-action="shield-guard" data-pos="'+i+'">'+LANE_ICONS[i]+'<small>'+d+'</small><small class="guard-value" id="shield-preview-'+i+'">보호 '+s.guards[i]+'</small></button>').join('')+'</div><div class="rune-note">일반 몬스터: 방향·피해량 공개<br>엘리트·보스: 방향만 숨김</div>');sfx('shield');renderEnemySpeechBubble();
  } else if(kind==='hammer'){
   sk.crack=rand(5);sk.readyAt=now+1000;sk.nextShift=sk.readyAt+500;sk.deadline=sk.readyAt+6500;sk.crackShownAt=sk.readyAt;sk.lastCrack=-1;sk.crackCount=1;
-  simpleSkill(kind,'⚒ 균열 강타 · 5바위','<div class="rune-desc">시작까지 <b id="hammer-countdown" class="hammer-countdown">1</b> · 균열은 0.5초마다 이동! <b>빨리 맞혀야 고득점!</b></div><div class="rock-row">'+[0,1,2,3,4].map(i=>'<button class="rock-tile" id="rock-'+i+'" data-action="hammer-strike" data-pos="'+i+'" disabled><span>🪨</span><b>╱</b></button>').join('')+'</div><div class="rune-note" id="hammer-note">몇 번째 균열이든 정타면 PERFECT · 최대 '+(SPECIAL_DAMAGE.hammerAccurate[0]+(action.lv-1)*SPECIAL_DAMAGE.hammerAccurate[1])+' 기본 피해<br>균열이 나타난 직후 누르면 속도 100점 · 빗나감/시간 초과 1 피해</div>');updateRocks(now);
+  simpleSkill(kind,'⚒ 균열 강타 · 5바위','<div class="rune-desc">시작까지 <b id="hammer-countdown" class="hammer-countdown">1</b> · 균열은 0.5초마다 이동! <b>빨리 맞혀야 고득점!</b></div><div class="rock-row">'+[0,1,2,3,4].map(i=>'<button class="rock-tile" id="rock-'+i+'" data-action="hammer-strike" data-pos="'+i+'" disabled><span>🪨</span><b>╱</b></button>').join('')+'</div><div class="rune-note" id="hammer-note">기본 피해 1~'+(SPECIAL_DAMAGE.hammerAccurate[0]+(action.lv-1)*SPECIAL_DAMAGE.hammerAccurate[1])+' · 정타면 언제든 PERFECT<br><strong>정타 시 적 공격 피해량 −50% (2턴 지속)</strong><br>균열 직후 누르면 속도 100점 · 빗나감/시간 초과 1 피해</div>');updateRocks(now);
  } else if(kind==='flame'){
   sk.sequence=Array.from({length:MAGIC_LENGTH},()=>rand(3));sk.index=0;sk.previewStart=now+2000;sk.previewEnd=sk.previewStart+MAGIC_LENGTH*MAGIC_PREVIEW_MS+150;sk.deadline=sk.previewEnd+4000;sk.previewStep=-1;sk.countdownShown=3;
   simpleSkill(kind,'✹ 마법 · 7문양 기억',
@@ -5115,7 +5134,7 @@ function updateSwordGauge(ts){
  if(perfect){perfect.style.top='auto';perfect.style.bottom=(peak*.9)+'%';perfect.style.height=(peak*.1)+'%';}
  if(button)button.classList.toggle('ready',pct>=peak*.7);
 }
-function breakCharge(method){if(!s?.enemy?.chargeReady||s.enemy.plan?.kind!=='charged')return false;s.enemy.chargeReady=false;s.enemy.stun=1;log('✦ '+method+' 성공! 보스의 5배 충전 공격을 끊었습니다.');fx('stun',{life:1000});fx('charging',{life:420,dir:s.enemy.chargeLane});sfx('perfect');render();return true;}
+function breakCharge(method){if(!s?.enemy?.chargeReady||s.enemy.plan?.kind!=='charged')return false;s.enemy.chargeReady=false;s.enemy.stun=1;log('✦ '+method+' 성공! 보스의 충전 강타를 끊었습니다.');fx('stun',{life:1000});fx('charging',{life:420,dir:s.enemy.chargeLane});sfx('perfect');render();return true;}
 function fireSword(){
  const sk=s?.skill;if(!sk||sk.kind!=='sword')return;
  updateSwordGauge(performance.now());const pct=sk.percent,{action,token}=sk;
@@ -5315,10 +5334,11 @@ function strikeHammer(pos){
    const before=s.enemy.shield;s.enemy.braceHits=0;s.enemy.shield=Math.floor(s.enemy.shield*.5);
    fx('monsterGuardBreak',{life:710});sfx('perfect');log('⚒ 균열 격파: 적 방어 태세 해제 · 방어막 '+(before-s.enemy.shield)+' 파괴!');
   }
-  const damage=hitEnemy('hammer',(base+(s.enchants.shatter?6:0))*act.mult,false,null,accurate?'PERFECT!':'',false,accurate);
- if(accurate){s.enemy.weakenTurns=Math.max(s.enemy.weakenTurns,1);if(specialActive('quake')&&Math.random()<.20){s.enemy.stun=1;fx('stun',{life:800});sfx('thunder');log('🌋 지진 인챈트! 적 다음 공격 기절');}}
+  // V116: Reverse the universal 1.30x weapon damage boost so the unbuffed Lv.1 hammer really deals 1~10.
+  const damage=hitEnemy('hammer',((base+(s.enchants.shatter?6:0))/WEAPON_DAMAGE_MULTIPLIER)*act.mult,false,null,accurate?'PERFECT!':'',false,accurate);
+ if(accurate){s.enemy.weakenTurns=Math.max(s.enemy.weakenTurns,2);if(specialActive('quake')&&Math.random()<.20){s.enemy.stun=1;fx('stun',{life:800});sfx('thunder');log('🌋 지진 인챈트! 적 다음 공격 기절');}}
  fx('hammer',{life:580});fx(accurate?'weaken':'whiff',{life:650});sfx('hammer');
- log('⚒ '+(accurate?'PERFECT! '+(sk.crackCount||1)+'번째 균열 정타 · 속도 점수 +'+points+'점 · 다음 공격 피해 −50%':'균열 놓침 · 속도 점수 0점 · 약화 없음')+' · '+damage+' 피해');finishMini(sk,550);}
+ log('⚒ '+(accurate?'PERFECT! '+(sk.crackCount||1)+'번째 균열 정타 · 속도 점수 +'+points+'점 · 적 공격 피해량 50% 약화 (2턴)':'균열 놓침 · 속도 점수 0점 · 약화 없음')+' · '+damage+' 피해');finishMini(sk,550);}
 function guardShield(pos){const sk=s?.skill;if(!sk||sk.kind!=='shield'||pos<0||pos>2)return;const act=sk.action;
  const guardianBoost=shopRelicActive('guardian')?1.25:1;const amount=Math.max(1,Math.round((6+(runeLevel('shield')-1)*2+(s.enchants.warding?3:0)+(s.enchants.fortress?4:0))*act.mult*(s.enchants.shieldcore?1.5:1)*guardianBoost));const before=s.guards[pos];s.guards[pos]=cap(before+amount,0,Math.round((s.enchants.shieldcore?40:28)*guardianBoost));sumGuards();
  fx('shield',{life:680,dir:pos});fx('guardRaise',{life:760,dir:pos});sfx('shield');if(s.enchants.warding)sfx('warding');log('⬡ '+LANES[pos]+' 방어막 +'+(s.guards[pos]-before)+' (다른 방향은 막을 수 없음)');finishMini(sk,440);}
@@ -5408,7 +5428,7 @@ function updateSkill(ts){
   else{
    if($('hammer-countdown'))$('hammer-countdown').textContent='GO!';
    updateRocks(ts);
-   if($('hammer-note')){const reward=hammerSpeedResult(sk,true,ts);$('hammer-note').textContent='⏱ '+(sk.crackCount||1)+'번째 균열 · 정타 시 PERFECT / 기본 '+reward.base+' 피해 · 지금 '+reward.points+'점 · 틀리면 1 피해';}
+   if($('hammer-note')){const reward=hammerSpeedResult(sk,true,ts);$('hammer-note').textContent='⏱ '+(sk.crackCount||1)+'번째 균열 · 정타 PERFECT '+reward.base+' 피해 · 적 공격 피해량 −50% (2턴) · 지금 '+reward.points+'점 · 틀리면 1 피해';}
   }
  } else if(sk.kind==='flame'){
   if(ts<sk.previewStart){
@@ -5486,7 +5506,11 @@ function combatFeedback(raw,blocked,actual,dir,ignore=false,charged=false){
  setTimeout(()=>{if(combatFlashId===id){f.className='';t.className='combat-toast';}},charged?1050:810);
 }
 function flashGuardHud(){const e=document.querySelector('.guard-hud');if(!e)return;e.classList.remove('guard-flash');void e.offsetWidth;e.classList.add('guard-flash');setTimeout(()=>e.classList.remove('guard-flash'),730);}
-function enemyMove(token){const e=s.enemy;if(e.stun>0){e.stun=0;e.chargeReady=false;log(e.paralyzed?'⚡ 적이 마비되어 다음 행동을 하지 못했습니다.':'💫 적이 기절해 공격하지 못했습니다.');e.paralyzed=false;fx('stun',{life:510});advanceEnemyPlan();return 520;}
+function enemyMove(token){const e=s.enemy;
+ const weakened=e.weakenTurns>0;
+ // End of the enemy action, including support/stun turns, consumes one weakening turn.
+ // Frozen turns are delayed, so those do not consume weakness.
+ const completeEnemyTurn=()=>{if(weakened)e.weakenTurns=Math.max(0,e.weakenTurns-1);advanceEnemyPlan();};if(e.stun>0){e.stun=0;e.chargeReady=false;log(e.paralyzed?'⚡ 적이 마비되어 다음 행동을 하지 못했습니다.':'💫 적이 기절해 공격하지 못했습니다.');e.paralyzed=false;fx('stun',{life:510});completeEnemyTurn();return 520;}
  if(e.freezeTurns>0){e.freezeTurns--;fx('freeze',{life:700});sfx('freeze');log('❄️ 빙결! 적의 행동이 한 턴 미뤄집니다. 다음 턴에도 같은 공격 예고가 유지됩니다.');return 540;}
  let p=e.plan;if(!p){refreshEnemyPlan();return 420;}
  // Raise the shield before resolving this turn's attacks. This is one combined
@@ -5499,9 +5523,9 @@ function enemyMove(token){const e=s.enemy;if(e.stun>0){e.stun=0;e.chargeReady=fa
   log('🛡 '+e.name+' 방어막 +'+gained+' (공격과 동시 실행)');
  }
  if(p.kind==='lock'){
-  e.lockedReel=rand(s.reelCount);fx('seal',{index:e.lockedReel,life:1050});sfx('enemy');log('🔒 '+(e.lockedReel+1)+'번 슬롯 봉인! 다음 턴 해당 슬롯에는 룬이 적용되지 않습니다.');if(!hybrid){advanceEnemyPlan();return 630;}
+  e.lockedReel=rand(s.reelCount);fx('seal',{index:e.lockedReel,life:1050});sfx('enemy');log('🔒 '+(e.lockedReel+1)+'번 슬롯 봉인! 다음 턴 해당 슬롯에는 룬이 적용되지 않습니다.');if(!hybrid){completeEnemyTurn();return 630;}
  }
- if(p.kind==='guard'){const gain=8+Math.floor(s.stage*1.5);e.shield=Math.min(75,e.shield+gain);fx('monsterWard',{life:1050,amount:gain});sfx('shield');log('🟢 '+e.name+'이 점액 방어막 +'+gain+' 획득!');if(!hybrid){advanceEnemyPlan();return 900;}}
+ if(p.kind==='guard'){const gain=8+Math.floor(s.stage*1.5);e.shield=Math.min(75,e.shield+gain);fx('monsterWard',{life:1050,amount:gain});sfx('shield');log('🟢 '+e.name+'이 점액 방어막 +'+gain+' 획득!');if(!hybrid){completeEnemyTurn();return 900;}}
   if(['heal','ward','brace'].includes(p.kind)){
    e.supportUsed=(e.supportUsed||0)+1;
    if(p.kind==='heal'){
@@ -5517,21 +5541,20 @@ function enemyMove(token){const e=s.enemy;if(e.stun>0){e.stun=0;e.chargeReady=fa
     e.braceHits=2;fx('monsterBrace',{life:1100});sfx('shield');
     log('🛡 '+e.name+' · 방어 태세! 다음 공격 2회 38% 피해 감소 (망치 PERFECT로 해제)');
    }
-   if(!hybrid){advanceEnemyPlan();return 1200;}
+   if(!hybrid){completeEnemyTurn();return 1200;}
   }
  if(p.kind==='charge'){
-  e.chargeReady=true;e.chargeLane=rand(3);fx('charging',{dir:e.chargeLane,life:1130});sfx('charge');log('🔴 적이 기를 모읍니다. 다음 행동 '+LANES[e.chargeLane]+'에 '+(s.fight===2?'5배':'2.5배')+' 강타!');if(!hybrid){advanceEnemyPlan();return 800;}
+  e.chargeReady=true;e.chargeLane=rand(3);fx('charging',{dir:e.chargeLane,life:1130});sfx('charge');log('🔴 적이 기를 모읍니다. 다음 행동 '+LANES[e.chargeLane]+'에 '+(s.fight===2&&BOSS_CHARGED_ATTACK_DAMAGE[s.stage]?BOSS_CHARGED_ATTACK_DAMAGE[s.stage]+' 피해':s.fight===2?'5배':'2.5배')+' 강타!');if(!hybrid){completeEnemyTurn();return 800;}
  }
  if(p.kind==='charged')e.chargeReady=false;
- const weakened=e.weakenTurns>0;
- if(weakened)log('⚒ 망치 약화 발동! 이번 적 공격 전부 피해량 50% 감소');
+ if(weakened)log('⚒ 전투망치 약화! 적 공격 피해량 −50% · 이번 행동 포함 '+e.weakenTurns+'턴 남음');
  let delay=240;for(const [i,h] of p.hits.entries()){
   const impactTime=210+i*460;
   later(token,Math.max(0,impactTime-175),()=>{fx('enemyWindup',{life:320,dir:h.dir});sfx('enemyWindup');});
-  later(token,impactTime,()=>{const noShieldBefore=s.guards[h.dir]<=0,oldHp=s.hp;flashViewport('attack-motion');fx('enemyAttack',{life:510,dir:h.dir});fx('monsterAttack',{life:690,dir:h.dir,name:e.name,style:monsterTrait(e.name).attack,charged:p.kind==='charged'||p.kind==='enraged'});fx('laneHit',{life:550,dir:h.dir,pierce:h.ignore||!!h.pierceRate,charged:p.kind==='charged'||p.kind==='enraged'});sfx(p.kind==='charged'||p.kind==='enraged'?'bossAttack':(['arrow','spear'].includes(monsterTrait(e.name).attack)?'gun':['fire','fireball','firebreath','inferno','darkfire'].includes(monsterTrait(e.name).attack)?'flame':['lightning','blizzard'].includes(monsterTrait(e.name).attack)?'thunder':'enemy'));hurtPlayer(e.attack*h.mult*(weakened?.5:1),h.dir,h.ignore,p.kind==='charged'||p.kind==='enraged',h.pierceRate||0);if(h.bleed&&noShieldBefore&&oldHp>s.hp&&s.hp>0){s.playerBleedTurns=Math.max(s.playerBleedTurns||0,3);fx('impact',{x:100+h.dir*70,y:148,damage:0,text:'BLEED',color:'#ff7897',life:780});log('🩸 '+e.name+'의 출혈 공격! 방어막이 없는 '+LANES[h.dir]+' 피격 · 3턴간 매 턴 HP −2');}if(weakened&&i===p.hits.length-1)e.weakenTurns=Math.max(0,e.weakenTurns-1);render();});
+  later(token,impactTime,()=>{const noShieldBefore=s.guards[h.dir]<=0,oldHp=s.hp;flashViewport('attack-motion');fx('enemyAttack',{life:510,dir:h.dir});fx('monsterAttack',{life:690,dir:h.dir,name:e.name,style:monsterTrait(e.name).attack,charged:p.kind==='charged'||p.kind==='enraged'});fx('laneHit',{life:550,dir:h.dir,pierce:h.ignore||!!h.pierceRate,charged:p.kind==='charged'||p.kind==='enraged'});sfx(p.kind==='charged'||p.kind==='enraged'?'bossAttack':(['arrow','spear'].includes(monsterTrait(e.name).attack)?'gun':['fire','fireball','firebreath','inferno','darkfire'].includes(monsterTrait(e.name).attack)?'flame':['lightning','blizzard'].includes(monsterTrait(e.name).attack)?'thunder':'enemy'));hurtPlayer(enemyHitDamage(e,p,h,weakened),h.dir,h.ignore,p.kind==='charged'||p.kind==='enraged',h.pierceRate||0);if(h.bleed&&noShieldBefore&&oldHp>s.hp&&s.hp>0){s.playerBleedTurns=Math.max(s.playerBleedTurns||0,3);fx('impact',{x:100+h.dir*70,y:148,damage:0,text:'BLEED',color:'#ff7897',life:780});log('🩸 '+e.name+'의 출혈 공격! 방어막이 없는 '+LANES[h.dir]+' 피격 · 3턴간 매 턴 HP −2');}render();});
   delay=impactTime+470;
  }
- later(token,delay-120,advanceEnemyPlan);
+ later(token,delay-120,completeEnemyTurn);
  return delay+90;
 }
 function grantBattleLoot(boss){
@@ -6040,7 +6063,55 @@ function answerRevivalQuiz(index){
   else {newEnemy();s.battleCoinsEarned=Math.min(BATTLE_GOLD_LIMIT,priorEarned);render();}
  }else{ s.activeEvent=null;showMap(); }
 }
-function gameOver(){if(!s||s.view!=='fight')return;startRevivalQuiz('battle');}
+// V119: one scripted rescue at the first lethal blow from the final math boss.
+// Unlike the normal factorization revival, this special event carries no gold penalty,
+// preserves the boss's remaining HP, and permanently unlocks the 15 rune types.
+function isFinalBossRescueEligible(){
+ return !!s&&s.view==='fight'&&s.stage===STAGES.length-1&&s.fight===2&&
+  s.activeNodeType==='boss'&&s.enemy?.name==='수학대마왕'&&s.enemy.hp>0&&
+  !s.finalRescueUsed;
+}
+function startFinalBossRescue(){
+ if(!isFinalBossRescueEligible())return false;
+ s.finalRescueUsed=true;
+ battleToken++;stopTimers();effects=[];
+ s.skill=null;hideSkill();s.spinning=false;s.resolving=false;s.rerolling=false;
+ s.awaitingRespin=false;s.turnEnding=false;s.autoCasting=false;s.deckPending=false;
+ s.deckDraft=null;s.actions=[];s.actionPos=0;s.chainMotion=null;
+ $('game').classList.remove('deck-pending');clearAutoRuneCharge();
+ sfx('charge');log('🤝 수학대마왕에게 쓰러진 순간… 박승휘의 목소리가 들려온다.');
+ showStoryScene('final_rescue');
+ return true;
+}
+function resumeFinalBossWithFriend(){
+ if(!s||!s.finalRescueUsed||!s.enemy||s.stage!==STAGES.length-1)return;
+ const newlyUnlocked=[];
+ s.levels=s.levels||{};s.copies=s.copies||{};
+ for(const id of Object.keys(R)){
+  if(!(s.copies[id]>0))newlyUnlocked.push(id);
+  s.copies[id]=1;
+  if(!Number.isFinite(s.levels[id])||s.levels[id]<1)s.levels[id]=1;
+ }
+ s.deck=[...new Set([...s.deck.filter(id=>!!R[id]),...Object.keys(R)])];
+ normalizeActiveDeck();
+ s.hp=s.maxHp;s.playerBleedTurns=0;s.view='fight';
+ s.storyPending=null;s.storyLineIndex=0;s.deckPending=false;s.deckDraft=null;
+ s.spinning=false;s.resolving=false;s.skill=null;s.rerolling=false;
+ s.autoCasting=false;s.awaitingRespin=false;s.turnEnding=false;s.rerollUsed=false;
+ s.chainRerolls=0;s.comboCount=0;s.comboRage=0;s.enemy.aggro=0;
+ s.actions=[];s.actionPos=0;s.reelCount=reelCountForStage(s.stage);
+ s.reelVersions=Array(s.reelCount).fill(0);
+ s.reelSymbols=Array.from({length:s.reelCount},()=>rollRune());
+ s.stops=Array(s.reelCount).fill(true);clearAutoRuneCharge();
+ hideSkill();resetReels();hideModal();
+ sfx('victory');log('🤝 승휘의 지원! 모든 룬 '+Object.keys(R).length+'종 해금 (새로 획득 '+newlyUnlocked.length+'종) · HP '+s.hp+'/'+s.maxHp+' 완전 회복 · 보스 HP 유지');
+ render();showTurnDeckModal();saveGameNow();
+}
+function gameOver(){
+ if(!s||s.view!=='fight')return;
+ if(startFinalBossRescue())return;
+ startRevivalQuiz('battle');
+}
 function victory(){if(!s)return;s.clearedFloors[STAGES.length-1]=true;sfx('victory');if(s.endingDone)showVictorySummary();else showStoryScene(s.storyPending&&STORY_SCENES[s.storyPending]?s.storyPending:'engrave');}
 
 function showInventory(){
@@ -6714,7 +6785,7 @@ function drawPersistentGuard(t){if(!s||s.view==='dead')return;
  }cx.restore();}
  if(s.enemy?.shield>0){cx.save();cx.strokeStyle='#f1cf8b';cx.globalAlpha=.22+.14*Math.sin(t*2);cx.lineWidth=5;cx.beginPath();cx.ellipse(354,142,110,116,0,0,Math.PI*2);cx.stroke();cx.restore();}
  if(s.enemy?.braceHits>0){cx.save();cx.globalAlpha=.5+.14*Math.sin(t*4);cx.fillStyle='#8ebcff14';cx.strokeStyle='#b5ddff';cx.shadowColor='#75b3fa';cx.shadowBlur=9;cx.lineWidth=5;cx.beginPath();cx.moveTo(354,21);cx.lineTo(471,81);cx.lineTo(456,201);cx.lineTo(354,266);cx.lineTo(252,201);cx.lineTo(237,81);cx.closePath();cx.fill();cx.stroke();cx.font='bold 16px system-ui';cx.fillStyle='#d9edff';cx.textAlign='center';cx.fillText('IRON GUARD '+s.enemy.braceHits,354,36);cx.restore();}
- if(s.enemy?.chargeReady){cx.save();cx.strokeStyle='#ff816c';cx.lineWidth=5;cx.globalAlpha=.45+.32*Math.sin(t*10);cx.beginPath();cx.arc(354,110,64+8*Math.sin(t*9),0,Math.PI*2);cx.stroke();cx.font='bold 16px system-ui';cx.fillStyle='#ffbd9e';cx.fillText('5× CHARGE',298,42);cx.restore();}
+ if(s.enemy?.chargeReady){cx.save();cx.strokeStyle='#ff816c';cx.lineWidth=5;cx.globalAlpha=.45+.32*Math.sin(t*10);cx.beginPath();cx.arc(354,110,64+8*Math.sin(t*9),0,Math.PI*2);cx.stroke();cx.font='bold 16px system-ui';cx.fillStyle='#ffbd9e';cx.fillText((s.fight===2&&BOSS_CHARGED_ATTACK_DAMAGE[s.stage]?BOSS_CHARGED_ATTACK_DAMAGE[s.stage]+' CHARGE':'5× CHARGE'),298,42);cx.restore();}
  if(s.enemy?.poisonTurns>0){cx.save();cx.globalAlpha=.7;for(let i=0;i<9;i++){const x=300+i*12+Math.sin(t*1.8+i)*8,y=199-((t*17+i*23)%125);ell(x,y,3+(i%3),3+(i%3),'#a6dd69');}cx.restore();}
  if(s.enemy?.burnTurns>0){cx.save();cx.globalAlpha=.5+.18*Math.sin(t*16);for(let i=0;i<13;i++){const x=297+i*10+Math.sin(t*4+i)*10,y=208-((t*33+i*17)%125);ell(x,y,3+(i%3),6+(i%3),'#ff9c42');}cx.restore();}if(s.enemy?.paralyzed&&s.enemy?.stun>0){cx.save();cx.globalAlpha=.7+.25*Math.sin(t*15);cx.fillStyle='#ffed98';cx.shadowColor='#ffd54e';cx.shadowBlur=22;cx.font='bold 24px system-ui';cx.textAlign='center';cx.fillText('⚡',354,25);cx.restore();}
  if(s.enemy?.freezeTurns>0){cx.save();cx.globalAlpha=.48+.18*Math.sin(t*7);cx.strokeStyle='#9deeff';cx.shadowBlur=12;cx.shadowColor='#a5f4ff';cx.lineWidth=3;cx.beginPath();cx.ellipse(354,145,82,91,0,0,Math.PI*2);cx.stroke();cx.font='bold 20px system-ui';cx.textAlign='center';cx.fillStyle='#e7fbff';cx.fillText('❄',354,27);cx.restore();}
