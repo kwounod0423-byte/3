@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>V107 · 폐허의 슬롯 던전</title>
+<title>V108 · 폐허의 슬롯 던전</title>
 <style>
 .v39-preview-actions{display:flex;flex-wrap:wrap;gap:7px;padding:4px 10px 12px;}
 .v39-preview-actions button{font-size:11px;padding:7px 9px;border:1px solid #789f8a;border-radius:7px;background:#1a3236;color:#c3f4db;cursor:pointer;}
@@ -4551,16 +4551,22 @@ function prepareChainReroll(indices,source,token,delay=CHAIN_WINDUP_MS){
 function beginChainReroll(indices,source,token){
  if(!valid(token)||s.turnEnding)return;
  const naturalCombo=source==='일치 콤보';
- // Natural triples NEVER spin non-matching reels.  The matched group is
- // recomputed at the start of the animation (not just when it is scheduled).
- const currentMatch=naturalCombo?cascadeMatchingSlots(s.reelSymbols):null;
- const targets=(naturalCombo?(currentMatch?.indices||[]):[...new Set(indices)])
-  .filter(i=>Number.isInteger(i)&&i>=0&&i<s.reelCount&&s.reelSymbols[i]!=='jam');
+ // V108: restore the pre-auto-cast slot-selection rule (V102/V103).
+ // The only natural-combo targets are the ORIGINAL matching reel indices.
+ // Never rediscover/recalculate a different set during the wind-up animation.
+ const requested=Array.isArray(indices)?indices:[];
+ let targets=[...new Set(requested)].filter(i=>Number.isInteger(i)&&i>=0&&i<s.reelCount&&s.reelSymbols[i]!=='jam');
+ if(naturalCombo){
+  const matchingRune=targets.length?s.reelSymbols[targets[0]]:null;
+  targets=targets.filter(i=>s.reelSymbols[i]===matchingRune);
+  if(targets.length<3){log('🔒 일치 룬 3개 미만 · 콤보 재회전 취소');later(token,170,()=>runNextAction(token));return;}
+ }
  if(!targets.length){log('🔒 재회전할 수 있는 슬롯이 없습니다.');later(token,170,()=>runNextAction(token));return;}
  const spinDuration=naturalCombo?740:CHAIN_SPIN_MS;
  const landDuration=naturalCombo?200:CHAIN_LAND_MS;
- // A triple match is a probability-driven cascade, not an item/rune reroll.
- // Thus it NEVER increases aggro or consumes the old special-reroll cap.
+ // Nonmatching reels remain completely untouched during a natural combo.
+ const untouched=naturalCombo?new Map(s.reelSymbols.map((id,i)=>[i,id]).filter(([i])=>!targets.includes(i))):null;
+ // Natural combos do not raise enemy rage or consume the special-reroll limit.
  if(!naturalCombo){s.chainRerolls+=targets.length;s.enemy.aggro=cap(s.enemy.aggro+targets.length*aggroPerReel(),0,100);}
  if(!naturalCombo&&(s.enemy.aggro>=100||s.chainRerolls>CHAIN_LIMIT)){
   log('💢 분노 폭발! '+source+' 연쇄가 끊기고 적이 즉시 반격합니다.');sfx('enemy');
@@ -4571,23 +4577,25 @@ function beginChainReroll(indices,source,token){
  }
  s.rerolling=true;s.awaitingRespin=false;const motions=[];const outcomes=[];
  if(naturalCombo){
-  for(let i=0;i<s.reelCount;i++){
-   const reel=$('reels').children[i];if(!reel)continue;
-   const held=!targets.includes(i)&&s.reelSymbols[i]!=='jam';
-   reel.classList.toggle('combo-held',held);
-   if(held){const note=reel.querySelector('.chain-notice');if(note)note.textContent='🔒 고정';}
+  for(const [i] of untouched){
+   const el=$('reels').children[i];if(!el)continue;
+   el.classList.remove('chain-ready','chain-reroll','chain-land');
+   if(s.reelSymbols[i]!=='jam'){
+    el.classList.add('combo-held');
+    const note=el.querySelector('.chain-notice');if(note)note.textContent='🔒 고정';
+   }
   }
-  log('⚡ 동일 룬 '+targets.length+'개 · '+targets.map(i=>i+1).join('·')+'번 슬롯만 회전, 나머지 고정');
+  log('⚡ '+targets.length+'개 일치 → '+targets.map(i=>i+1).join('·')+'번 슬롯만 재회전 · 다른 슬롯 고정');
  }
  for(const i of targets){
   s.reelVersions[i]++;
   const id=rollRune(),el=$('reels').children[i],track=el.querySelector('.reel-track');
   const seq=Array.from({length:18},()=>rollRune());
-  // The original spin stays interactive. Every NEW rune from any re-spin auto-casts.
+  // V103 auto-cast is only a RESULT-processing change; it never selects reels.
   outcomes.push({id,reel:i,version:s.reelVersions[i],lv:runeLevel(id),mult:1,auto:true});
   track.style.transition='none';track.innerHTML=seq.concat(seq).map(cell).join('');
   motions.push([i,{seq,dist:0,speed:900+rand(250),elapsed:0,duration:spinDuration,step:track.querySelector('.reel-cell').getBoundingClientRect().height||el.querySelector('.reel-window').clientHeight}]);
-  el.classList.add('chain-reroll');el.classList.remove('crit','chain-ready','chain-land');
+  el.classList.add('chain-reroll');el.classList.remove('crit','chain-ready','chain-land','combo-held');
   const note=el.querySelector('.chain-notice');if(note)note.textContent=naturalCombo?'⚡ COMBO '+(s.comboCount||1):'🔄 AUTO SPIN';
   const badge=el.querySelector('.reel-mult');if(badge)badge.textContent='🔄';
  }
@@ -4598,12 +4606,13 @@ function beginChainReroll(indices,source,token){
    el.classList.remove('chain-reroll','chain-ready','chain-land','snap');void el.offsetWidth;el.classList.add('chain-land','snap');
    const note=el.querySelector('.chain-notice');if(note)note.textContent='';sfx('stop',i);
   }
-  s.chainMotion=null;s.rerolling=false;refreshMatchBadges();
-  for(const reel of $('reels').children){
-   if(!reel.classList.contains('combo-held'))continue;
-   reel.classList.remove('combo-held');
-   const note=reel.querySelector('.chain-notice');if(note)note.textContent='';
+  // If some unrelated UI handler has affected a held symbol, restore it now.
+  // In normal play this check does nothing: only target slots changed above.
+  if(untouched)for(const [i,id] of untouched){
+   if(s.reelSymbols[i]!==id){s.reelSymbols[i]=id;const el=$('reels').children[i];if(el){const track=el.querySelector('.reel-track');track.style.transition='none';track.style.transform='translate3d(0,0,0)';track.innerHTML=cell(id);}}
+   const el=$('reels').children[i];if(el){el.classList.remove('combo-held');const note=el.querySelector('.chain-notice');if(note.textContent==='🔒 고정')note.textContent='';}
   }
+  s.chainMotion=null;s.rerolling=false;refreshMatchBadges();
   const candidates=outcomes.map(a=>a.id).filter(id=>id!=='jam'&&R[id]);
   const best=[...new Set(candidates)].map(id=>({id,n:s.reelSymbols.filter(x=>x===id).length})).filter(x=>x.n>=2).sort((a,b)=>b.n-a.n)[0];
   if(best)celebrateMatch(best.id,best.n);
