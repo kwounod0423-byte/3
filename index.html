@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>V121 · 폐허의 슬롯 던전</title>
+<title>V123 · 폐허의 슬롯 던전</title>
 <style>
 .v39-preview-actions{display:flex;flex-wrap:wrap;gap:7px;padding:4px 10px 12px;}
 .v39-preview-actions button{font-size:11px;padding:7px 9px;border:1px solid #789f8a;border-radius:7px;background:#1a3236;color:#c3f4db;cursor:pointer;}
@@ -2415,6 +2415,20 @@ body{touch-action:manipulation}
 @media(max-height:540px){.vn-memory-prop{top:18%}.vn-memory-emoji{font-size:34px}.vn-memory-label{font-size:8px}}
 @media(prefers-reduced-motion:reduce){.vn-stage.memory-enter,.vn-stage.memory-exit{animation:none}}
 
+
+/* V123: The new pre-final-boss oath scene. Battle layout and original palette unchanged. */
+.vn-stage.boss-oath{background:radial-gradient(ellipse at 77% 30%,#74455f 0%,#372943 36%,#181f35 82%);border-color:#c4a1a7;box-shadow:inset 0 0 30px #d9485860,0 0 14px #50334983}
+.vn-stage.boss-oath::before{inset:9% 12% 12%;border:7px solid #ae8596;border-bottom-color:#4d3648;background:linear-gradient(92deg,#36314a 0%,#1b2038 40%,#542c47 84%,#1a1c2f);box-shadow:0 0 19px #d277a342,inset 0 0 48px #1c122a}
+.vn-stage.boss-oath .vn-glow{background:radial-gradient(ellipse at 78% 46%,#a2405755,transparent 48%),linear-gradient(0deg,#100c23c8,transparent 68%)}
+.vn-stage.boss-oath .vn-person.hyuk{left:2%;filter:drop-shadow(0 8px 8px #050915) drop-shadow(0 0 8px #a5a0e455)}
+.vn-boss-omen{position:absolute;z-index:2;right:9%;top:19%;height:72%;width:34%;min-width:68px;background:radial-gradient(ellipse at 50% 37%,#362c43 0%,#151628 59%,#0c101e 82%);clip-path:polygon(38% 0,48% 15%,60% 0,70% 18%,85% 26%,78% 38%,90% 65%,100% 100%,0 100%,11% 62%,18% 35%,10% 25%,28% 16%);filter:drop-shadow(0 0 12px #d85d77);opacity:.9;animation:boss-omen-pulse 2.5s ease-in-out infinite alternate}
+.vn-boss-omen-eyes{position:absolute;top:31%;left:30%;right:30%;height:8%;background:linear-gradient(90deg,#f6d19c 0 24%,transparent 25% 73%,#f6d19c 74%);filter:drop-shadow(0 0 5px #ff8465)}
+.vn-boss-equations{position:absolute;z-index:2;top:12%;right:12%;color:#edbac0b3;font:700 clamp(13px,3.5dvh,27px) Georgia,serif;letter-spacing:4px;text-shadow:0 0 15px #f2677db5;transform:rotate(-5deg)}
+.vn-stage.boss-oath.oath-final{box-shadow:inset 0 0 45px #e3bd7d55,0 0 20px #dd7e7a70}
+.vn-stage.boss-oath.oath-final .vn-person.hyuk{filter:drop-shadow(0 0 15px #e9d5a5a8)}
+@keyframes boss-omen-pulse{to{opacity:.7;transform:translateY(-3px)}}
+@media(prefers-reduced-motion:reduce){.vn-boss-omen{animation:none}}
+
 /* V119 · The final boss rescue is a story-only overlay; battle UI remains V110 original. */
 .vn-stage.final-rescue{background:radial-gradient(circle at 57% 33%,#73639a,#3f345e 52%,#1b1d36 100%);box-shadow:inset 0 0 26px #b5a4f957}
 .vn-stage.final-rescue::before{inset:12% 12% 14%;border:7px solid #b4a6cb;border-bottom-color:#d4bd86;border-radius:12px;background:linear-gradient(125deg,#151830,#403552 62%,#21172e);box-shadow:0 0 22px #b6a0ee55,inset 0 0 21px #f3ddba44}
@@ -2925,7 +2939,7 @@ const TUTORIAL_START_RUNE_MINIGAMES={
  gun:'<strong>미니게임:</strong> 조준점 맞혀 쏘기<br>0~52 피해',
  venom:'<strong>미니게임:</strong> 다른 그림 찾기<br>중독 0~3/턴',
  shield:'<strong>미니게임:</strong> 공격 방향 막기<br>방어막 +6',
- hammer:'<strong>미니게임:</strong> 움직이는 균열 정확히 맞히기<br>피해 1~10 · 적 공격 피해 50% 감소 · 2턴 지속 (Lv.1)<br>앞의 두 균열을 놓쳐도 세 번째 정타는 PERFECT',
+ hammer:'<strong>미니게임:</strong> 움직이는 균열 정확히 맞히기<br>피해 1~10 · 적 공격 피해 50% 감소 · 2턴 지속 (Lv.1)',
  coin:'<strong>미니게임:</strong> 상자 1개 고르기<br>주화 10~38G',
  heal:'<strong>미니게임:</strong> 박동 타이밍<br>HP 1~5 회복',
  flame:'<strong>미니게임:</strong> 문양 순서 기억<br>0~30 마법 피해'
@@ -2989,11 +3003,11 @@ function isValidDeck(arr,copies=null){
 }
 function ownedDistinctAfterRemoving(id){return s.deck.length-(s.copies[id]===1?1:0);}
 const ITEMS={
- potion:{icon:'🧪',name:'응급 포션',cost:30,desc:'전투 중 체력 12 회복'},
- ward:{icon:'🧿',name:'삼면 결계',cost:44,desc:'좌·중·우 방어막 각각 +5'},
- bomb:{icon:'💣',name:'폭발탄',cost:53,desc:'방어막 일부를 뚫는 마법 피해 17'},
+ potion:{icon:'🧪',name:'응급 포션',cost:400,desc:'전투 중 체력 12 회복'},
+ ward:{icon:'🧿',name:'삼면 결계',cost:300,desc:'좌·중·우 방어막 각각 +5'},
+ bomb:{icon:'💣',name:'폭발탄',cost:200,desc:'방어막 일부를 뚫는 마법 피해 17'},
  flash:{icon:'✨',name:'섬광탄',cost:1000,desc:'적의 다음 행동 1회 취소'},
- key:{icon:'🗝️',name:'봉인 해제키',cost:35,desc:'봉인된 슬롯 1칸 즉시 복구'},
+ key:{icon:'🗝️',name:'봉인 해제키',cost:100,desc:'봉인된 슬롯 1칸 즉시 복구'},
  focus:{icon:'🎯',name:'위력 증폭제',cost:300,desc:'다음 적중 공격 1.5배 증폭'},
  heart:{icon:'❤️',name:'생명력 확장 포션',cost:1000,desc:'1회 사용 · 최대 HP +12 및 현재 HP +12'},
  respin:{icon:'🎟️',name:'재회전 티켓',cost:700,desc:'1회 사용 · 이번 전투에 무료 전체 재회전 1번 예약'}
@@ -3908,9 +3922,10 @@ function renderStarter(){
 }
 
 const STORY_SCENES={"b1_start":{"no":"PROLOGUE · 낯선 교실","title":"갑자기 뒤바뀐 세상","emoji":"🏫","tone":"school","where":"익숙하지만 낯선 학교 · 학창 시절","button":"몬스터와 맞서며 전투 배우기","lines":[["나레이션","한순간 세상이 뒤집혔다. 평범한 현실이 사라지고, 눈앞이 게임 속 학교로 바뀌었다. 권혁준은 이유도 모른 채 학창 시절의 교복을 입고 서 있었다."],["권혁준","“뭐야… 여긴 어디야? 잠깐, 이 교복은 뭐지? 내가 왜 다시 학생이 된 거야?”"],["나레이션","유리창에 비친 모습은 학창 시절의 권혁준이다. 학교는 분명 기억 속 모습 그대로인데, 사물 위로 이상한 숫자와 표시들이 떠오른다."],["박승휘","“혁준아!”"],["권혁준","“너 승휘야??”"],["나레이션","눈앞에 학창 시절의 절친인 박승휘가 있었다. 오랜만에 만난 친구와의 재회에 기뻐할 틈도 없이…"],["나레이션","복도 저편에서 끼이이익…… 무언가 문을 긁는 소리가 들렸다. 그 순간, **쾅!!** 교실 문이 부서지며 무시무시한 몬스터가 들이닥쳤다!"],["권혁준","“뭐야?! 문밖에 몬스터가 있어! 갑자기 왜 이런 게 튀어나오는 거야!”"],["박승휘","“너 예전에 우리가 같이하던 룬이랑 슬롯, 설마 잊은 건 아니지? 지금 설명할 테니까 잘 들어. 먼저 슬롯부터 돌려!”"]]},"b1_mid":{"no":"B1 · 함께 싸우는 법","title":"두 사람이 만든 콤보","emoji":"🎮","tone":"school","where":"지하 복도 · 첫 번째 전투 이후","button":"승휘와 다음 갈림길로","lines":[["박승휘","“방패는 몬스터가 노리는 방향에! 검은 정확한 순간에! 우리 옛날에도 이렇게 연습했잖아.”"],["권혁준","“이상하네. 분명 잊고 있었는데, 네 목소리를 들으니 손이 먼저 움직여.”"],["나레이션","뒤틀린 복도 끝에서 게임의 시작을 알리는 듯한 효과음이 울려 퍼졌다."]]},"floor1":{"no":"CHAPTER 1 · 1F","title":"계단에 남은 두 사람의 웃음","emoji":"🔎","tone":"hall","where":"1층 · 오래된 교실 앞 복도","button":"1층에서 승휘 찾기","lines":[["나레이션","지하 1층의 문이 열리자, 조금 전까지 곁에서 떠들던 박승휘가 감쪽같이 사라졌다. 낡은 계단에는 권혁준의 발소리만 울렸다."],["권혁준","“승휘야! 야, 장난치지 마. 방금까지 같이 있었잖아!”"],["나레이션","1층 복도 게시판에 삐뚤빼뚤한 낙서가 보였다. 우산 하나 아래에 꼭 붙어 선 두 사람. 한쪽 옆에는 작은 글씨로 ‘혁준 + 승휘’라고 적혀 있었다."],["권혁준","“이 그림… 설마 우리가 그린 거야?”"],["나레이션","순간 빗소리가 귀에 되살아났다. 학창 시절 어느 늦은 오후, 갑작스러운 소나기에 학교 현관 앞에서 발만 동동 구르던 날이었다."],["박승휘(회상)","“혁준아, 너 또 우산 안 챙겼냐? 어서 와. 오늘은 내가 특별히 태워 준다!”"],["권혁준(회상)","“야, 우산이 너무 작잖아. 네 어깨 다 젖겠다!”"],["나레이션","둘은 작은 우산을 억지로 나눠 썼다. 결국 둘 다 교복 어깨가 흠뻑 젖었지만, 집에 도착할 때까지 웃음이 그치지 않았다."],["권혁준","“그땐 비 좀 맞는 게 뭐가 그렇게 재미있었을까…. 너랑 있으면 별일도 다 추억이 됐지.”"],["나레이션","게시판 아래에는 낡은 종이 한 장이 매달려 있었다. 익숙한 글씨였다. ‘끝에 가면 그때의 약속을 기억할 거야.’"],["권혁준","“이 글씨, 분명 네 거야. 승휘야, 기다려. 이번에는 내가 너를 찾으러 갈게.”"],["나레이션","권혁준은 낙서를 한 번 더 바라본 뒤, 위층으로 이어진 계단을 올랐다. 잊고 지낸 웃음소리가 발걸음 뒤를 따라왔다."]]},"floor2":{"no":"CHAPTER 2 · 2F","title":"과학실에서 되살아난 목소리","emoji":"📻","tone":"class","where":"2층 · 둘이 짝이었던 과학실","button":"2층을 지나 계속 올라가기","lines":[["나레이션","2층 문을 여는 순간 희미한 알코올 냄새와 낡은 실험대가 눈에 들어왔다. 온통 몬스터로 뒤덮인 학교인데도, 이 교실만은 어딘가 평범한 방과 후 같았다."],["권혁준","“과학실… 여기서 승휘랑 같은 조였는데.”"],["나레이션","기억 속에서 두 사람은 실험대 앞에 나란히 서 있었다. 서로 자신만만하게 계산을 끝냈지만, 실험 용기에서는 예상치 못한 거품이 끝없이 올라왔다."],["박승휘(회상)","“야, 야! 혁준아! 이거 계산 맞다며! 우리 과학실 날려 버리는 거 아니냐?”"],["권혁준(회상)","“수치는 맞아! 아니, 잠깐… 네가 시약을 두 번 넣었잖아!”"],["나레이션","거품은 책상까지 넘쳤고, 두 사람은 웃음을 참느라 혼이 났다. 수업이 끝난 뒤에도 함께 남아 실험대를 닦았다."],["박승휘(회상)","“괜찮아. 같이 망쳤으니까 같이 치우면 되지. 대신 다음 실험은 네가 시약 넣어!”"],["권혁준","“항상 그랬지. 내가 실수하면 네가 웃어 줬고, 네가 실수하면 내가 옆에 있었어.”"],["나레이션","서랍을 열자 두 사람이 만든 공략 노트가 나왔다. 공책 모서리는 닳았고, 글씨는 서로 다른 필체로 빼곡했다."],["공략 노트","‘승휘:적이 기를 모아 공격하면 전투망치로 딜을 반감시켜! / 혁준: 오케이. 다음 턴엔 관통 조심. 우리 둘이면 무조건 이긴다’"],["나레이션","뒷장에는 공략보다 더 큰 글씨가 있었다. ‘실패해도 둘이 하면 다시 시작할 수 있음.’ 오래전에 승휘가 장난처럼 적어 둔 문장이었다."],["권혁준","“그래… 우린 게임에서도 늘 다시 시작했어. 이번엔 네가 어디 있는지 꼭 알아낼 거야.”"],["나레이션","권혁준은 공략 노트를 가슴에 꼭 끌어안았다. 학교 종소리처럼 그리운 웃음이 멀어지고, 위층을 향한 계단이 모습을 드러냈다."]]},"floor3":{"no":"CHAPTER 3 · 3F","title":"방과 후, 우리만의 공략집","emoji":"💾","tone":"game","where":"3층 · 게임을 함께하던 교실","button":"체육관으로 이어지는 문 열기","lines":[["나레이션","3층 복도 끝에 낡은 컴퓨터 한 대가 놓여 있었다. 검은 화면에 오래전 두 사람이 즐기던 슬롯 던전의 제목이 천천히 떠올랐다."],["권혁준","“이거… 우리 둘이 정말 질리도록 하던 게임이잖아.”"],["나레이션","해가 지고 운동장 소리마저 사라지면, 둘은 교실에 남아 모니터 앞에 의자 하나를 더 끌어다 놓곤 했다."],["박승휘(회상)","“야, 이번에는 내 차례다! 너 아까도 검 미니게임 두 번 했어!”"],["권혁준(회상)","“대신 네가 방어 방향 알려 줬잖아. 이번 판만 더 하면 진짜 바꿔 줄게!”"],["나레이션","서로 차례를 빼앗고 놀리면서도, 어려운 몬스터 앞에서는 자연스럽게 힘을 합쳤다. 혁준은 피해량을 계산했고 승휘는 공격 패턴을 기억했다."],["박승휘(회상)","“너는 숫자 잘 보잖아. 난 몬스터 움직임 외울게. 그렇게 하면 못 깰 층이 없지!”"],["권혁준","“그래서 내가 아는 거였구나. 늑대의 연타, 리치의 봉인, 용의 브레스… 네가 몇 번이고 알려 줬던 거야.”"],["나레이션","책상 위 공략집에는 두 사람의 수정 흔적이 겹겹이 남아 있었다. 틀린 공략에는 굵은 줄이 그어졌고, 성공한 날에는 별표가 잔뜩 붙어 있었다."],["권혁준","“이 별표… 너랑 밤늦게 마지막 보스 깨고 그려 둔 거였지.”"],["나레이션","공략집 맨 뒷장에 전투와 상관없는 문장이 작게 적혀 있었다. ‘졸업해도 가끔은 같이 놀자. 우리가 어디에 있든.’"],["권혁준","“별거 아닌 약속이라고 생각했는데… 난 이런 것까지 잊고 살았네.”"],["낡은 게임의 안내문","‘마지막 저장 지점: 4층 체육관 방송실.’"],["권혁준","“승휘야, 거기에 있는 거지? 내가 지금 가고 있어. 이번에는 네 말을 끝까지 들어 줄게.”"],["나레이션","화면 속 저장 표시가 조용히 깜빡였다. 권혁준은 마지막 층을 향해 걸었다."]]},"floor4":{"no":"FINAL CHAPTER · 4F","title":"체육관 방송실의 오래된 약속","emoji":"🏟️","tone":"gym","where":"4층 · 체육관으로 향하는 복도","button":"4층 마지막 구역으로","lines":[["나레이션","마지막 층의 문이 열리자 멀리서 희미한 방송이 들렸다. 학생들의 환호, 체육관 바닥에 닿는 운동화 소리, 그리고 늦은 오후의 따뜻한 햇살."],["권혁준","“체육관… 여기까지 오니까 이상하게 하나도 낯설지 않네.”"],["나레이션","학창 시절 학교 행사가 있던 날, 방송실의 낡은 마이크가 갑자기 작동하지 않았다. 무대 뒤에서 당황한 혁준 옆으로 승휘가 달려왔었다."],["박승휘(회상)","“야, 혁준아! 너 혼자 다 하려고 하지 마. 마이크는 내가 볼게. 넌 준비한 거 잊지 말고!”"],["권혁준(회상)","“근데 네가 옆에 없으면 나 진짜 떨린다니까.”"],["박승휘(회상)","“그러니까 내가 옆에 있잖아. 빨리 가! 너라면 잘할 수 있어.”"],["나레이션","그날 행사는 무사히 끝났다. 학생들이 모두 돌아간 뒤에도 두 사람은 방송실에 남아 오늘 하루가 얼마나 재미있었는지 떠들었다."],["박승휘(회상)","“우리 여기다 이름 새길까? 졸업하고 나서도 왔다 갔던 거 기억나게.”"],["권혁준(회상)","“좋지. 근데 글씨 좀 똑바로 써. 네 이름이 지렁이 같아!”"],["나레이션","책상 아래에 나란히 새긴 이름. 그때는 다음 주에도, 다음 해에도 당연히 함께 웃을 거라고 믿었다."],["권혁준","“나는 결국 이 학교로 돌아와서 선생님이 됐는데… 정작 너랑 같이 있던 방송실에는 한 번도 안 와 봤구나.”"],["나레이션","발걸음을 옮길 때마다 기억이 또렷해졌다. 장난스러운 목소리, 함께 썼던 공략집, 어깨를 적시던 비까지. 모두 승휘가 있는 추억이었다."],["박승휘의 목소리","“혁준아. 그때 우리, 이름을 어디에 새기자고 했었지?”"],["권혁준","“체육관 방송실… 맞아. 나는 기억해. 이번에는 절대 잊지 않을게.”"],["나레이션","낡은 방송실 문틈에서 따뜻한 빛이 흘러나왔다. 권혁준은 숨을 고르고 마지막 문을 향해 손을 뻗었다."]]},"engrave":{"no":"THE END · 두 사람의 약속","title":"영원히 간직할 이름","emoji":"✍️","tone":"gym","where":"4층 · 체육관 방송실","button":"이야기 마무리 · 엔딩 보기","lines":[["나레이션","마지막 몬스터를 쓰러뜨리자 낡은 방송실 문이 열린다. 창밖의 노을 아래, 박승휘가 예전 모습 그대로 기다리고 있다."],["박승휘","“많이 늦었네, 혁준아. 그래도 끝까지 와 줬구나.”"],["권혁준","“당연하지. 내일도, 내년에도 같이 게임하면 되잖아.”"],["박승휘","“그럼 여기에 새기자. 우리가 함께 있었다는 걸. 세월이 지나도 절대 잊지 말자.”"],["나레이션","방송실 책상 아래에 두 이름이 나란히 새겨졌다. **권혁준 · 박승휘**. 승휘가 웃었다. 혁준도 웃었다. 혁준은 내일도 친구를 만날 수 있으리라 믿었다."]]},"hospital":{"no":"AFTER CREDITS · 그날 밤","title":"다른 곳의 조용한 밤","emoji":"🏥","tone":"hospital","where":"현실 · 병원","button":"그 후의 이야기","lines":[["나레이션","같은 시간, 병원의 조용한 병실. 박승휘는 생의 끝에 가까워진 몸으로 긴 잠에 빠져 있었다."],["나레이션","그가 꿈에서 되살린 것은 학창 시절의 복도, 둘이 함께 즐긴 게임, 그리고 오랫동안 마음에 남아 있던 단 한 친구였다."],["박승휘의 작은 목소리","“혁준아... 우리 이름... 잊지 마...”"],["나레이션","지하 1층부터 방송실까지의 긴 모험은, 마지막으로 친구를 만나고 싶었던 박승휘의 꿈이었다."]]},"realization":{"no":"EPILOGUE · 두 사람의 우정","title":"오래도록 남아 있을 이름","emoji":"📷","tone":"gym","where":"동경한국학교 · 체육관 방송실","button":"Fin · 두사람의 우정","lines":[["나레이션","꿈에서 깬 권혁준은 지금은 교사로 재직하는 동경한국학교의 체육관으로 향했다."],["나레이션","기억 속의 체육관 방송실. 그동안 교사로 재직하면서 한 번도 들르지 않았던 곳이었다."],["나레이션","권혁준이 살펴보자 세월이 묻은 책상 아래에는 두 사람이 새긴 이름이 희미하게 남아 있었다."],["권혁준","“...좀 더 빨리 연락하지, 바보 같은 놈.”"],["권혁준","“고마워. 마지막에 나를 불러줘서.”"],["나레이션","두 이름은 손으로 문질러도 지워지지 않았다. 권혁준은 손끝으로 글자를 따라가며, 즐거웠던 그 시절을 오래도록 기억하기로 했다."]]},"migration":{"no":"MEMORY STORY · UPDATE","title":"학교로 돌아온 모험","emoji":"🧭","tone":"school","where":"새로운 다섯 층의 이야기","button":"이어 하던 모험으로","lines":[["안내","10층을 지하 1층부터 4층까지의 5개 장으로 재구성했어. 기존의 60종 몬스터는 모두 남아 있고 그림은 중복 배치하지 않았어."],["안내","이전 모험의 주화·룬·레벨·장비는 이어받았어. 새로 바뀐 지도에서는 현재 해금된 층부터 다시 탐험할 수 있어."],["안내","스토리의 시작부터 경험하고 싶다면 ‘새 모험’을 선택할 수도 있어."]]}};
+STORY_SCENES.final_boss_prelude={"no":"FINAL BOSS · 결전 전야","title":"마지막 한 판을 앞두고","emoji":"⚔️","tone":"gym","where":"4층 · 체육관 방송실 앞 · 수학대마왕의 문","button":"각오를 다지고 수학대마왕에게 도전","lines":[["나레이션","체육관 방송실로 이어지는 마지막 문 앞. 복도에 울리던 발소리가 멈췄다. 바닥을 뒤덮은 수식이 붉게 빛나며, 문 위에 마지막 적의 이름이 떠올랐다. **수학대마왕.**"],["권혁준","“드디어 여기까지 왔네. 승휘야… 네가 이 문 너머에 있는 거지?”"],["나레이션","문틈에서 무거운 기운이 새어 나왔다. 거대한 그림자가 천장까지 치솟았고, 혁준의 손에 들린 룬이 잘게 떨렸다."],["권혁준","“솔직히 무섭다. 여기서 지면 널 다시는 못 찾을지도 모르잖아.”"],["나레이션","그 순간 낡은 공략 노트가 눈에 들어왔다. 작은 우산 아래 함께 뛰던 날, 엉망이 된 과학실, 해 질 녘까지 이어진 게임, 방송실에 나란히 새긴 이름이 차례로 떠올랐다."],["권혁준","“우리는 틀리면 다시 풀었고, 져도 다시 도전했지. 네가 옆에서 웃어 주니까 뭐든 해볼 만했어.”"],["권혁준","“이번엔 내가 먼저 보여 줄게. 승휘야, 어디에 있든 보고 있어. 나는 끝까지 포기하지 않을 거야.”"],["나레이션","혁준은 숨을 깊게 들이쉬고 룬을 단단히 쥐었다. 두려움 대신 오래전 친구와 했던 약속이 마음에 남았다. 거대한 문이 천천히 열리기 시작했다."],["권혁준","“좋아, 수학대마왕! **마지막 한 판이다. 끝까지 간다!**”"]]};
 // V79: an independent, story-only mode that never changes the adventure or save data.
 STORY_SCENES.final_rescue={"no":"SPECIAL CHAPTER · 마지막 약속","title":"끝이 아닌, 우리의 마지막 한 판","emoji":"🤝","tone":"hall","where":"4층 · 수학대마왕의 왕좌 · 무너진 전장","button":"승휘와 함께 마지막 전투로","lines":[["나레이션","수학대마왕의 일격에 권혁준이 쓰러졌다. 슬롯의 불빛이 하나씩 꺼지고, 눈앞에 붉은 글씨가 떠올랐다. **GAME OVER.**"],["권혁준","“여기까지인가… 승휘야. 너를 찾겠다고 올라왔는데, 또 혼자 남고 말았네.”"],["나레이션","그때, 아무도 없던 체육관 저편에서 익숙한 목소리가 들렸다. 멈춘 슬롯에 작은 빛 하나가 돌아왔다."],["박승휘","“야, 권혁준! 우리 같이 하던 게임에서 혼자 끝내는 게 어디 있어?”"],["나레이션","눈부신 빛 사이로 박승휘가 걸어 나왔다. 학창 시절처럼 장난기 어린 얼굴이었다. 혁준은 믿을 수 없다는 듯 고개를 들었다."],["권혁준","“승휘야…? 네가 정말 여기 있었어? 난 네가 사라진 줄 알았는데!”"],["박승휘","“멋대로 포기하지 마! 너랑 나, 둘이서 시작했잖아. 마지막도 당연히 같이 끝내야지.”"],["박승휘","“힘을 합치자, 혁준아! 내가 모아 둔 특별한 룬도 전부 줄게. 이제 **모든 룬으로 함께 싸우는 거야!**”"],["나레이션","꺼져 가던 슬롯이 다시 빛났다. 검, 방패, 전투망치, 마법, 그리고 아직 얻지 못했던 숨겨진 룬까지… **15종의 룬이 전부 해금**되었다!"],["권혁준","“오케이, 승휘야. 우리 둘이면 무조건 이긴다! 이번엔 같이 끝내자!”"],["나레이션","붉은 GAME OVER 글씨가 사라졌다. 혁준의 체력이 회복되고 슬롯이 다시 돌 준비를 마쳤다. **수학대마왕의 남은 체력은 그대로. 두 친구의 마지막 반격이 시작된다.**"]]};
-const STORY_CINEMA_ORDER=['b1_start','b1_mid','floor1','floor2','floor3','floor4','final_rescue','engrave','hospital','realization'];
+const STORY_CINEMA_ORDER=['b1_start','b1_mid','floor1','floor2','floor3','floor4','final_boss_prelude','final_rescue','engrave','hospital','realization'];
 let storyCinema=null;
 let storyPrologue=null;
 function beginPrologue(){
@@ -4029,12 +4044,13 @@ function renderStoryLine(){
  const note=last?(key==='engrave'?'마지막 이야기로':key==='hospital'?'후일담으로':sc.button):narrator?'자막을 눌러 계속':'대사를 눌러 계속';
  const prologueDanger=key==='b1_start'&&index>=6;
  const prologueImpact=key==='b1_start'&&index===6;
- const stageTone=(prologueDanger?'hall prologue-threat'+(prologueImpact?' prologue-impact':''):sc.tone)+(flashback?' flashback flashback-'+key:'')+(enteringMemory?' memory-enter':returningNow?' memory-exit':'')+(key==='final_rescue'?' final-rescue'+(index>=7?' rescue-awaken':''):'');
+ const stageTone=(prologueDanger?'hall prologue-threat'+(prologueImpact?' prologue-impact':''):sc.tone)+(flashback?' flashback flashback-'+key:'')+(enteringMemory?' memory-enter':returningNow?' memory-exit':'')+(key==='final_rescue'?' final-rescue'+(index>=7?' rescue-awaken':''):'')+(key==='final_boss_prelude'?' boss-oath'+(index>=7?' oath-final':''):'');
  const threat=prologueDanger?'<div class="vn-door-splinters" aria-hidden="true"></div><div class="vn-prologue-monster" role="img" aria-label="교실 문을 부수고 튀어나온 뿔과 붉은 눈의 해골 몬스터"><svg viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><defs><linearGradient id="demon-head" x1="0" y1="0" x2=".7" y2="1"><stop stop-color="#645664"/><stop offset=".45" stop-color="#252331"/><stop offset="1" stop-color="#090e1c"/></linearGradient><radialGradient id="demon-fire"><stop stop-color="#ffb278"/><stop offset=".35" stop-color="#ff262d"/><stop offset="1" stop-color="#7b0b33"/></radialGradient><filter id="demon-eye-glow" x="-70%" y="-70%" width="240%" height="240%"><feGaussianBlur stdDeviation="5" result="soft"/><feMerge><feMergeNode in="soft"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><path d="M17 219 Q17 164 45 137 L65 120 101 123 133 118 157 142 Q183 165 184 219Z" fill="#111525" stroke="#8e4050" stroke-width="4"/><path d="M56 77 Q27 52 13 4 Q36 13 51 30 L75 51M141 77 Q170 52 184 4 Q161 13 146 30 L123 51" fill="#211e2a" stroke="#b88a8c" stroke-width="5" stroke-linejoin="round"/><path d="M46 68 Q60 34 99 38 Q148 31 161 72 L158 127 Q135 181 99 198 Q64 179 40 127Z" fill="url(#demon-head)" stroke="#bc8c84" stroke-width="5"/><path d="M49 83 L87 98 99 104 112 98 150 83 147 112 113 120 99 109 85 120 53 112Z" fill="#0a0a17"/><path d="M54 104 L91 116 70 130 50 116Z M147 104 L109 116 130 130 150 116Z" fill="url(#demon-fire)" stroke="#ff6f5f" stroke-width="3" filter="url(#demon-eye-glow)"/><path d="M99 114 L90 140 109 140Z" fill="#080a12"/><path d="M65 145 Q101 133 135 145 L124 173 103 186 79 170Z" fill="#080b13" stroke="#99545d" stroke-width="3"/><path d="M68 145 L80 144 77 159 88 145 98 143 100 160 109 144 121 145 124 159 132 146 133 155 116 179 101 166 86 179Z" fill="#e2d5c8" stroke="#241923" stroke-width="2"/><path d="M50 132 L38 171 16 180 29 161 10 156 33 151 32 136Z M151 132 L163 171 185 180 172 161 191 156 168 151 169 136Z" fill="#28212c" stroke="#aa5668" stroke-width="3"/><path d="M68 49 79 59 75 78M139 49 127 61 129 78M76 188 99 200 123 188" stroke="#dd6c65" stroke-width="3" fill="none"/></svg></div><div class="vn-danger-alert">⚠ MONSTER APPEARED</div>'+(prologueImpact?'<div class="vn-impact-bang" aria-hidden="true">쾅!!</div><div class="vn-impact-flash" aria-hidden="true"></div>':''):'';
+ const bossOathVisual=key==='final_boss_prelude'?'<div class="vn-boss-omen" aria-hidden="true"><span class="vn-boss-omen-eyes"></span></div><div class="vn-boss-equations" aria-hidden="true">∑ · x² · π · ∞</div>':'';
  const inscription=key==='engrave'&&last?'<div class="vn-inscription">✍ 권혁준 · 박승휘</div>':'';
  const body='<div class="vn-screen'+(flashback?' is-memory':'')+'" data-story="'+key+'" data-time="'+(flashback?'past':'present')+'" data-line="'+index+'">'+
   '<div class="vn-head"><div class="vn-kicker"><span>'+(movie?'📖 시나리오 감상 · '+(storyCinema.chapter+1)+' / '+STORY_CINEMA_ORDER.length+' · ':'')+sc.no+'</span><span class="vn-count">'+(index+1)+' / '+sc.lines.length+'</span></div><h2>'+sc.title+'</h2></div>'+
-  '<div class="vn-stage '+stageTone+'"><div class="vn-glow"></div>'+memoryProps+threat+storyCharacters(key,who,index)+timeMarker+'<div class="vn-location">'+(flashback?'추억 속 · '+flashbackProp[1]:sc.where)+'</div>'+inscription+'</div>'+
+  '<div class="vn-stage '+stageTone+'"><div class="vn-glow"></div>'+memoryProps+threat+bossOathVisual+storyCharacters(key,who,index)+timeMarker+'<div class="vn-location">'+(flashback?'추억 속 · '+flashbackProp[1]:sc.where)+'</div>'+inscription+'</div>'+
   '<button type="button" class="'+(narrator?'vn-narration':'vn-bubble')+'" data-action="story-next" data-speaker="'+whoKind+'" aria-label="'+(last?'장면 마치기':'다음 대사 보기')+'"><span class="vn-name">'+(narrator?'나레이션':who)+'</span><span class="vn-words">'+words+'</span><span class="vn-continue">'+note+' <span class="vn-continue-arrow">▶</span></span></button>'+
   '<div class="vn-footer"><span>✦ '+(movie?'전투 없이 이야기만 감상':narrator?'나레이션':'대화 중 · '+who)+'</span><div class="cinema-footer-actions"><button type="button" class="vn-skip" data-action="story-skip">장면 넘기기</button>'+(movie?'<button type="button" class="vn-skip" data-action="story-cinema-exit">✕ 종료</button>':'')+'</div></div></div>';
  showModal(body);
@@ -4063,6 +4079,7 @@ function advanceStory(skip=false){
  const next={engrave:'hospital',hospital:'realization'}[key];
  if(next){showStoryScene(next);return;}
  s.storyPending=null;
+ if(key==='final_boss_prelude'){beginReadyBoss(s.bossChoiceStage??s.stage);return;}
  if(key==='final_rescue'){resumeFinalBossWithFriend();return;}
  if(key==='realization'){showFriendshipFin(false);return;}
  s.view='map';showMap();saveGameNow();
@@ -5862,6 +5879,10 @@ function showBossApproach(floor=s?.stage,fromRevival=false){
 }
 function beginReadyBoss(floor){
  if(!s||!Number.isInteger(floor)||!s.bossReadyFloors?.[floor]||floor>s.highestUnlocked)return;
+ // V123: a single pre-fight oath scene, only before the first entry into the true final boss.
+ if(floor===STAGES.length-1&&!s.storySeen?.final_boss_prelude){
+  s.bossChoiceStage=floor;showStoryScene('final_boss_prelude');return;
+ }
  battleToken++;stopTimers();
  if(s.stage!==floor||!s.map){s.stage=floor;s.reelCount=reelCountForStage(floor);makeFloorMap();}
  s.bossChoiceStage=null;s.floorSelectMode='normal';
