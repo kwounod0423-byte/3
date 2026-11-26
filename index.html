@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>V125 · 폐허의 슬롯 던전</title>
+<title>폐허의 슬롯 던전 V127 · 학년별 수학 문제</title>
 <style>
 .v39-preview-actions{display:flex;flex-wrap:wrap;gap:7px;padding:4px 10px 12px;}
 .v39-preview-actions button{font-size:11px;padding:7px 9px;border:1px solid #789f8a;border-radius:7px;background:#1a3236;color:#c3f4db;cursor:pointer;}
@@ -2444,11 +2444,27 @@ body{touch-action:manipulation}
 
 .final-rescue-banner{border:1px solid #d9b582;border-radius:10px;background:linear-gradient(105deg,#3d3143,#252c3d);color:#ffe5aa;padding:9px 12px;margin:8px 0;display:flex;flex-direction:column;gap:3px;font-size:13px}
 .final-rescue-banner span{color:#f2dfc5;font-size:12px}
+
+/* V127 grade-select: existing game palette, roomy tap targets on narrow phones. */
+.grade-entry-screen{max-width:640px;margin:0 auto;padding:clamp(4px,2.5vw,16px) 2px;color:#ead9bb}
+.grade-entry-screen h2{margin:8px 0 12px;text-align:center;color:#f8e0a8;font-size:clamp(23px,5vw,34px);letter-spacing:.025em}
+.grade-entry-screen .eyebrow{text-align:center;letter-spacing:.14em;color:#c3bc99;font-size:10px}
+.grade-entry-screen .grade-intro{text-align:center;color:#d0c9b4;font-size:13px;line-height:1.7;margin:0 0 18px}
+.grade-select-list{display:grid;gap:10px}
+.grade-select-card{display:flex;align-items:center;gap:14px;padding:17px 18px;min-height:84px;width:100%;border:1px solid #8b7752;border-radius:12px;color:#f5e8c8;text-align:left;cursor:pointer;background:linear-gradient(125deg,#263b38,#152722 55%,#1e2830);box-shadow:inset 0 1px 0 #ffffff18,0 7px 18px #0005;transition:transform .14s,border-color .14s,background .14s}
+.grade-select-card:hover,.grade-select-card:focus-visible{border-color:#efcf84;background:linear-gradient(125deg,#32483c,#1c302b 55%,#2b3036);transform:translateY(-1px);outline:2px solid #edcb7933}
+.grade-select-card .grade-name{display:flex;align-items:center;justify-content:center;border-radius:10px;flex:0 0 66px;height:60px;background:linear-gradient(135deg,#967b4a,#53442a);font-size:27px;font-weight:900;color:#fff0c4;border:1px solid #d7b97c}
+.grade-select-card .grade-detail{min-width:0;display:flex;flex-direction:column;gap:6px;flex:1}
+.grade-select-card .grade-detail b{font-size:17px;color:#f3e6c7}
+.grade-select-card .grade-detail small{font-size:12px;color:#c5d6c5;line-height:1.4}
+.grade-select-card .grade-arrow{font-size:21px;color:#f3d488}
+.grade-entry-screen .grade-footer{color:#b3ad96;font-size:12px;text-align:center;margin:16px 0 2px}
+@media(max-width:380px){.grade-select-card{padding:12px;gap:10px;min-height:75px}.grade-select-card .grade-name{flex-basis:54px;height:53px;font-size:23px}.grade-select-card .grade-detail b{font-size:15px}.grade-select-card .grade-detail small{font-size:11px}}
 </style>
 </head>
 <body>
 <div id="game">
-  <header class="top"><div class="brand"><small>AN ORIGINAL MATHEMATICAL SLOT ROGUELITE</small><h1>⚔ 폐허의 슬롯 던전</h1></div><div class="topright"><div class="tag">층수<b id="top-stage">01 / 10</b></div><div class="tag">소지금<b id="top-gold">20 G</b><small id="interest-next">승리 이자 +2G</small></div><button class="head-tool" data-action="inventory" title="가방·일회용 아이템" aria-label="가방 열기">🎒</button><button class="head-tool" data-action="records" title="룬·전투 기록" aria-label="룬과 전투 기록 열기">▤</button><button class="head-tool" data-action="help" title="게임 가이드" aria-label="게임 가이드 열기">?</button><button class="head-tool story-cinema-head" data-action="story-cinema" type="button" title="시나리오만 감상" aria-label="시나리오 감상 모드">📖</button><button class="sound" id="audio-btn" data-action="audio" title="효과음 끄기">🔊</button></div></header>
+  <header class="top"><div class="brand"><small>AN ORIGINAL MATHEMATICAL SLOT ROGUELITE</small><h1>⚔ 폐허의 슬롯 던전</h1></div><div class="topright"><div class="tag">층수<b id="top-stage">01 / 10</b></div><div class="tag">소지금<b id="top-gold">20 G</b><small id="interest-next">승리 이자 +2G</small></div><button class="head-tool" data-action="inventory" title="가방·일회용 아이템" aria-label="가방 열기">🎒</button><button class="head-tool" data-action="records" title="룬·전투 기록" aria-label="룬과 전투 기록 열기">▤</button><button class="head-tool" data-action="help" title="게임 가이드" aria-label="게임 가이드 열기">?</button><button class="sound" id="audio-btn" data-action="audio" title="효과음 끄기">🔊</button></div></header>
   <div class="save-bar"><span class="save-indicator" id="save-indicator" role="status">💾 모험 시작 후 자동 저장</span><button class="save-practice" type="button" data-action="practice-open">🎮 연습장</button><button class="save-reset" type="button" data-action="save-reset-request">↻ 새 모험</button></div>
   <main class="machine">
     <div class="machine-head"><div class="floor" id="floor-name">FLOOR 01 · 균열의 초원</div><div class="battle-no mono" id="battle-no">ENCOUNTER 1 / 3</div></div>
@@ -2470,7 +2486,7 @@ body{touch-action:manipulation}
     <div class="reset-actions"><button type="button" class="reset-cancel" id="reset-confirm-cancel" data-action="save-reset-cancel">✓ 취소 · 현재 모험 계속하기</button><button type="button" class="reset-accept" data-action="save-reset-confirm">↻ 저장 기록 삭제하고 새 모험</button></div>
    </div>
   </div>
-  <div class="overlay" id="overlay"><div class="save-overlay-toolbar"><span id="save-overlay-indicator">💾 모험 시작 후 자동 저장</span><div class="save-overlay-xp" role="status"><strong id="overlay-xp-level">Lv.1</strong><div class="save-overlay-xp-track"><div class="save-overlay-xp-fill" id="overlay-xp-fill"></div></div><small id="overlay-xp-count">0/3</small></div><button class="save-cinema" type="button" data-action="story-cinema" title="전투 없이 시나리오 감상" aria-label="시나리오만 감상">📖</button><button class="save-practice" type="button" data-action="practice-open">🎮 연습장</button><button class="save-reset" type="button" data-action="save-reset-request">↻ 새 모험</button></div><div class="modal" id="modal"></div></div>
+  <div class="overlay" id="overlay"><div class="save-overlay-toolbar"><span id="save-overlay-indicator">💾 모험 시작 후 자동 저장</span><div class="save-overlay-xp" role="status"><strong id="overlay-xp-level">Lv.1</strong><div class="save-overlay-xp-track"><div class="save-overlay-xp-fill" id="overlay-xp-fill"></div></div><small id="overlay-xp-count">0/3</small></div><button class="save-practice" type="button" data-action="practice-open">🎮 연습장</button><button class="save-reset" type="button" data-action="save-reset-request">↻ 새 모험</button></div><div class="modal" id="modal"></div></div>
 </div>
 <script>
 (()=>{
@@ -2478,7 +2494,7 @@ body{touch-action:manipulation}
 const $=id=>document.getElementById(id);
 const R={
  blade:{icon:'⚔',name:'검',color:'#f0d7a2',desc:'변덕스러운 게이지에 타이밍을 맞춰 베기 · 낮게 맞혀도 약한 피해'},
- gun:{icon:'🔫',name:'총',color:'#ffd58b',desc:'넓어진 조준 범위 · 몸통 및 헤드샷 피해 30% 증가'},
+ gun:{icon:'🔫',name:'총',color:'#ffd58b',desc:'헤드샷 판정 유지 · 몸통 판정 범위 추가 30% 축소 · 몸통 및 헤드샷 피해 30% 증가'},
  venom:{icon:'☣',name:'독날',color:'#a7d97a',desc:'6초간 틀린 그림 5곳 찾기 · 오답 즉시 종료 · 독 피해 추가 30% 하향'},
  shield:{icon:'⬡',name:'방패',color:'#9bd8e2',desc:'방어막은 선택한 방향만 보호 · Lv.1 고정 (레벨업 불가)'},
  hammer:{icon:'⚒',name:'전투망치',color:'#e9ab74',desc:'피해 1~10 · 적 공격 피해 50% 감소 · 2턴 지속 · 정타 시 약화 발동 (Lv.1) · 자동 재회전은 5 피해'},
@@ -2498,6 +2514,8 @@ const R={
 // Keeping the drawing and hit-testing on this ONE constant prevents mismatched zones.
 const GUN_DAMAGE_MULTIPLIER=1.30;
 const GUN_TARGET_SIZE_MULTIPLIER=1.20*1.20;
+// V127: reduce ONLY BODY hitbox radii by 30% from V126. Head size stays unchanged.
+const GUN_BODY_TARGET_MULTIPLIER=0.70;
 // V101: the standard seven-symbol MAGIC rune deals 20% less direct damage.
 const MAGIC_RUNE_DAMAGE_MULTIPLIER=0.80;
 // Lv.1 FINAL attack caps; higher rune levels increase both damage and the cap.
@@ -2719,18 +2737,17 @@ function supportDescription(name,stage=0,max=null){
  return spec.type==='heal'?'💚 HP '+amount+' 회복 · 전투 중 최대 '+spec.limit+'회':spec.type==='ward'?'🛡 방어막 +'+amount+' · 최대 '+spec.limit+'회':'🛡 다음 2타 38% 감소 · ⚒ 망치 정타로 해제';
 }
 
-const QUESTIONS=[
- {q:'2x² + 7x + 3',answer:'(2x+1)(x+3)',wrong:['(2x+3)(x+1)','(2x−1)(x−3)','(x+1)(2x+3)']},
- {q:'3x² − 11x − 4',answer:'(3x+1)(x−4)',wrong:['(3x−1)(x+4)','(3x−4)(x+1)','(3x+1)(x−3)']},
- {q:'6x² + 7x − 3',answer:'(3x−1)(2x+3)',wrong:['(3x+1)(2x−3)','(3x−3)(2x+1)','(2x−1)(3x+3)']},
- {q:'5x² − 13x + 6',answer:'(5x−3)(x−2)',wrong:['(5x−2)(x−3)','(5x+3)(x−2)','(5x−6)(x−1)']},
- {q:'4x² − 12x + 9',answer:'(2x−3)²',wrong:['(2x+3)²','(4x−3)(x−3)','(2x−9)(2x−1)']},
- {q:'2x² − 5x − 3',answer:'(2x+1)(x−3)',wrong:['(2x−1)(x+3)','(2x+3)(x−1)','(2x−3)(x+1)']},
- {q:'3x² + 10x + 8',answer:'(3x+4)(x+2)',wrong:['(3x+2)(x+4)','(3x−4)(x−2)','(3x+8)(x+1)']},
- {q:'6x² − x − 2',answer:'(3x−2)(2x+1)',wrong:['(3x+2)(2x−1)','(6x+2)(x−1)','(2x−2)(3x+1)']},
- {q:'9x² − 24x + 16',answer:'(3x−4)²',wrong:['(3x+4)²','(9x−4)(x−4)','(3x−8)(3x−2)']},
- {q:'4x² − 25',answer:'(2x−5)(2x+5)',wrong:['(4x−5)(x+5)','(2x−5)²','(2x+5)²']}
-];
+// V127: All math encounters use the grade chosen before the prologue.
+const GRADE_INFO={
+ m2:{short:'중2',name:'중학교 2학년',scope:'삼각형·사각형의 성질'},
+ h1:{short:'고1',name:'고등학교 1학년',scope:'인수분해·기본 삼각비'},
+ h2:{short:'고2',name:'고등학교 2학년',scope:'기본 수열'}
+};
+const QUESTIONS_BY_GRADE={"m2":[{"q":"이등변삼각형의 꼭지각이 40°일 때, 한 밑각의 크기는?","answer":"70°","wrong":["40°","80°","100°"]},{"q":"이등변삼각형의 밑각이 각각 65°일 때, 꼭지각의 크기는?","answer":"50°","wrong":["65°","60°","115°"]},{"q":"이등변삼각형의 꼭지각이 80°라면 한 밑각은?","answer":"50°","wrong":["40°","80°","100°"]},{"q":"△ABC에서 AB=AC, ∠B=55°일 때 ∠C의 크기는?","answer":"55°","wrong":["70°","35°","125°"]},{"q":"삼각형의 두 내각이 40°, 70°일 때 나머지 내각은?","answer":"70°","wrong":["60°","80°","110°"]},{"q":"삼각형의 두 내각이 40°, 70°일 때, 나머지 꼭짓점의 외각은?","answer":"110°","wrong":["70°","90°","140°"]},{"q":"직각삼각형에서 한 예각이 35°일 때, 다른 예각은?","answer":"55°","wrong":["35°","65°","145°"]},{"q":"두 변의 길이가 각각 4cm, 6cm인 삼각형의 나머지 변이 될 수 있는 길이는?","answer":"9cm","wrong":["2cm","10cm","11cm"]},{"q":"세 변이 각각 5cm, 5cm, 8cm인 삼각형의 둘레는?","answer":"18cm","wrong":["16cm","20cm","13cm"]},{"q":"삼각형의 내심은 무엇의 교점인가?","answer":"세 내각의 이등분선","wrong":["세 변의 수직이등분선","세 중선","세 높이"]},{"q":"삼각형의 외심은 무엇의 교점인가?","answer":"세 변의 수직이등분선","wrong":["세 내각의 이등분선","세 중선","세 높이"]},{"q":"삼각형의 내심에서 같은 거리가 되는 대상은?","answer":"세 변","wrong":["세 꼭짓점","세 중선의 중점","세 외각"]},{"q":"삼각형의 외심에서 같은 거리가 되는 대상은?","answer":"세 꼭짓점","wrong":["세 변","세 내각","세 꼭짓점에서 내린 높이"]},{"q":"직각삼각형의 외심은 어디에 있는가?","answer":"빗변의 중점","wrong":["직각인 꼭짓점","내심과 같은 위치","가장 긴 높이의 중점"]},{"q":"평행사변형에서 서로 마주 보는 두 변의 길이는?","answer":"같다","wrong":["항상 2배다","항상 다르다","합이 90이다"]},{"q":"평행사변형의 한 내각이 70°일 때 이웃한 내각은?","answer":"110°","wrong":["70°","90°","140°"]},{"q":"평행사변형의 한 내각이 65°일 때 마주 보는 내각은?","answer":"65°","wrong":["115°","90°","130°"]},{"q":"평행사변형의 두 대각선은 서로를 어떻게 나누는가?","answer":"이등분한다","wrong":["수직삼등분한다","항상 3:1로 나눈다","절대로 만나지 않는다"]},{"q":"직사각형의 두 대각선에 항상 성립하는 성질은?","answer":"길이가 같다","wrong":["서로 수직이다","길이가 다르다","한 대각선만 반으로 나뉜다"]},{"q":"마름모의 두 대각선에 항상 성립하는 성질은?","answer":"서로 수직이다","wrong":["항상 같은 길이다","평행하다","서로 만나지 않는다"]},{"q":"평행사변형의 한 각이 90°이면 어떤 사각형인가?","answer":"직사각형","wrong":["사다리꼴이지만 직사각형은 아님","정오각형","마름모만 가능"]},{"q":"평행사변형에서 이웃한 두 변의 길이가 같다면 어떤 사각형인가?","answer":"마름모","wrong":["직사각형만 가능","사다리꼴만 가능","평행사변형이 아니다"]},{"q":"정사각형의 성질 중 반드시 옳은 것은?","answer":"네 변의 길이가 같고 네 각이 90°이다","wrong":["대각선의 길이가 서로 다르다","마주 보는 변이 평행하지 않다","두 대각선이 만나지 않는다"]},{"q":"평행사변형의 한 변이 7cm이면 마주 보는 변의 길이는?","answer":"7cm","wrong":["3.5cm","14cm","21cm"]}],"h1":[{"q":"x² + 5x + 6을 인수분해하면?","answer":"(x+2)(x+3)","wrong":["(x+1)(x+6)","(x−2)(x−3)","(x+2)(x−3)"]},{"q":"x² − 7x + 12를 인수분해하면?","answer":"(x−3)(x−4)","wrong":["(x+3)(x+4)","(x−2)(x−6)","(x−3)(x+4)"]},{"q":"x² − 9를 인수분해하면?","answer":"(x−3)(x+3)","wrong":["(x−3)²","(x+3)²","(x−9)(x+1)"]},{"q":"x² + 2x + 1을 인수분해하면?","answer":"(x+1)²","wrong":["(x−1)²","(x+2)(x+1)","(x+1)(x−1)"]},{"q":"x² − 4x + 4를 인수분해하면?","answer":"(x−2)²","wrong":["(x+2)²","(x−4)(x+1)","(x−1)(x−4)"]},{"q":"x² + x − 6을 인수분해하면?","answer":"(x+3)(x−2)","wrong":["(x−3)(x+2)","(x+6)(x−1)","(x−6)(x+1)"]},{"q":"2x² + 5x + 2를 인수분해하면?","answer":"(2x+1)(x+2)","wrong":["(2x+2)(x+1)","(2x−1)(x−2)","(2x+2)(x−1)"]},{"q":"x² − 16을 인수분해하면?","answer":"(x−4)(x+4)","wrong":["(x−4)²","(x+4)²","(x−8)(x+2)"]},{"q":"x² + 7x + 10을 인수분해하면?","answer":"(x+5)(x+2)","wrong":["(x+10)(x+1)","(x+5)(x−2)","(x−5)(x−2)"]},{"q":"x² − 5x + 6을 인수분해하면?","answer":"(x−2)(x−3)","wrong":["(x+2)(x+3)","(x−1)(x−6)","(x+2)(x−3)"]},{"q":"sin 30°의 값은?","answer":"1/2","wrong":["√3/2","1","√2/2"]},{"q":"cos 60°의 값은?","answer":"1/2","wrong":["√3/2","0","1"]},{"q":"tan 45°의 값은?","answer":"1","wrong":["1/2","√3","√3/3"]},{"q":"sin 60°의 값은?","answer":"√3/2","wrong":["1/2","√2/2","1"]},{"q":"cos 30°의 값은?","answer":"√3/2","wrong":["1/2","√2/2","0"]},{"q":"tan 30°의 값은?","answer":"√3/3","wrong":["√3","1","1/2"]},{"q":"tan 60°의 값은?","answer":"√3","wrong":["√3/3","1","2"]},{"q":"직각삼각형에서 θ의 맞은편 변이 3, 빗변이 5일 때 sin θ는?","answer":"3/5","wrong":["4/5","3/4","5/3"]},{"q":"직각삼각형에서 θ에 이웃한 변이 8, 빗변이 10일 때 cos θ는?","answer":"4/5","wrong":["3/5","5/4","1/2"]},{"q":"직각삼각형에서 θ의 맞은편 변이 4, 이웃한 변이 3일 때 tan θ는?","answer":"4/3","wrong":["3/4","4/5","5/3"]},{"q":"직각삼각형에서 sin θ를 나타내는 비는?","answer":"맞은편 변 / 빗변","wrong":["이웃한 변 / 빗변","맞은편 변 / 이웃한 변","빗변 / 맞은편 변"]},{"q":"직각삼각형에서 cos θ를 나타내는 비는?","answer":"이웃한 변 / 빗변","wrong":["맞은편 변 / 빗변","맞은편 변 / 이웃한 변","빗변 / 이웃한 변"]}],"h2":[{"q":"수열 2, 5, 8, 11, …의 다음 항은?","answer":"14","wrong":["13","15","16"]},{"q":"수열 4, 9, 14, 19, …의 공차는?","answer":"5","wrong":["4","9","10"]},{"q":"첫째 항이 3, 공차가 4인 등차수열의 다섯째 항은?","answer":"19","wrong":["15","17","23"]},{"q":"첫째 항이 7, 공차가 −2인 등차수열의 넷째 항은?","answer":"1","wrong":["3","−1","5"]},{"q":"수열 20, 17, 14, …의 다섯째 항은?","answer":"8","wrong":["5","11","9"]},{"q":"일반항이 aₙ = 2n + 1인 수열의 넷째 항은?","answer":"9","wrong":["7","8","11"]},{"q":"일반항이 aₙ = 3n − 1인 수열의 다섯째 항은?","answer":"14","wrong":["13","15","16"]},{"q":"일반항이 aₙ = n² + 1인 수열의 넷째 항은?","answer":"17","wrong":["16","18","9"]},{"q":"일반항이 aₙ = n(n + 1)인 수열의 셋째 항은?","answer":"12","wrong":["6","9","20"]},{"q":"수열 6, 10, 14, …의 여덟째 항은?","answer":"34","wrong":["30","32","38"]},{"q":"수열 2, 6, 18, …의 다음 항은?","answer":"54","wrong":["36","48","72"]},{"q":"수열 3, 6, 12, …의 다음 항은?","answer":"24","wrong":["18","21","36"]},{"q":"첫째 항이 2, 공비가 3인 등비수열의 넷째 항은?","answer":"54","wrong":["18","27","81"]},{"q":"첫째 항이 5, 공비가 2인 등비수열의 셋째 항은?","answer":"20","wrong":["10","15","40"]},{"q":"수열 81, 27, 9, …의 다음 항은?","answer":"3","wrong":["1","6","−3"]},{"q":"1 + 2 + 3 + 4 + 5의 값은?","answer":"15","wrong":["10","20","25"]},{"q":"1부터 10까지의 자연수의 합은?","answer":"55","wrong":["45","50","60"]},{"q":"1, 3, 5, 7, 9의 합은?","answer":"25","wrong":["20","30","35"]},{"q":"등비수열 1, 2, 4, 8의 첫 4항의 합은?","answer":"15","wrong":["16","14","12"]},{"q":"일반항이 aₙ = 2ⁿ인 수열의 셋째 항은?","answer":"8","wrong":["6","4","16"]},{"q":"수열 1, 4, 9, 16, …의 다음 항은?","answer":"25","wrong":["20","24","36"]},{"q":"첫째 항이 5이고 공차가 3인 등차수열의 셋째 항은?","answer":"11","wrong":["8","14","15"]}]};
+let selectedGrade=null;
+function activeGrade(){return GRADE_INFO[s?.grade]?s.grade:(GRADE_INFO[selectedGrade]?selectedGrade:'h1');}
+function activeGradeInfo(){return GRADE_INFO[activeGrade()];}
+function activeQuestions(){return QUESTIONS_BY_GRADE[activeGrade()];}
 const rand=n=>Math.floor(Math.random()*n);
 const shuffle=a=>{let x=[...a];for(let i=x.length-1;i>0;i--){let j=rand(i+1);[x[i],x[j]]=[x[j],x[i]];}return x;};
 const cap=(x,a,b)=>Math.max(a,Math.min(b,x));
@@ -3138,7 +3155,8 @@ function audio(){
 function setAudioEnabled(enabled){
  audioOn=enabled;
  if(soundMaster&&ctxAudio){try{soundMaster.gain.setTargetAtTime(enabled?.77:0,ctxAudio.currentTime,.015)}catch(err){}}
- if(enabled)unlockSampleAudio();
+ if(enabled){unlockSampleAudio();if(storySoundAnchor?.key==='floor1'&&storySoundAnchor.index>=4&&storySoundAnchor.index<=7)startStoryRain();}
+ else stopStoryRain();
 }
 function tone(freq,dur=.1,type='sine',vol=.04,end=freq,delay=0,attack=.007){
  const c=audio();if(!c)return;
@@ -3288,12 +3306,14 @@ function sfx(kind,variant=0){
 // ran only once, so later user gestures never restarted the audio context.
 function rebuildAudioAfterInterruption(){
  const old=ctxAudio,wasFinPlaying=!!finBgm;
+ stopStoryRain();
  if(wasFinPlaying)stopFinBgm();
  ctxAudio=null;soundMaster=null;soundNoiseBuffer=null;soundSamplesLoading=false;
  audioFailedGestureCount=0;audioNeedsWake=false;
  if(old&&old.state!=='closed'){try{old.close().catch(()=>{})}catch(err){}}
  const replacement=audio();
  if(wasFinPlaying&&replacement)startFinBgm();
+ if(replacement&&storySoundAnchor?.key==='floor1'&&storySoundAnchor.index>=4&&storySoundAnchor.index<=7)startStoryRain();
  return replacement;
 }
 function unlockSampleAudio(){
@@ -3443,8 +3463,8 @@ function toggleFinMusic(){
  const b=document.querySelector('.fin-sound');if(b)b.textContent=finBgm?'♫ 음악 끄기':'♫ 음악 재생';
 }
 
-function showModal(html){if(!html.includes('class="friendship-fin"'))stopFinBgm();$('overlay').classList.remove('hidden');$('modal').innerHTML=html;}
-function hideModal(){stopFinBgm();$('overlay').classList.add('hidden');}
+function showModal(html){if(!html.includes('class="friendship-fin"'))stopFinBgm();if(!html.includes('class="vn-screen'))stopStoryAudio();$('overlay').classList.remove('hidden');$('modal').innerHTML=html;}
+function hideModal(){stopFinBgm();stopStoryAudio();$('overlay').classList.add('hidden');}
 function stopTimers(){if(autoTimer){clearTimeout(autoTimer);autoTimer=null;}}
 // V101: player and rune levels are separate; only the PLAYER level caps at 10.
 // Monster kills grant one EXP only when below Lv.10 and on the frontier floor.
@@ -3608,6 +3628,8 @@ function restoreSavedGame(){
    u.questionOrder.length<STAGES.length-1)throw Error('저장 데이터 형식 불일치');
   battleToken++;stopTimers();effects=[];
   s=g;
+  s.grade=GRADE_INFO[s.grade]?s.grade:'h1'; // Pre-V127 saves used high-school factorization.
+  selectedGrade=s.grade;
   // V95 migration: preserve an old saved encounter's remaining HP percentage, including V94 saves.
   // Version mark prevents repeatedly multiplying HP after each refresh.
   if((Number(s.hpBalanceVersion)||0)<95&&s.view==='fight'&&s.enemy){
@@ -3728,7 +3750,7 @@ function restoreSavedGame(){
 }
 // Save immediately after a completed click, on regular checkpoints, and when the page is closed.
 document.addEventListener('click',()=>queueMicrotask(saveGameNow));
-document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden'){saveGameNow();if(ctxAudio)audioNeedsWake=true;}else wakeAudioAfterReturn();});
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden'){saveGameNow();stopStoryRain();if(ctxAudio)audioNeedsWake=true;}else{wakeAudioAfterReturn();if(storySoundAnchor?.key==='floor1'&&storySoundAnchor.index>=4&&storySoundAnchor.index<=7)startStoryRain();}});
 window.addEventListener('pagehide',saveGameNow);
 window.addEventListener('beforeunload',saveGameNow);
 setInterval(saveGameNow,850);
@@ -3744,16 +3766,26 @@ function setup(resetSaved=true){
  storyCinema=null;storyPrologue=null;
  hideNewAdventureConfirm();
  if(resetSaved)clearSavedGame();
- battleToken++;stopTimers();effects=[];s=null;selected=['blade','shield','coin'];tutorialToken++;tutorialRolled=false;tutorialGuarded=false;tutorialFactorized=false;tutorialReturn=false;tutorialActive=false;tutorialRuneTab=0;tutorialShieldChoices=[];tutorialDefenseResult='ready';tutorialSwordDone=false;tutorialGunDone=false;tutorialPracticeFeedback='';tutorialDefenseSerial++;$('game').classList.remove('deck-pending');
+ battleToken++;stopTimers();effects=[];s=null;selectedGrade=null;selected=['blade','shield','coin'];tutorialToken++;tutorialRolled=false;tutorialGuarded=false;tutorialFactorized=false;tutorialReturn=false;tutorialActive=false;tutorialRuneTab=0;tutorialShieldChoices=[];tutorialDefenseResult='ready';tutorialSwordDone=false;tutorialGunDone=false;tutorialPracticeFeedback='';tutorialDefenseSerial++;$('game').classList.remove('deck-pending');
  $('xp-level').textContent='Lv.1';$('xp-value').textContent='경험치 0 / 3';$('xp-fill').style.width='0%';$('overlay-xp-level').textContent='Lv.1';$('overlay-xp-count').textContent='0/3';$('overlay-xp-fill').style.width='0%';
  $('combat-flash').className='';$('heal-feedback').classList.remove('visible');$('heal-feedback').textContent='';$('combat-toast').className='combat-toast';$('combat-toast').innerHTML='';if($('element-procs'))$('element-procs').replaceChildren();
  $('skill-panel').classList.add('hidden');$('aim-layer').classList.add('hidden');$('audio-btn').textContent=audioOn?'🔊':'🔇';
- beginPrologue();$('reels').innerHTML='';$('rune-prep').innerHTML='';$('reel-status').textContent='매 턴 3~5개 룬을 선택합니다';$('spin-btn').disabled=true;$('top-stage').textContent='01 / 05';$('top-gold').textContent='20 G';$('interest-next').textContent='승리 이자 +2G';$('floor-name').textContent='B1 · 오래된 학교의 지하 복도';$('battle-no').textContent='ENCOUNTER 1 / 3';$('enemy-name').textContent='모험을 준비하세요';$('scene-label').textContent='CHOOSE YOUR RUNES';$('loadout').innerHTML='';$('log').innerHTML='<div>› 모험가를 기다리고 있습니다.</div>';
+ showGradeSelection();$('reels').innerHTML='';$('rune-prep').innerHTML='';$('reel-status').textContent='매 턴 3~5개 룬을 선택합니다';$('spin-btn').disabled=true;$('top-stage').textContent='01 / 05';$('top-gold').textContent='20 G';$('interest-next').textContent='승리 이자 +2G';$('floor-name').textContent='B1 · 오래된 학교의 지하 복도';$('battle-no').textContent='ENCOUNTER 1 / 3';$('enemy-name').textContent='모험을 준비하세요';$('scene-label').textContent='CHOOSE YOUR RUNES';$('loadout').innerHTML='';$('log').innerHTML='<div>› 모험가를 기다리고 있습니다.</div>';
 }
 
+// V127: Grade selection is the very first screen of a new adventure.
+function showGradeSelection(){
+ tutorialActive=false;storyPrologue=null;
+ showModal('<div class="grade-entry-screen"><div class="eyebrow">MATH SLOT DUNGEON · CLASS SELECT</div><h2>📘 학년을 선택해 주세요</h2><p class="grade-intro">선택한 학년의 수학 문제가 층 관문, 부활, 수학 비석에 출제돼요.<br><b>학년은 이번 모험 동안 유지됩니다.</b></p><div class="grade-select-list">'+Object.entries(GRADE_INFO).map(([id,g])=>'<button type="button" class="grade-select-card" data-action="choose-grade" data-grade="'+id+'"><span class="grade-name">'+g.short+'</span><span class="grade-detail"><b>'+g.name+'</b><small>'+g.scope+'</small></span><span class="grade-arrow">▶</span></button>').join('')+'</div><p class="grade-footer">학년 선택 후 권혁준과 박승휘의 이야기가 시작됩니다.</p></div>');
+}
+function chooseGrade(grade){
+ if(s||!GRADE_INFO[grade])return;
+ selectedGrade=grade;
+ beginPrologue();
+}
 function showStarterSetup(){
  tutorialActive=false;
- showModal('<div class="start-screen starter-one-page"><div class="eyebrow">B1 · 두 친구의 첫 모험</div><h2>🎴 시작 룬 5개 선택</h2><p class="starter-intro">기본 룬 8종 중 <b>5개</b>를 선택해. 서로 다른 룬 <b>5종</b>을 하나씩 선택해! 같은 종류는 중복 선택할 수 없어. 운이 좋으면 모험 중 특별한 룬을 얻을 수 있을 거야.</p><div class="starter-heading">⚔ 기본 룬 8종 · 원하는 룬의 ＋ 버튼을 눌러 선택</div><div class="starter-grid" id="starter-grid"></div><div class="deck-status" id="starter-count" aria-live="polite"></div><button class="btn-primary starter-launch" type="button" data-action="start" id="start-btn">지하 1층으로 ▶</button><div class="starter-utilities"><button class="btn-secondary" data-action="story-cinema">📖 시나리오 감상</button><button class="btn-secondary" data-action="practice-open">🎮 연습장</button><button class="btn-secondary" data-action="tutorial-replay">◁ 튜토리얼</button></div></div>');
+ showModal('<div class="start-screen starter-one-page"><div class="eyebrow">B1 · 두 친구의 첫 모험 · '+activeGradeInfo().short+'</div><h2>🎴 시작 룬 5개 선택</h2><p class="starter-intro">기본 룬 8종 중 <b>5개</b>를 선택해. 서로 다른 룬 <b>5종</b>을 하나씩 선택해! 같은 종류는 중복 선택할 수 없어. 운이 좋으면 모험 중 특별한 룬을 얻을 수 있을 거야.</p><div class="starter-heading">⚔ 기본 룬 8종 · 원하는 룬의 ＋ 버튼을 눌러 선택</div><div class="starter-grid" id="starter-grid"></div><div class="deck-status" id="starter-count" aria-live="polite"></div><button class="btn-primary starter-launch" type="button" data-action="start" id="start-btn">지하 1층으로 ▶</button><div class="starter-utilities"><button class="btn-secondary" data-action="practice-open">🎮 연습장</button><button class="btn-secondary" data-action="tutorial-replay">◁ 튜토리얼</button></div></div>');
  renderStarter();
 }
 
@@ -3796,9 +3828,9 @@ function showTutorial(step,returnToGame=tutorialReturn){
  if(n===5)body='<div class="tutorial-starter-layout"><div class="tutorial-rune-grid tutorial-rune-starter-grid">'+TUTORIAL_START_RUNES.map(id=>'<div class="tutorial-rune-card"><span class="icon">'+runeVisual(id)+'</span><b>'+R[id].name+' 룬</b><small>'+TUTORIAL_START_RUNE_MINIGAMES[id]+'</small></div>').join('')+'</div></div>';
  if(n===6)body='<div class="tutorial-starter-layout"><div class="tutorial-rune-grid tutorial-rune-starter-grid tutorial-hidden-rune-grid">'+DROP_ONLY_RUNES.map(id=>'<div class="tutorial-rune-card"><span class="icon">'+runeVisual(id)+'</span><b>'+R[id].name+' 룬</b><small>'+TUTORIAL_HIDDEN_RUNE_GUIDE[id]+'</small></div>').join('')+'<div class="tutorial-rune-card tutorial-growth-card"><span class="icon">⬆️ ✨</span><b>성장과 특별한 힘</b><small><strong>레벨업 룬</strong> · 보유 룬 강화<br><strong>희귀 인챈트</strong> · 특수 효과 합성</small></div></div></div>';
  if(n===7)body='<p class="story">이제 모험을 떠나자.</p><div class="tutorial-path"><div><strong>⚔ 전투</strong><span>몬스터와 싸우는 곳</span></div><div><strong>🛒 상점</strong><span>물건을 사는 곳</span></div><div><strong>❔ 사건</strong><span>뜻밖의 일이 벌어지는 곳</span></div><div><strong>☠ 보스</strong><span>다음 층으로 가기 위한 강적</span></div></div>';
- const msg=n===1?(tutorialRolled?'✓ 검·총·방패 룬을 얻었어! 이제 검부터 써 보자.':'먼저 슬롯을 한 번 돌려 봐!'):n===2?(tutorialGuarded?'🛡 말풍선을 확인하고 방패로 공격을 막았어!':tutorialDefenseResult==='failed'?'공격 방향과 달랐어! 말풍선을 다시 보고 도전해 봐.':'몬스터 왼쪽 말풍선의 방향을 읽고 방패를 골라 봐.'):n===3?(tutorialSwordDone?'✓ 몬스터를 검으로 베었어! 다음은 총이야.':'전투 속 몬스터를 향해 검 공격을 해 봐.'):n===4?(tutorialGunDone?'✓ 몬스터에게 총을 맞혔어! 마지막은 방패야.':'몬스터의 머리나 몸통을 조준해서 쏴 봐.'):n===8?'3개 이상 일치한 슬롯만 자동 재회전! 공격 5 · 회복 2 · 방어막 각 1 · 주화 3G. 분노 +10씩, 80 도달 시 66 강력 반격!':n===5?'이것들은 시작과 함께 고를 수 있는 룬들이야.':n===6?'이 특별한 룬들은 몬스터를 잡으면 일정 확률로 드랍돼.':'이제 모험을 떠날 준비가 끝났어.';
+ const msg=n===1?(tutorialRolled?'✓ 검·총·방패 룬을 얻었어! 이제 검부터 써 보자.':'먼저 슬롯을 한 번 돌려 봐!'):n===2?(tutorialGuarded?'🛡 말풍선을 확인하고 방패로 공격을 막았어!':tutorialDefenseResult==='failed'?'공격 방향과 달랐어! 말풍선을 다시 보고 도전해 봐.':'몬스터 왼쪽 말풍선의 방향을 읽고 방패를 골라 봐.'):n===3?(tutorialSwordDone?'✓ 몬스터를 검으로 베었어! 다음은 총이야.':'전투 속 몬스터를 향해 검 공격을 해 봐.'):n===4?(tutorialGunDone?'✓ 몬스터에게 총을 맞혔어! 마지막은 방패야.':'몬스터의 머리나 몸통을 조준해서 쏴 봐.'):n===8?'3개 이상 일치한 슬롯만 자동 재회전! 공격 5 · 회복 2 · 방어막 각 1 · 주화 3G. 분노 +10씩, 100 도달 시 66 강력 반격!':n===5?'이것들은 시작과 함께 고를 수 있는 룬들이야.':n===6?'이 특별한 룬들은 몬스터를 잡으면 일정 확률로 드랍돼.':'이제 모험을 떠날 준비가 끝났어.';
  const nav='<div class="tutorial-nav">'+(n!==TUTORIAL_FLOW[0]?'<button class="btn-secondary" data-action="tutorial-prev">◀ 이전</button>':'')+'<button class="btn-primary" data-action="'+(n===7?'tutorial-finish':'tutorial-next')+'" '+(!canNext?'disabled':'')+'>'+(n===7?(tutorialReturn?'게임으로 돌아가기':'내 룬을 선택하고 출발 ▶'):n===1?'검 룬 연습하기 ▶':n===3?'총 룬 연습하기 ▶':n===4?'방패 룬 연습하기 ▶':n===2?'자동 재회전 알아보기 ▶':n===8?'다른 룬도 알아보기 ▶':'다음 이야기 ▶')+'</button></div>';
- showModal('<div class="tutorial-screen" data-step="'+n+'"><div class="tutorial-top"><button type="button" data-action="story-cinema" aria-label="시나리오 감상 시작">📖 시나리오 감상</button><span>⚔ 승휘와 함께하는 첫 전투 · '+(TUTORIAL_FLOW.indexOf(n)+1)+' / '+TUTORIAL_FLOW.length+'</span><button data-action="tutorial-skip">'+(tutorialReturn?'닫기':'건너뛰기')+' ✕</button></div><h2>'+heading[n]+'</h2>'+body+'<div class="tutorial-message '+(canNext?'good':'')+'" id="tutorial-message">'+msg+'</div>'+progress+nav+'</div>');
+ showModal('<div class="tutorial-screen" data-step="'+n+'"><div class="tutorial-top"><span>⚔ 승휘와 함께하는 첫 전투 · '+(TUTORIAL_FLOW.indexOf(n)+1)+' / '+TUTORIAL_FLOW.length+'</span><button data-action="tutorial-skip">'+(tutorialReturn?'닫기':'건너뛰기')+' ✕</button></div><h2>'+heading[n]+'</h2>'+body+'<div class="tutorial-message '+(canNext?'good':'')+'" id="tutorial-message">'+msg+'</div>'+progress+nav+'</div>');
 }
 function finishTutorial(){tutorialActive=false;tutorialToken++;tutorialDefenseSerial++;if(tutorialReturn&&s){hideModal();return;}showStarterSetup();}
 function tutorialRoll(){if(!tutorialActive||tutorialStep!==1||tutorialRolled)return;
@@ -3943,7 +3975,7 @@ function renderStarter(){
  $('start-btn').disabled=!ok;
 }
 
-const STORY_SCENES={"b1_start":{"no":"PROLOGUE · 낯선 교실","title":"갑자기 뒤바뀐 세상","emoji":"🏫","tone":"school","where":"익숙하지만 낯선 학교 · 학창 시절","button":"몬스터와 맞서며 전투 배우기","lines":[["나레이션","한순간 세상이 뒤집혔다. 평범한 현실이 사라지고, 눈앞이 게임 속 학교로 바뀌었다. 권혁준은 이유도 모른 채 학창 시절의 교복을 입고 서 있었다."],["권혁준","“뭐야… 여긴 어디야? 잠깐, 이 교복은 뭐지? 내가 왜 다시 학생이 된 거야?”"],["나레이션","유리창에 비친 모습은 학창 시절의 권혁준이다. 학교는 분명 기억 속 모습 그대로인데, 사물 위로 이상한 숫자와 표시들이 떠오른다."],["박승휘","“혁준아!”"],["권혁준","“너 승휘야??”"],["나레이션","눈앞에 학창 시절의 절친인 박승휘가 있었다. 오랜만에 만난 친구와의 재회에 기뻐할 틈도 없이…"],["나레이션","복도 저편에서 끼이이익…… 무언가 문을 긁는 소리가 들렸다. 그 순간, **쾅!!** 교실 문이 부서지며 무시무시한 몬스터가 들이닥쳤다!"],["권혁준","“뭐야?! 문밖에 몬스터가 있어! 갑자기 왜 이런 게 튀어나오는 거야!”"],["박승휘","“너 예전에 우리가 같이하던 룬이랑 슬롯, 설마 잊은 건 아니지? 지금 설명할 테니까 잘 들어. 먼저 슬롯부터 돌려!”"]]},"b1_mid":{"no":"B1 · 함께 싸우는 법","title":"두 사람이 만든 콤보","emoji":"🎮","tone":"school","where":"지하 복도 · 첫 번째 전투 이후","button":"승휘와 다음 갈림길로","lines":[["박승휘","“방패는 몬스터가 노리는 방향에! 검은 정확한 순간에! 우리 옛날에도 이렇게 연습했잖아.”"],["권혁준","“이상하네. 분명 잊고 있었는데, 네 목소리를 들으니 손이 먼저 움직여.”"],["나레이션","뒤틀린 복도 끝에서 게임의 시작을 알리는 듯한 효과음이 울려 퍼졌다."]]},"floor1":{"no":"CHAPTER 1 · 1F","title":"계단에 남은 두 사람의 웃음","emoji":"🔎","tone":"hall","where":"1층 · 오래된 교실 앞 복도","button":"1층에서 승휘 찾기","lines":[["나레이션","지하 1층의 문이 열리자, 조금 전까지 곁에서 떠들던 박승휘가 감쪽같이 사라졌다. 낡은 계단에는 권혁준의 발소리만 울렸다."],["권혁준","“승휘야! 야, 장난치지 마. 방금까지 같이 있었잖아!”"],["나레이션","1층 복도 게시판에 삐뚤빼뚤한 낙서가 보였다. 우산 하나 아래에 꼭 붙어 선 두 사람. 한쪽 옆에는 작은 글씨로 ‘혁준 + 승휘’라고 적혀 있었다."],["권혁준","“이 그림… 설마 우리가 그린 거야?”"],["나레이션","순간 빗소리가 귀에 되살아났다. 학창 시절 어느 늦은 오후, 갑작스러운 소나기에 학교 현관 앞에서 발만 동동 구르던 날이었다."],["박승휘(회상)","“혁준아, 너 또 우산 안 챙겼냐? 어서 와. 오늘은 내가 특별히 태워 준다!”"],["권혁준(회상)","“야, 우산이 너무 작잖아. 네 어깨 다 젖겠다!”"],["나레이션","둘은 작은 우산을 억지로 나눠 썼다. 결국 둘 다 교복 어깨가 흠뻑 젖었지만, 집에 도착할 때까지 웃음이 그치지 않았다."],["권혁준","“그땐 비 좀 맞는 게 뭐가 그렇게 재미있었을까…. 너랑 있으면 별일도 다 추억이 됐지.”"],["나레이션","게시판 아래에는 낡은 종이 한 장이 매달려 있었다. 익숙한 글씨였다. ‘끝에 가면 그때의 약속을 기억할 거야.’"],["권혁준","“이 글씨, 분명 네 거야. 승휘야, 기다려. 이번에는 내가 너를 찾으러 갈게.”"],["나레이션","권혁준은 낙서를 한 번 더 바라본 뒤, 위층으로 이어진 계단을 올랐다. 잊고 지낸 웃음소리가 발걸음 뒤를 따라왔다."]]},"floor2":{"no":"CHAPTER 2 · 2F","title":"과학실에서 되살아난 목소리","emoji":"📻","tone":"class","where":"2층 · 둘이 짝이었던 과학실","button":"2층을 지나 계속 올라가기","lines":[["나레이션","2층 문을 여는 순간 희미한 알코올 냄새와 낡은 실험대가 눈에 들어왔다. 온통 몬스터로 뒤덮인 학교인데도, 이 교실만은 어딘가 평범한 방과 후 같았다."],["권혁준","“과학실… 여기서 승휘랑 같은 조였는데.”"],["나레이션","기억 속에서 두 사람은 실험대 앞에 나란히 서 있었다. 서로 자신만만하게 계산을 끝냈지만, 실험 용기에서는 예상치 못한 거품이 끝없이 올라왔다."],["박승휘(회상)","“야, 야! 혁준아! 이거 계산 맞다며! 우리 과학실 날려 버리는 거 아니냐?”"],["권혁준(회상)","“수치는 맞아! 아니, 잠깐… 네가 시약을 두 번 넣었잖아!”"],["나레이션","거품은 책상까지 넘쳤고, 두 사람은 웃음을 참느라 혼이 났다. 수업이 끝난 뒤에도 함께 남아 실험대를 닦았다."],["박승휘(회상)","“괜찮아. 같이 망쳤으니까 같이 치우면 되지. 대신 다음 실험은 네가 시약 넣어!”"],["권혁준","“항상 그랬지. 내가 실수하면 네가 웃어 줬고, 네가 실수하면 내가 옆에 있었어.”"],["나레이션","서랍을 열자 두 사람이 만든 공략 노트가 나왔다. 공책 모서리는 닳았고, 글씨는 서로 다른 필체로 빼곡했다."],["공략 노트","‘승휘:적이 기를 모아 공격하면 전투망치로 딜을 반감시켜! / 혁준: 오케이. 다음 턴엔 관통 조심. 우리 둘이면 무조건 이긴다’"],["나레이션","뒷장에는 공략보다 더 큰 글씨가 있었다. ‘실패해도 둘이 하면 다시 시작할 수 있음.’ 오래전에 승휘가 장난처럼 적어 둔 문장이었다."],["권혁준","“그래… 우린 게임에서도 늘 다시 시작했어. 이번엔 네가 어디 있는지 꼭 알아낼 거야.”"],["나레이션","권혁준은 공략 노트를 가슴에 꼭 끌어안았다. 학교 종소리처럼 그리운 웃음이 멀어지고, 위층을 향한 계단이 모습을 드러냈다."]]},"floor3":{"no":"CHAPTER 3 · 3F","title":"방과 후, 우리만의 공략집","emoji":"💾","tone":"game","where":"3층 · 게임을 함께하던 교실","button":"체육관으로 이어지는 문 열기","lines":[["나레이션","3층 복도 끝에 낡은 컴퓨터 한 대가 놓여 있었다. 검은 화면에 오래전 두 사람이 즐기던 슬롯 던전의 제목이 천천히 떠올랐다."],["권혁준","“이거… 우리 둘이 정말 질리도록 하던 게임이잖아.”"],["나레이션","해가 지고 운동장 소리마저 사라지면, 둘은 교실에 남아 모니터 앞에 의자 하나를 더 끌어다 놓곤 했다."],["박승휘(회상)","“야, 이번에는 내 차례다! 너 아까도 검 미니게임 두 번 했어!”"],["권혁준(회상)","“대신 네가 방어 방향 알려 줬잖아. 이번 판만 더 하면 진짜 바꿔 줄게!”"],["나레이션","서로 차례를 빼앗고 놀리면서도, 어려운 몬스터 앞에서는 자연스럽게 힘을 합쳤다. 혁준은 피해량을 계산했고 승휘는 공격 패턴을 기억했다."],["박승휘(회상)","“너는 숫자 잘 보잖아. 난 몬스터 움직임 외울게. 그렇게 하면 못 깰 층이 없지!”"],["권혁준","“그래서 내가 아는 거였구나. 늑대의 연타, 리치의 봉인, 용의 브레스… 네가 몇 번이고 알려 줬던 거야.”"],["나레이션","책상 위 공략집에는 두 사람의 수정 흔적이 겹겹이 남아 있었다. 틀린 공략에는 굵은 줄이 그어졌고, 성공한 날에는 별표가 잔뜩 붙어 있었다."],["권혁준","“이 별표… 너랑 밤늦게 마지막 보스 깨고 그려 둔 거였지.”"],["나레이션","공략집 맨 뒷장에 전투와 상관없는 문장이 작게 적혀 있었다. ‘졸업해도 가끔은 같이 놀자. 우리가 어디에 있든.’"],["권혁준","“별거 아닌 약속이라고 생각했는데… 난 이런 것까지 잊고 살았네.”"],["낡은 게임의 안내문","‘마지막 저장 지점: 4층 체육관 방송실.’"],["권혁준","“승휘야, 거기에 있는 거지? 내가 지금 가고 있어. 이번에는 네 말을 끝까지 들어 줄게.”"],["나레이션","화면 속 저장 표시가 조용히 깜빡였다. 권혁준은 마지막 층을 향해 걸었다."]]},"floor4":{"no":"FINAL CHAPTER · 4F","title":"체육관 방송실의 오래된 약속","emoji":"🏟️","tone":"gym","where":"4층 · 체육관으로 향하는 복도","button":"4층 마지막 구역으로","lines":[["나레이션","마지막 층의 문이 열리자 멀리서 희미한 방송이 들렸다. 학생들의 환호, 체육관 바닥에 닿는 운동화 소리, 그리고 늦은 오후의 따뜻한 햇살."],["권혁준","“체육관… 여기까지 오니까 이상하게 하나도 낯설지 않네.”"],["나레이션","학창 시절 학교 행사가 있던 날, 방송실의 낡은 마이크가 갑자기 작동하지 않았다. 무대 뒤에서 당황한 혁준 옆으로 승휘가 달려왔었다."],["박승휘(회상)","“야, 혁준아! 너 혼자 다 하려고 하지 마. 마이크는 내가 볼게. 넌 준비한 거 잊지 말고!”"],["권혁준(회상)","“근데 네가 옆에 없으면 나 진짜 떨린다니까.”"],["박승휘(회상)","“그러니까 내가 옆에 있잖아. 빨리 가! 너라면 잘할 수 있어.”"],["나레이션","그날 행사는 무사히 끝났다. 학생들이 모두 돌아간 뒤에도 두 사람은 방송실에 남아 오늘 하루가 얼마나 재미있었는지 떠들었다."],["박승휘(회상)","“우리 여기다 이름 새길까? 졸업하고 나서도 왔다 갔던 거 기억나게.”"],["권혁준(회상)","“좋지. 근데 글씨 좀 똑바로 써. 네 이름이 지렁이 같아!”"],["나레이션","책상 아래에 나란히 새긴 이름. 그때는 다음 주에도, 다음 해에도 당연히 함께 웃을 거라고 믿었다."],["권혁준","“나는 결국 이 학교로 돌아와서 선생님이 됐는데… 정작 너랑 같이 있던 방송실에는 한 번도 안 와 봤구나.”"],["나레이션","발걸음을 옮길 때마다 기억이 또렷해졌다. 장난스러운 목소리, 함께 썼던 공략집, 어깨를 적시던 비까지. 모두 승휘가 있는 추억이었다."],["박승휘의 목소리","“혁준아. 그때 우리, 이름을 어디에 새기자고 했었지?”"],["권혁준","“체육관 방송실… 맞아. 나는 기억해. 이번에는 절대 잊지 않을게.”"],["나레이션","낡은 방송실 문틈에서 따뜻한 빛이 흘러나왔다. 권혁준은 숨을 고르고 마지막 문을 향해 손을 뻗었다."]]},"engrave":{"no":"THE END · 두 사람의 약속","title":"영원히 간직할 이름","emoji":"✍️","tone":"gym","where":"4층 · 체육관 방송실","button":"이야기 마무리 · 엔딩 보기","lines":[["나레이션","마지막 몬스터를 쓰러뜨리자 낡은 방송실 문이 열린다. 창밖의 노을 아래, 박승휘가 예전 모습 그대로 기다리고 있다."],["박승휘","“많이 늦었네, 혁준아. 그래도 끝까지 와 줬구나.”"],["권혁준","“당연하지. 내일도, 내년에도 같이 게임하면 되잖아.”"],["박승휘","“그럼 여기에 새기자. 우리가 함께 있었다는 걸. 세월이 지나도 절대 잊지 말자.”"],["나레이션","방송실 책상 아래에 두 이름이 나란히 새겨졌다. **권혁준 · 박승휘**. 승휘가 웃었다. 혁준도 웃었다. 혁준은 내일도 친구를 만날 수 있으리라 믿었다."]]},"hospital":{"no":"AFTER CREDITS · 그날 밤","title":"다른 곳의 조용한 밤","emoji":"🏥","tone":"hospital","where":"현실 · 병원","button":"그 후의 이야기","lines":[["나레이션","같은 시간, 병원의 조용한 병실. 박승휘는 생의 끝에 가까워진 몸으로 긴 잠에 빠져 있었다."],["나레이션","그가 꿈에서 되살린 것은 학창 시절의 복도, 둘이 함께 즐긴 게임, 그리고 오랫동안 마음에 남아 있던 단 한 친구였다."],["박승휘의 작은 목소리","“혁준아... 우리 이름... 잊지 마...”"],["나레이션","지하 1층부터 방송실까지의 긴 모험은, 마지막으로 친구를 만나고 싶었던 박승휘의 꿈이었다."]]},"realization":{"no":"EPILOGUE · 두 사람의 우정","title":"오래도록 남아 있을 이름","emoji":"📷","tone":"gym","where":"동경한국학교 · 체육관 방송실","button":"Fin · 두사람의 우정","lines":[["나레이션","꿈에서 깬 권혁준은 지금은 교사로 재직하는 동경한국학교의 체육관으로 향했다."],["나레이션","기억 속의 체육관 방송실. 그동안 교사로 재직하면서 한 번도 들르지 않았던 곳이었다."],["나레이션","권혁준이 살펴보자 세월이 묻은 책상 아래에는 두 사람이 새긴 이름이 희미하게 남아 있었다."],["권혁준","“...좀 더 빨리 연락하지, 바보 같은 놈.”"],["권혁준","“고마워. 마지막에 나를 불러줘서.”"],["나레이션","두 이름은 손으로 문질러도 지워지지 않았다. 권혁준은 손끝으로 글자를 따라가며, 즐거웠던 그 시절을 오래도록 기억하기로 했다."]]},"migration":{"no":"MEMORY STORY · UPDATE","title":"학교로 돌아온 모험","emoji":"🧭","tone":"school","where":"새로운 다섯 층의 이야기","button":"이어 하던 모험으로","lines":[["안내","10층을 지하 1층부터 4층까지의 5개 장으로 재구성했어. 기존의 60종 몬스터는 모두 남아 있고 그림은 중복 배치하지 않았어."],["안내","이전 모험의 주화·룬·레벨·장비는 이어받았어. 새로 바뀐 지도에서는 현재 해금된 층부터 다시 탐험할 수 있어."],["안내","스토리의 시작부터 경험하고 싶다면 ‘새 모험’을 선택할 수도 있어."]]}};
+const STORY_SCENES={"b1_start":{"no":"PROLOGUE · 낯선 교실","title":"갑자기 뒤바뀐 세상","emoji":"🏫","tone":"school","where":"익숙하지만 낯선 학교 · 학창 시절","button":"몬스터와 맞서며 전투 배우기","lines":[["나레이션","한순간 세상이 뒤집혔다. 평범한 현실이 사라지고, 눈앞이 게임 속 학교로 바뀌었다. 권혁준은 이유도 모른 채 학창 시절의 교복을 입고 서 있었다."],["권혁준","“뭐야… 여긴 어디야? 잠깐, 이 교복은 뭐지? 내가 왜 다시 학생이 된 거야?”"],["나레이션","유리창에 비친 모습은 학창 시절의 권혁준이다. 학교는 분명 기억 속 모습 그대로인데, 사물 위로 이상한 숫자와 표시들이 떠오른다."],["박승휘","“혁준아!”"],["권혁준","“너 승휘야??”"],["나레이션","눈앞에 학창 시절의 절친인 박승휘가 있었다. 오랜만에 만난 친구와의 재회에 기뻐할 틈도 없이…"],["나레이션","복도 저편에서 끼이이익…… 무언가 문을 긁는 소리가 들렸다. 그 순간, **쾅!!** 교실 문이 부서지며 무시무시한 몬스터가 들이닥쳤다!"],["권혁준","“뭐야?! 문밖에 몬스터가 있어! 갑자기 왜 이런 게 튀어나오는 거야!”"],["박승휘","“너 예전에 우리가 같이하던 룬이랑 슬롯, 설마 잊은 건 아니지? 지금 설명할 테니까 잘 들어. 먼저 슬롯부터 돌려!”"]]},"b1_mid":{"no":"B1 · 함께 싸우는 법","title":"두 사람이 만든 콤보","emoji":"🎮","tone":"school","where":"지하 복도 · 첫 번째 전투 이후","button":"승휘와 다음 갈림길로","lines":[["박승휘","“방패는 몬스터가 노리는 방향에! 검은 정확한 순간에! 우리 옛날에도 이렇게 연습했잖아.”"],["권혁준","“이상하네. 분명 잊고 있었는데, 네 목소리를 들으니 손이 먼저 움직여.”"],["나레이션","뒤틀린 복도 끝에서 게임의 시작을 알리는 듯한 효과음이 울려 퍼졌다."]]},"floor1":{"no":"CHAPTER 1 · 1F","title":"계단에 남은 두 사람의 웃음","emoji":"🔎","tone":"hall","where":"1층 · 오래된 교실 앞 복도","button":"1층에서 승휘 찾기","lines":[["나레이션","지하 1층의 문이 열리자, 조금 전까지 곁에서 떠들던 박승휘가 감쪽같이 사라졌다. 낡은 계단에는 권혁준의 발소리만 울렸다."],["권혁준","“승휘야! 야, 장난치지 마. 방금까지 같이 있었잖아!”"],["나레이션","1층 복도 게시판에 삐뚤빼뚤한 낙서가 보였다. 우산 하나 아래에 꼭 붙어 선 두 사람. 한쪽 옆에는 작은 글씨로 ‘혁준 + 승휘’라고 적혀 있었다."],["권혁준","“이 그림… 설마 우리가 그린 거야?”"],["나레이션","순간 빗소리가 귀에 되살아났다. 학창 시절 어느 늦은 오후, 갑작스러운 소나기에 학교 현관 앞에서 발만 동동 구르던 날이었다."],["박승휘(회상)","“혁준아, 너 또 우산 안 챙겼냐? 어서 와. 오늘은 내가 특별히 태워 준다!”"],["권혁준(회상)","“야, 우산이 너무 작잖아. 네 어깨 다 젖겠다!”"],["나레이션","둘은 작은 우산을 억지로 나눠 썼다. 결국 둘 다 교복 어깨가 흠뻑 젖었지만, 집에 도착할 때까지 웃음이 그치지 않았다."],["권혁준","“그땐 비 좀 맞는 게 뭐가 그렇게 재미있었을까…. 너랑 있으면 별일도 다 추억이 됐지.”"],["나레이션","게시판 아래에는 낡은 종이 한 장이 매달려 있었다. 익숙한 글씨였다. ‘끝에 가면 그때의 약속을 기억할 거야.’"],["권혁준","“이 글씨, 분명 네 거야. 승휘야, 기다려. 이번에는 내가 너를 찾으러 갈게.”"],["나레이션","권혁준은 낙서를 한 번 더 바라본 뒤, 위층으로 이어진 계단을 올랐다. 잊고 지낸 웃음소리가 발걸음 뒤를 따라왔다."]]},"floor2":{"no":"CHAPTER 2 · 2F","title":"과학실에서 되살아난 목소리","emoji":"📻","tone":"class","where":"2층 · 둘이 짝이었던 과학실","button":"2층을 지나 계속 올라가기","lines":[["나레이션","2층 문을 여는 순간 희미한 알코올 냄새와 낡은 실험대가 눈에 들어왔다. 온통 몬스터로 뒤덮인 학교인데도, 이 교실만은 어딘가 평범한 방과 후 같았다."],["권혁준","“과학실… 여기서 승휘랑 같은 조였는데.”"],["나레이션","기억 속에서 두 사람은 실험대 앞에 나란히 서 있었다. 서로 자신만만하게 계산을 끝냈지만, 실험 용기에서는 예상치 못한 거품이 끝없이 올라왔다."],["박승휘(회상)","“야, 야! 혁준아! 이거 계산 맞다며! 우리 과학실 날려 버리는 거 아니냐?”"],["권혁준(회상)","“수치는 맞아! 아니, 잠깐… 네가 시약을 두 번 넣었잖아!”"],["나레이션","실험 용기에서 **펑!** 하고 작은 폭발음이 터졌다. 거품은 책상까지 넘쳤고, 두 사람은 웃음을 참느라 혼이 났다. 수업이 끝난 뒤에도 함께 남아 실험대를 닦았다."],["박승휘(회상)","“괜찮아. 같이 망쳤으니까 같이 치우면 되지. 대신 다음 실험은 네가 시약 넣어!”"],["권혁준","“항상 그랬지. 내가 실수하면 네가 웃어 줬고, 네가 실수하면 내가 옆에 있었어.”"],["나레이션","서랍을 열자 두 사람이 만든 공략 노트가 나왔다. 공책 모서리는 닳았고, 글씨는 서로 다른 필체로 빼곡했다."],["공략 노트","‘승휘:적이 기를 모아 공격하면 전투망치로 딜을 반감시켜! / 혁준: 오케이. 다음 턴엔 관통 조심. 우리 둘이면 무조건 이긴다’"],["나레이션","뒷장에는 공략보다 더 큰 글씨가 있었다. ‘실패해도 둘이 하면 다시 시작할 수 있음.’ 오래전에 승휘가 장난처럼 적어 둔 문장이었다."],["권혁준","“그래… 우린 게임에서도 늘 다시 시작했어. 이번엔 네가 어디 있는지 꼭 알아낼 거야.”"],["나레이션","권혁준은 공략 노트를 가슴에 꼭 끌어안았다. 학교 종소리처럼 그리운 웃음이 멀어지고, 위층을 향한 계단이 모습을 드러냈다."]]},"floor3":{"no":"CHAPTER 3 · 3F","title":"방과 후, 우리만의 공략집","emoji":"💾","tone":"game","where":"3층 · 게임을 함께하던 교실","button":"체육관으로 이어지는 문 열기","lines":[["나레이션","3층 복도 끝에 낡은 컴퓨터 한 대가 놓여 있었다. 검은 화면에 오래전 두 사람이 즐기던 슬롯 던전의 제목이 천천히 떠올랐다."],["권혁준","“이거… 우리 둘이 정말 질리도록 하던 게임이잖아.”"],["나레이션","해가 지고 운동장 소리마저 사라지면, 둘은 교실에 남아 모니터 앞에 의자 하나를 더 끌어다 놓곤 했다."],["박승휘(회상)","“야, 이번에는 내 차례다! 너 아까도 검 미니게임 두 번 했어!”"],["권혁준(회상)","“대신 네가 방어 방향 알려 줬잖아. 이번 판만 더 하면 진짜 바꿔 줄게!”"],["나레이션","서로 차례를 빼앗고 놀리면서도, 어려운 몬스터 앞에서는 자연스럽게 힘을 합쳤다. 혁준은 피해량을 계산했고 승휘는 공격 패턴을 기억했다."],["박승휘(회상)","“너는 숫자 잘 보잖아. 난 몬스터 움직임 외울게. 그렇게 하면 못 깰 층이 없지!”"],["권혁준","“그래서 내가 아는 거였구나. 늑대의 연타, 리치의 봉인, 용의 브레스… 네가 몇 번이고 알려 줬던 거야.”"],["나레이션","책상 위 공략집에는 두 사람의 수정 흔적이 겹겹이 남아 있었다. 틀린 공략에는 굵은 줄이 그어졌고, 성공한 날에는 별표가 잔뜩 붙어 있었다."],["권혁준","“이 별표… 너랑 밤늦게 마지막 보스 깨고 그려 둔 거였지.”"],["나레이션","공략집 맨 뒷장에 전투와 상관없는 문장이 작게 적혀 있었다. ‘졸업해도 가끔은 같이 놀자. 우리가 어디에 있든.’"],["권혁준","“별거 아닌 약속이라고 생각했는데… 난 이런 것까지 잊고 살았네.”"],["낡은 게임의 안내문","‘마지막 저장 지점: 4층 체육관 방송실.’"],["권혁준","“승휘야, 거기에 있는 거지? 내가 지금 가고 있어. 이번에는 네 말을 끝까지 들어 줄게.”"],["나레이션","화면 속 저장 표시가 조용히 깜빡였다. 권혁준은 마지막 층을 향해 걸었다."]]},"floor4":{"no":"FINAL CHAPTER · 4F","title":"체육관 방송실의 오래된 약속","emoji":"🏟️","tone":"gym","where":"4층 · 체육관으로 향하는 복도","button":"4층 마지막 구역으로","lines":[["나레이션","마지막 층의 문이 열리자 멀리서 희미한 방송이 들렸다. 학생들의 환호, 체육관 바닥에 닿는 운동화 소리, 그리고 늦은 오후의 따뜻한 햇살."],["권혁준","“체육관… 여기까지 오니까 이상하게 하나도 낯설지 않네.”"],["나레이션","학창 시절 학교 행사가 있던 날, 방송실의 낡은 마이크가 갑자기 작동하지 않았다. 무대 뒤에서 당황한 혁준 옆으로 승휘가 달려왔었다."],["박승휘(회상)","“야, 혁준아! 너 혼자 다 하려고 하지 마. 마이크는 내가 볼게. 넌 준비한 거 잊지 말고!”"],["권혁준(회상)","“근데 네가 옆에 없으면 나 진짜 떨린다니까.”"],["박승휘(회상)","“그러니까 내가 옆에 있잖아. 빨리 가! 너라면 잘할 수 있어.”"],["나레이션","그날 행사는 무사히 끝났다. 학생들이 모두 돌아간 뒤에도 두 사람은 방송실에 남아 오늘 하루가 얼마나 재미있었는지 떠들었다."],["박승휘(회상)","“우리 여기다 이름 새길까? 졸업하고 나서도 왔다 갔던 거 기억나게.”"],["권혁준(회상)","“좋지. 근데 글씨 좀 똑바로 써. 네 이름이 지렁이 같아!”"],["나레이션","책상 아래에 나란히 새긴 이름. 그때는 다음 주에도, 다음 해에도 당연히 함께 웃을 거라고 믿었다."],["권혁준","“나는 결국 이 학교로 돌아와서 선생님이 됐는데… 정작 너랑 같이 있던 방송실에는 한 번도 안 와 봤구나.”"],["나레이션","발걸음을 옮길 때마다 기억이 또렷해졌다. 장난스러운 목소리, 함께 썼던 공략집, 어깨를 적시던 비까지. 모두 승휘가 있는 추억이었다."],["박승휘의 목소리","“혁준아. 그때 우리, 이름을 어디에 새기자고 했었지?”"],["권혁준","“체육관 방송실… 맞아. 나는 기억해. 이번에는 절대 잊지 않을게.”"],["나레이션","낡은 방송실 문틈에서 따뜻한 빛이 흘러나왔다. 권혁준은 숨을 고르고 마지막 문을 향해 손을 뻗었다."]]},"engrave":{"no":"THE END · 두 사람의 약속","title":"영원히 간직할 이름","emoji":"✍️","tone":"gym","where":"4층 · 체육관 방송실","button":"이야기 마무리 · 엔딩 보기","lines":[["나레이션","마지막 몬스터를 쓰러뜨리자 낡은 방송실 문이 열린다. 창밖의 노을 아래, 박승휘가 예전 모습 그대로 기다리고 있다."],["박승휘","“많이 늦었네, 혁준아. 그래도 끝까지 와 줬구나.”"],["권혁준","“당연하지. 내일도, 내년에도 같이 게임하면 되잖아.”"],["박승휘","“그럼 여기에 새기자. 우리가 함께 있었다는 걸. 세월이 지나도 절대 잊지 말자.”"],["나레이션","방송실 책상 아래에 두 이름이 나란히 새겨졌다. **권혁준 · 박승휘**. 승휘가 웃었다. 혁준도 웃었다. 혁준은 내일도 친구를 만날 수 있으리라 믿었다."]]},"hospital":{"no":"AFTER CREDITS · 그날 밤","title":"다른 곳의 조용한 밤","emoji":"🏥","tone":"hospital","where":"현실 · 병원","button":"그 후의 이야기","lines":[["나레이션","같은 시간, 병원의 조용한 병실. 박승휘는 생의 끝에 가까워진 몸으로 긴 잠에 빠져 있었다."],["나레이션","그가 꿈에서 되살린 것은 학창 시절의 복도, 둘이 함께 즐긴 게임, 그리고 오랫동안 마음에 남아 있던 단 한 친구였다."],["박승휘의 작은 목소리","“혁준아... 우리 이름... 잊지 마...”"],["나레이션","지하 1층부터 방송실까지의 긴 모험은, 마지막으로 친구를 만나고 싶었던 박승휘의 꿈이었다."]]},"realization":{"no":"EPILOGUE · 두 사람의 우정","title":"오래도록 남아 있을 이름","emoji":"📷","tone":"gym","where":"동경한국학교 · 체육관 방송실","button":"Fin · 두사람의 우정","lines":[["나레이션","꿈에서 깬 권혁준은 지금은 교사로 재직하는 동경한국학교의 체육관으로 향했다."],["나레이션","기억 속의 체육관 방송실. 그동안 교사로 재직하면서 한 번도 들르지 않았던 곳이었다."],["나레이션","권혁준이 살펴보자 세월이 묻은 책상 아래에는 두 사람이 새긴 이름이 희미하게 남아 있었다."],["권혁준","“...좀 더 빨리 연락하지, 바보 같은 놈.”"],["권혁준","“고마워. 마지막에 나를 불러줘서.”"],["나레이션","두 이름은 손으로 문질러도 지워지지 않았다. 권혁준은 손끝으로 글자를 따라가며, 즐거웠던 그 시절을 오래도록 기억하기로 했다."]]},"migration":{"no":"MEMORY STORY · UPDATE","title":"학교로 돌아온 모험","emoji":"🧭","tone":"school","where":"새로운 다섯 층의 이야기","button":"이어 하던 모험으로","lines":[["안내","10층을 지하 1층부터 4층까지의 5개 장으로 재구성했어. 기존의 60종 몬스터는 모두 남아 있고 그림은 중복 배치하지 않았어."],["안내","이전 모험의 주화·룬·레벨·장비는 이어받았어. 새로 바뀐 지도에서는 현재 해금된 층부터 다시 탐험할 수 있어."],["안내","스토리의 시작부터 경험하고 싶다면 ‘새 모험’을 선택할 수도 있어."]]}};
 STORY_SCENES.final_boss_prelude={"no":"FINAL BOSS · 결전 전야","title":"마지막 한 판을 앞두고","emoji":"⚔️","tone":"gym","where":"4층 · 체육관 방송실 앞 · 수학대마왕의 문","button":"각오를 다지고 수학대마왕에게 도전","lines":[["나레이션","체육관 방송실로 이어지는 마지막 문 앞. 복도에 울리던 발소리가 멈췄다. 바닥을 뒤덮은 수식이 붉게 빛나며, 문 위에 마지막 적의 이름이 떠올랐다. **수학대마왕.**"],["권혁준","“드디어 여기까지 왔네. 승휘야… 네가 이 문 너머에 있는 거지?”"],["나레이션","문틈에서 무거운 기운이 새어 나왔다. 거대한 그림자가 천장까지 치솟았고, 혁준의 손에 들린 룬이 잘게 떨렸다."],["권혁준","“솔직히 무섭다. 여기서 지면 널 다시는 못 찾을지도 모르잖아.”"],["나레이션","그 순간 낡은 공략 노트가 눈에 들어왔다. 작은 우산 아래 함께 뛰던 날, 엉망이 된 과학실, 해 질 녘까지 이어진 게임, 방송실에 나란히 새긴 이름이 차례로 떠올랐다."],["권혁준","“우리는 틀리면 다시 풀었고, 져도 다시 도전했지. 네가 옆에서 웃어 주니까 뭐든 해볼 만했어.”"],["권혁준","“이번엔 내가 먼저 보여 줄게. 승휘야, 어디에 있든 보고 있어. 나는 끝까지 포기하지 않을 거야.”"],["나레이션","혁준은 숨을 깊게 들이쉬고 룬을 단단히 쥐었다. 두려움 대신 오래전 친구와 했던 약속이 마음에 남았다. 거대한 문이 천천히 열리기 시작했다."],["권혁준","“좋아, 수학대마왕! **마지막 한 판이다. 끝까지 간다!**”"]]};
 // V79: an independent, story-only mode that never changes the adventure or save data.
 STORY_SCENES.final_rescue={"no":"SPECIAL CHAPTER · 마지막 약속","title":"쓰러진 순간, 내민 손","emoji":"🤝","tone":"hall","where":"4층 · 수학대마왕의 왕좌 · 무너진 전장","button":"승휘와 함께 다시 일어서기","lines":[["나레이션","수학대마왕의 거센 일격에 권혁준이 바닥에 쓰러졌다. 손에 쥐고 있던 룬이 멀리 튕겨 나갔고, 두 다리에는 더 이상 힘이 들어가지 않았다."],["권혁준","“여기까지인가… 승휘야, 미안해. 널 찾겠다고 여기까지 왔는데… 이제는 못 일어나겠어.”"],["나레이션","혁준은 바닥을 짚던 손을 천천히 내려놓았다. 모든 걸 포기하고 눈을 감으려던 바로 그 순간, 누군가 그의 앞에 멈춰 섰다."],["박승휘","“혁준아. 그렇게 포기하려고?”"],["나레이션","혁준이 고개를 들었다. 학창 시절의 그 모습 그대로, 박승휘가 서 있었다. **승휘는 한쪽 무릎을 굽혀 쓰러진 혁준에게 손을 내밀었다.**"],["권혁준","“승휘야…? 정말 너야? 네가 어떻게 여기에…”"],["박승휘","“일어나. 너 혼자 싸우게 둘 생각 없어. 우리 둘이 함께라면 아직 할 수 있어.”"],["박승휘","“**내 손 잡아, 혁준아. 힘을 합치자!** 내가 모아 둔 특별한 룬도 전부 줄게. 마지막은 같이 끝내는 거야.”"],["나레이션","혁준은 떨리는 손으로 승휘의 손을 꽉 잡았다. 승휘가 혁준을 일으켜 세우자, 흩어졌던 룬들이 다시 빛나기 시작했다. 검, 방패, 전투망치, 마법, 숨겨진 룬까지… **15종의 룬이 전부 해금**되었다!"],["권혁준","“그래… 다시 해 보자. 우리 둘이면 무조건 이긴다! 이번엔 같이 끝내자!”"],["나레이션","두 사람은 나란히 수학대마왕을 바라봤다. 혁준의 체력이 회복되고 슬롯이 다시 돌 준비를 마쳤다. **수학대마왕의 남은 체력은 그대로. 두 친구의 마지막 반격이 시작된다.**"]]};
@@ -3967,7 +3999,7 @@ function exitStoryCinema(){
  if(!storyCinema)return;
  const old=storyCinema;storyCinema=null;
  if(!s){if(old.returnPrologue&&storyPrologue)renderStoryLine();else if(old.returnTutorial)showTutorial(tutorialStep,false);else showStarterSetup();return;}
- if(old.returnMarkup){showModal(old.returnMarkup);return;}
+ if(old.returnMarkup){if(s?.view==='story'&&s.storyPending&&STORY_SCENES[s.storyPending])renderStoryLine();else showModal(old.returnMarkup);return;}
  hideModal();
 }
 
@@ -4011,6 +4043,70 @@ function playPrologueScare(){
  texture(.43,.065,1700,180,.93,'bandpass',.008,.50);
  tone(125,.42,'sawtooth',.05,57,1.03,.018);
 }
+// V126: story-specific, fully offline sound design for the umbrella memory and science lab.
+// The rain belongs to the flashback, so it fades away on returning to the present.
+let storyRain=null,storySoundAnchor=null,storySoundPlayed=null;
+function stopStoryRain(){
+ const r=storyRain;storyRain=null;
+ if(!r)return;
+ try{
+  const t=r.ctx.currentTime;
+  r.gain.gain.cancelScheduledValues(t);
+  r.gain.gain.setValueAtTime(Math.max(.0001,r.gain.gain.value),t);
+  r.gain.gain.linearRampToValueAtTime(.0001,t+.22);
+  r.source.stop(t+.25);
+  r.source.onended=()=>{try{r.source.disconnect();r.gain.disconnect();r.hiss.disconnect();r.wash.disconnect();}catch(err){}};
+ }catch(err){try{r.source.stop();}catch(e){}}
+}
+function startStoryRain(){
+ if(!audioOn||document.visibilityState==='hidden'){stopStoryRain();return;}
+ const c=audio();if(!c||!soundMaster)return;
+ if(storyRain&&storyRain.ctx===c)return;
+ stopStoryRain();
+ try{
+  // Stereo soft rainfall, with random droplets baked into a seamless 6-second loop.
+  const seconds=6,rate=c.sampleRate,len=Math.round(seconds*rate),buf=c.createBuffer(2,len,rate);
+  for(let channel=0;channel<2;channel++){
+   const data=buf.getChannelData(channel);let low=0,drop=0;
+   for(let i=0;i<len;i++){
+    const white=Math.random()*2-1;
+    low=low*.972+white*.028;
+    if(Math.random()<.00010)drop=.28+Math.random()*.42;
+    drop*=.986;
+    const edge=Math.min(1,i/(rate*.08),(len-i-1)/(rate*.08));
+    data[i]=(white*.34+low*.31+drop*.23)*Math.max(0,edge);
+   }
+  }
+  const source=c.createBufferSource(),hiss=c.createBiquadFilter(),wash=c.createBiquadFilter(),gain=c.createGain();
+  source.buffer=buf;source.loop=true;
+  hiss.type='highpass';hiss.frequency.value=360;
+  wash.type='lowpass';wash.frequency.value=4100;
+  const t=c.currentTime;gain.gain.setValueAtTime(.0001,t);gain.gain.linearRampToValueAtTime(.095,t+.35);
+  source.connect(hiss);hiss.connect(wash);wash.connect(gain);gain.connect(soundMaster);
+  source.start();storyRain={ctx:c,source,hiss,wash,gain};
+ }catch(err){stopStoryRain();}
+}
+function playStoryLabExplosion(){
+ if(!audioOn||!audio())return;
+ // Sudden glass-and-foam pop, deep laboratory thud, and short bubbling fizz.
+ texture(.095,.15,5800,1050,0,'highpass',.002);
+ texture(.42,.10,1600,125,.015,'lowpass',.003);
+ tone(162,.31,'triangle',.085,43,.018,.003);
+ tone(72,.37,'sine',.075,31,.028,.006);
+ texture(.32,.045,2900,720,.12,'bandpass',.01,.8);
+ [0,.075,.15].forEach((d,i)=>tone(325+i*88,.085,'sine',.018,145+i*39,d+.13,.007));
+}
+function syncStoryAudio(key,index){
+ storySoundAnchor={key,index};
+ const rainy=key==='floor1'&&index>=4&&index<=7;
+ if(rainy)startStoryRain();else stopStoryRain();
+ const marker=key+':'+index;
+ if(storySoundPlayed!==marker){
+  storySoundPlayed=marker;
+  if(key==='floor2'&&index===5)playStoryLabExplosion();
+ }
+}
+function stopStoryAudio(){stopStoryRain();storySoundAnchor=null;storySoundPlayed=null;}
 // V107: Strict time boundaries for the four ascending-floor memory sequences.
 // Only the narrator and the two boys appear within these ranges; once back in
 // the present, Seung-hwi is completely absent, including his disembodied voice.
@@ -4076,6 +4172,7 @@ function renderStoryLine(){
   '<button type="button" class="'+(narrator?'vn-narration':'vn-bubble')+'" data-action="story-next" data-speaker="'+whoKind+'" aria-label="'+(last?'장면 마치기':'다음 대사 보기')+'"><span class="vn-name">'+(narrator?'나레이션':who)+'</span><span class="vn-words">'+words+'</span><span class="vn-continue">'+note+' <span class="vn-continue-arrow">▶</span></span></button>'+
   '<div class="vn-footer"><span>✦ '+(movie?'전투 없이 이야기만 감상':narrator?'나레이션':'대화 중 · '+who)+'</span><div class="cinema-footer-actions"><button type="button" class="vn-skip" data-action="story-skip">장면 넘기기</button>'+(movie?'<button type="button" class="vn-skip" data-action="story-cinema-exit">✕ 종료</button>':'')+'</div></div></div>';
  showModal(body);
+ syncStoryAudio(key,index);
  $('modal').scrollTop=0;
 }
 function showStoryScene(key,resume=false){
@@ -4090,13 +4187,14 @@ function advanceStory(skip=false){
  if(storyCinema){advanceStoryCinema(skip);return;}
  if(storyPrologue&&!s){
   if(!skip&&storyPrologue.line<STORY_SCENES.b1_start.lines.length-1){storyPrologue.line++;if(storyPrologue.line===6)playPrologueScare();renderStoryLine();return;}
-  storyPrologue=null;showTutorial(1,false);return;
+  stopStoryAudio();storyPrologue=null;showTutorial(1,false);return;
  }
  if(!s||s.view!=='story')return;
  const key=s.storyPending,sc=STORY_SCENES[key];
  if(!skip&&sc&&s.storyLineIndex<sc.lines.length-1){
   s.storyLineIndex++;if(key==='b1_start'&&s.storyLineIndex===6)playPrologueScare();renderStoryLine();saveGameNow();return;
  }
+ stopStoryAudio();
  s.storyLineIndex=0;
  const next={engrave:'hospital',hospital:'realization'}[key];
  if(next){showStoryScene(next);return;}
@@ -4115,10 +4213,10 @@ function showVictorySummary(){
 }
 
 function start(){
- if(!isValidStarter(selected))return;
+ if(!selectedGrade||!isValidStarter(selected))return;
  const init=[...selected],owned=[...new Set(init)];
- s={hpBalanceVersion:95,mapBalanceVersion:94,attackBalanceVersion:102,runeUniqueVersion:112,stage:0,highestUnlocked:0,clearedFloors:Array(STAGES.length).fill(false),floorRuns:Array(STAGES.length).fill(0),fight:0,view:'map',map:null,activeNodeType:null,stageFightCount:0,encounterCount:0,playerLevel:1,playerXP:0,monstersDefeated:0,lastXPReward:null,shopVisitId:null,activeEvent:null,hp:68,maxHp:68,shield:0,guards:[0,0,0],coins:20,score:0,turn:0,deck:owned,activeRunes:[...init],deckDraft:null,deckPending:false,levels:Object.fromEntries(Object.keys(R).map(x=>[x,1])),copies:Object.fromEntries(Object.keys(R).map(x=>[x,deckCount(init,x)])),rerollPower:false,rerollUsed:false,awaitingRespin:false,rerolling:false,chainRerolls:0,comboCount:0,comboRage:0,chainMotion:null,turnEnding:false,reelVersions:[],weights:Object.fromEntries(Object.keys(R).map(x=>[x,1])),reelCount:3,reelSymbols:[],stops:[],reelMotion:[],spinning:false,resolving:false,skill:null,log:[],enemy:null,question:null,wrong:0,actions:[],actionPos:0,turnDmg:0,turnEarned:0,battleCoinsEarned:0,discoveredWeaknesses:{},stunChance:0,jammedReel:-1,inventory:Object.fromEntries(Object.keys(ITEMS).map(x=>[x,0])),nextBoost:false,enchants:{},enchantAttach:{},specialFusion:{},pendingFusion:null,pendingRuneLevelUp:false,drops:[],respinTicketArmed:false,lastReward:0,lastInterest:0,lastSaved:0,totalInterest:0,relics:{},healingCritReady:false,shopChestsOpened:0,shopStock:null,counterAttackReady:false,revival:null,revivals:0,playerBleedTurns:0,healBlockTurns:0,jammedReels:[],bossReadyFloors:{},bossRetryGold:{},retryEncounters:{},retrySerial:0,activeRetryKey:null,selectedRetryKey:null,floorSelectMode:'normal',bossChoiceStage:null,worldVersion:STORY_WORLD_VERSION,storySeen:{b1_start:true},storyPending:null,storyLineIndex:0,endingDone:false,finalRescueUsed:false};
- questionOrder=shuffle(Array.from({length:QUESTIONS.length},(_,i)=>i)).slice(0,STAGES.length-1);s.floorRuns[0]++;sfx('victory');makeFloorMap();showMap();
+ s={grade:selectedGrade,hpBalanceVersion:95,mapBalanceVersion:94,attackBalanceVersion:102,runeUniqueVersion:112,stage:0,highestUnlocked:0,clearedFloors:Array(STAGES.length).fill(false),floorRuns:Array(STAGES.length).fill(0),fight:0,view:'map',map:null,activeNodeType:null,stageFightCount:0,encounterCount:0,playerLevel:1,playerXP:0,monstersDefeated:0,lastXPReward:null,shopVisitId:null,activeEvent:null,hp:68,maxHp:68,shield:0,guards:[0,0,0],coins:20,score:0,turn:0,deck:owned,activeRunes:[...init],deckDraft:null,deckPending:false,levels:Object.fromEntries(Object.keys(R).map(x=>[x,1])),copies:Object.fromEntries(Object.keys(R).map(x=>[x,deckCount(init,x)])),rerollPower:false,rerollUsed:false,awaitingRespin:false,rerolling:false,chainRerolls:0,comboCount:0,comboRage:0,chainMotion:null,turnEnding:false,reelVersions:[],weights:Object.fromEntries(Object.keys(R).map(x=>[x,1])),reelCount:3,reelSymbols:[],stops:[],reelMotion:[],spinning:false,resolving:false,skill:null,log:[],enemy:null,question:null,wrong:0,actions:[],actionPos:0,turnDmg:0,turnEarned:0,battleCoinsEarned:0,discoveredWeaknesses:{},stunChance:0,jammedReel:-1,inventory:Object.fromEntries(Object.keys(ITEMS).map(x=>[x,0])),nextBoost:false,enchants:{},enchantAttach:{},specialFusion:{},pendingFusion:null,pendingRuneLevelUp:false,drops:[],respinTicketArmed:false,lastReward:0,lastInterest:0,lastSaved:0,totalInterest:0,relics:{},healingCritReady:false,shopChestsOpened:0,shopStock:null,counterAttackReady:false,revival:null,revivals:0,playerBleedTurns:0,healBlockTurns:0,jammedReels:[],bossReadyFloors:{},bossRetryGold:{},retryEncounters:{},retrySerial:0,activeRetryKey:null,selectedRetryKey:null,floorSelectMode:'normal',bossChoiceStage:null,worldVersion:STORY_WORLD_VERSION,storySeen:{b1_start:true},storyPending:null,storyLineIndex:0,endingDone:false,finalRescueUsed:false};
+ questionOrder=shuffle(Array.from({length:activeQuestions().length},(_,i)=>i)).slice(0,STAGES.length-1);s.floorRuns[0]++;sfx('victory');makeFloorMap();showMap();
 }
 function pool(){return s.activeRunes.slice();}
 function runeWeights(){
@@ -5225,7 +5323,7 @@ function fireSword(){
  else{fx('whiff',{life:410});sfx('miss');log('⚔ 검 공격이 방어막에 막혔습니다.');}
  s.skill=null;hideSkill();render();later(token,570,()=>runNextAction(token));
 }
-function zones(){let k=s?.enemy?.kind||'goblin';const lookup={goblin:[354,110,353,172],ogre:[354,95,353,169],skeleton:[354,94,354,172],knight:[354,74,354,168],golem:[354,74,354,170],bat:[354,112,354,174],mushroom:[354,120,354,193],serpent:[461,73,392,169],witch:[354,86,354,175],reaper:[354,87,354,169],lord:[354,46,354,155]};let a=lookup[k]||lookup.goblin;const weakGun=s?.enemy&&monsterWeakness('gun',s.enemy,s.stage)>1.01?1.3:1;return{head:{x:a[0],y:a[1],rx:(k==='lord'?35:31)*GUN_TARGET_SIZE_MULTIPLIER*weakGun,ry:(k==='mushroom'?23:26)*GUN_TARGET_SIZE_MULTIPLIER*weakGun},body:{x:a[2],y:a[3],rx:(k==='serpent'?95:68)*GUN_TARGET_SIZE_MULTIPLIER,ry:(k==='lord'?64:62)*GUN_TARGET_SIZE_MULTIPLIER}};}
+function zones(){let k=s?.enemy?.kind||'goblin';const lookup={goblin:[354,110,353,172],ogre:[354,95,353,169],skeleton:[354,94,354,172],knight:[354,74,354,168],golem:[354,74,354,170],bat:[354,112,354,174],mushroom:[354,120,354,193],serpent:[461,73,392,169],witch:[354,86,354,175],reaper:[354,87,354,169],lord:[354,46,354,155]};let a=lookup[k]||lookup.goblin;const weakGun=s?.enemy&&monsterWeakness('gun',s.enemy,s.stage)>1.01?1.3:1;return{head:{x:a[0],y:a[1],rx:(k==='lord'?35:31)*GUN_TARGET_SIZE_MULTIPLIER*weakGun,ry:(k==='mushroom'?23:26)*GUN_TARGET_SIZE_MULTIPLIER*weakGun},body:{x:a[2],y:a[3],rx:(k==='serpent'?95:68)*GUN_TARGET_SIZE_MULTIPLIER*GUN_BODY_TARGET_MULTIPLIER,ry:(k==='lord'?64:62)*GUN_TARGET_SIZE_MULTIPLIER*GUN_BODY_TARGET_MULTIPLIER}};}
 function inside(pos,zone){return ((pos.x-zone.x)/zone.rx)**2+((pos.y-zone.y)/zone.ry)**2<=1;}
 function fireGun(){let sk=s?.skill;if(!sk||sk.kind!=='gun')return;let {action,token,aim}=sk,z=zones();const place=inside(aim,z.head)?'HEADSHOT':inside(aim,z.body)?'BODY':'MISS';let shot=(place==='HEADSHOT'?SPECIAL_DAMAGE.gunHeadshot[0]+(action.lv-1)*SPECIAL_DAMAGE.gunHeadshot[1]:place==='BODY'?BALANCE.gun[0]+(action.lv-1)*BALANCE.gun[1]:0)+(place==='MISS'?0:(s.enchants.precision?5:0));if(place==='HEADSHOT')shot=Math.round(shot*headshotExtra(s.enemy.kind));
  shot=Math.round(shot*GUN_DAMAGE_MULTIPLIER);
@@ -6054,8 +6152,8 @@ function openMapEvent(){
   title='🎒 버려진 배낭';desc='낡은 배낭에는 누군가의 전투 도구가 남아있습니다. 새로운 룬은 몬스터을 쓰러뜨려야 얻을 수 있어요.';
   buttons=eventOptionButton('item','🎒 무작위 일회용 아이템 1개')+eventOptionButton('gold','◆ 골드 16G 챙기기');
  }else{
-  title='📜 인수분해 비석';desc='비석이 인수분해를 묻습니다. 이 사건은 선택 사항이지만, 성공하면 골드 30G를 얻을 수 있어요.';
-  const q=QUESTIONS[(s.stage*3+s.map.row)%QUESTIONS.length];e.q=q;e.options=shuffle([q.answer,q.wrong[0],q.wrong[1]]);
+  title='📜 수학 비석';desc='비석에 '+activeGradeInfo().short+' '+activeGradeInfo().scope+' 문제가 적혀 있어요. 정답을 맞히면 골드 30G를 얻습니다.';
+  const questions=activeQuestions(),q=questions[(s.stage*3+s.map.row)%questions.length];e.q=q;e.options=shuffle([q.answer,q.wrong[0],q.wrong[1]]);
   buttons='<div class="quiz-expr event-formula">'+q.q+'</div>'+e.options.map((v,i)=>eventOptionButton('answer'+i,v)).join('')+eventOptionButton('skip','비석을 지나가기 · +4G');
  }
  showModal('<div class="eyebrow">MYSTERY · FLOOR '+(s.stage+1)+'</div><h2>'+title+'</h2><p>'+desc+'</p><div class="event-actions">'+buttons+'</div><p class="smallnote">? 사건은 한 번만 선택할 수 있고, 끝나면 지도에서 다음 길을 선택합니다.</p>');
@@ -6087,18 +6185,18 @@ function resolveMapEvent(opt){
  showModal('<div class="eyebrow">MYSTERY RESULT</div><h2>❔ 사건 결과</h2><p class="event-outcome">'+outcome+'</p><div class="map-header-stats"><span>♥ '+s.hp+'/'+s.maxHp+'</span><span>◆ '+s.coins+'G</span></div><button class="btn-primary" data-action="event-done">🗺 다음 길 선택 →</button>');
  render();
 }
-function mathGate(){s.view='quiz';const q=QUESTIONS[questionOrder[s.stage]];s.question={q,choices:shuffle([q.answer,...q.wrong])};s.wrong=0;showQuiz('');}
-function showQuiz(msg){const q=s.question;showModal('<div class="eyebrow">THE FACTORIZATION GATE</div><h2>✦ 인수분해 관문 ✦</h2><p>'+floorLabel(s.stage)+'을 클리어했습니다. 다음 층으로 가려면 다음 식을 정확히 인수분해하세요.</p><div class="quiz-expr">'+q.q.q+'</div><div class="quiz-grid">'+q.choices.map((opt,i)=>'<button class="quiz-choice" data-action="answer" data-index="'+i+'">'+String.fromCharCode(65+i)+'. '+opt+'</button>').join('')+'</div><div class="quiz-feedback">'+msg+'</div><div class="quiz-tally">정답: 다음 층 + 최대 HP 4 증가 + 체력 10 회복 + 12G'+(reelCountForStage(s.stage+1)>s.reelCount?' + 슬롯 '+(reelCountForStage(s.stage+1)-s.reelCount)+'칸 자동 해금 (총 '+reelCountForStage(s.stage+1)+'칸)':'')+'<br>오답: 5G 차감, 정답을 선택할 때까지 재도전</div>');}
-function answer(ix){if(!s||s.view!=='quiz')return;let choice=s.question.choices[+ix];if(choice!==s.question.q.answer){s.wrong++;s.coins=Math.max(0,s.coins-5);sfx('wrong');showQuiz('✕ 오답입니다. 식을 전개해서 확인해 보세요! · −5G (오답 '+s.wrong+'회)');render();return;}s.score+=150;s.coins=cap(s.coins+12,0,MAX_WALLET_GOLD);s.maxHp+=4;s.hp=Math.min(s.maxHp,s.hp+10);s.guards=s.guards.map(v=>Math.floor(v*.35));sumGuards();const beforeReels=s.reelCount;s.clearedFloors[s.stage]=true;s.highestUnlocked=Math.max(s.highestUnlocked,s.stage+1);s.stage++;s.reelCount=reelCountForStage(s.stage);s.fight=0;s.floorRuns[s.stage]++; log('✓ 인수분해 정답! 다음 층의 지도가 열렸다.'+(s.reelCount>beforeReels?' 🎰 슬롯 '+beforeReels+'→'+s.reelCount+' 무료 해금!':''));sfx('victory');makeFloorMap();const nextChapter='floor'+s.stage;if(STORY_SCENES[nextChapter]&&!s.storySeen?.[nextChapter])showStoryScene(nextChapter);else showMap();}
+function mathGate(){s.view='quiz';const pool=activeQuestions(),q=pool[questionOrder[s.stage]%pool.length]||pool[s.stage%pool.length];s.question={q,choices:shuffle([q.answer,...q.wrong])};s.wrong=0;showQuiz('');}
+function showQuiz(msg){const q=s.question;showModal('<div class="eyebrow">MATH GATE · '+activeGradeInfo().short+'</div><h2>✦ 수학 관문 ✦</h2><p>'+floorLabel(s.stage)+'을 클리어했어! 다음 층으로 가기 위한 '+activeGradeInfo().scope+' 문제를 풀어 봐.</p><div class="quiz-expr">'+q.q.q+'</div><div class="quiz-grid">'+q.choices.map((opt,i)=>'<button class="quiz-choice" data-action="answer" data-index="'+i+'">'+String.fromCharCode(65+i)+'. '+opt+'</button>').join('')+'</div><div class="quiz-feedback">'+msg+'</div><div class="quiz-tally">정답: 다음 층 + 최대 HP 4 증가 + 체력 10 회복 + 12G'+(reelCountForStage(s.stage+1)>s.reelCount?' + 슬롯 '+(reelCountForStage(s.stage+1)-s.reelCount)+'칸 자동 해금 (총 '+reelCountForStage(s.stage+1)+'칸)':'')+'<br>오답: 5G 차감, 정답을 선택할 때까지 재도전</div>');}
+function answer(ix){if(!s||s.view!=='quiz')return;let choice=s.question.choices[+ix];if(choice!==s.question.q.answer){s.wrong++;s.coins=Math.max(0,s.coins-5);sfx('wrong');showQuiz('✕ 오답입니다. 다시 생각해 보세요! · −5G (오답 '+s.wrong+'회)');render();return;}s.score+=150;s.coins=cap(s.coins+12,0,MAX_WALLET_GOLD);s.maxHp+=4;s.hp=Math.min(s.maxHp,s.hp+10);s.guards=s.guards.map(v=>Math.floor(v*.35));sumGuards();const beforeReels=s.reelCount;s.clearedFloors[s.stage]=true;s.highestUnlocked=Math.max(s.highestUnlocked,s.stage+1);s.stage++;s.reelCount=reelCountForStage(s.stage);s.fight=0;s.floorRuns[s.stage]++; log('✓ 수학 문제 정답! 다음 층의 지도가 열렸다.'+(s.reelCount>beforeReels?' 🎰 슬롯 '+beforeReels+'→'+s.reelCount+' 무료 해금!':''));sfx('victory');makeFloorMap();const nextChapter='floor'+s.stage;if(STORY_SCENES[nextChapter]&&!s.storySeen?.[nextChapter])showStoryScene(nextChapter);else showMap();}
 // V53: math-based last chance. A wrong answer generates a different question;
 // a correct answer fully restores HP and restarts the *same* encounter.
 function drawRevivalQuestion(){
  const r=s?.revival;if(!r)return;
- const pool=QUESTIONS.map((_,i)=>i).filter(i=>!r.seen.includes(i));
+ const questions=activeQuestions(),pool=questions.map((_,i)=>i).filter(i=>!r.seen.includes(i));
  if(!pool.length)r.seen=[];
- const options=pool.length?pool:QUESTIONS.map((_,i)=>i);
+ const options=pool.length?pool:questions.map((_,i)=>i);
  const ix=options[rand(options.length)];r.seen.push(ix);
- const q=QUESTIONS[ix];r.question={q,choices:shuffle([q.answer,...q.wrong])};
+ const q=questions[ix];r.question={q,choices:shuffle([q.answer,...q.wrong])};
 }
 function startRevivalQuiz(source='battle',reason=''){
  if(!s||s.view==='revival-quiz'||s.view==='dead')return;
@@ -6120,7 +6218,7 @@ function showRevivalQuiz(msg=''){
  const r=s.revival,q=r.question;
  const where=r.source==='battle'?'제 '+(s.stage+1)+'층 · '+s.enemy.name:'제 '+(s.stage+1)+'층 지도 사건';
  const lives=Array.from({length:REVIVAL_MAX_WRONG},(_,i)=>'<span class="revival-heart '+(i<r.wrong?'spent':'')+'">'+(i<r.wrong?'✕':'♥')+'</span>').join('');
- showModal('<div class="revival-screen"><div class="eyebrow">SECOND CHANCE · FACTORIZATION</div><h2>💫 인수분해로 부활하라!</h2><p class="revival-intro">'+where+'에서 쓰러졌습니다. <b>정답이면 체력 100% 회복!</b> '+(r.source==='battle'?(s.activeNodeType==='boss'?'보스 재도전 또는 하위 층 순회를 선택합니다.':'일반 몬스터 재도전 또는 해금된 층 순회를 선택합니다.'):'이어서 지도를 탐험합니다.')+'</p><div class="revival-coin-loss" role="status"><b>☠ 사망 패널티 · 보유 주화 50% 손실</b><span>◆ '+r.coinsBefore+'G → <strong>'+r.coinsAfter+'G</strong> <em>(−'+r.coinsLost+'G)</em></span></div><div class="revival-counter"><span>남은 기회</span><strong>'+lives+'</strong><small>3문제 연속 오답이면 모험 종료</small></div><p class="revival-question-label">다음 식을 인수분해하세요</p><div class="quiz-expr">'+q.q.q+'</div><div class="quiz-grid">'+q.choices.map((opt,i)=>'<button type="button" class="quiz-choice" data-action="revival-answer" data-index="'+i+'">'+String.fromCharCode(65+i)+'. '+opt+'</button>').join('')+'</div><div class="quiz-feedback" role="status">'+msg+'</div><p class="revival-hint">정답: HP 최대치 회복 · 적 HP 초기화 · 룬·장비·남은 주화 유지 (잃은 주화는 복구되지 않음)</p></div>');
+ showModal('<div class="revival-screen"><div class="eyebrow">SECOND CHANCE · '+activeGradeInfo().short+'</div><h2>💫 수학 문제를 풀고 부활하라!</h2><p class="revival-intro">'+where+'에서 쓰러졌습니다. <b>정답이면 체력 100% 회복!</b> '+(r.source==='battle'?(s.activeNodeType==='boss'?'보스 재도전 또는 하위 층 순회를 선택합니다.':'일반 몬스터 재도전 또는 해금된 층 순회를 선택합니다.'):'이어서 지도를 탐험합니다.')+'</p><div class="revival-coin-loss" role="status"><b>☠ 사망 패널티 · 보유 주화 50% 손실</b><span>◆ '+r.coinsBefore+'G → <strong>'+r.coinsAfter+'G</strong> <em>(−'+r.coinsLost+'G)</em></span></div><div class="revival-counter"><span>남은 기회</span><strong>'+lives+'</strong><small>3문제 연속 오답이면 모험 종료</small></div><p class="revival-question-label">'+activeGradeInfo().scope+' · 다음 문제를 풀어 보세요</p><div class="quiz-expr">'+q.q.q+'</div><div class="quiz-grid">'+q.choices.map((opt,i)=>'<button type="button" class="quiz-choice" data-action="revival-answer" data-index="'+i+'">'+String.fromCharCode(65+i)+'. '+opt+'</button>').join('')+'</div><div class="quiz-feedback" role="status">'+msg+'</div><p class="revival-hint">정답: HP 최대치 회복 · 적 HP 초기화 · 룬·장비·남은 주화 유지 (잃은 주화는 복구되지 않음)</p></div>');
  $('modal').scrollTop=0;
 }
 function answerRevivalQuiz(index){
@@ -6132,14 +6230,14 @@ function answerRevivalQuiz(index){
   if(r.wrong>=REVIVAL_MAX_WRONG){
    const reason=r.source==='battle'?'제 '+(s.stage+1)+'층 · '+s.enemy.name:'제 '+(s.stage+1)+'층 사건';
    s.view='dead';s.revival=null;
-   showModal('<div class="revival-screen"><div class="eyebrow">GAME OVER · 3 WRONG ANSWERS</div><h2>☠ 모험 종료</h2><p>'+reason+'에서 쓰러진 뒤 인수분해 문제를 3번 연속 틀렸습니다.</p><p><b>이번 모험의 룬·주화·장비는 모두 초기화됩니다.</b></p><div class="reward-amt">SCORE '+s.score+'</div><button type="button" class="btn-primary" data-action="restart">↻ 1층부터 새 모험 시작</button></div>');
+   showModal('<div class="revival-screen"><div class="eyebrow">GAME OVER · 3 WRONG ANSWERS</div><h2>☠ 모험 종료</h2><p>'+reason+'에서 쓰러진 뒤 수학 문제를 3번 연속 틀렸습니다.</p><p><b>이번 모험의 룬·주화·장비는 모두 초기화됩니다.</b></p><div class="reward-amt">SCORE '+s.score+'</div><button type="button" class="btn-primary" data-action="restart">↻ 1층부터 새 모험 시작</button></div>');
    render();return;
   }
   drawRevivalQuestion();showRevivalQuiz('✕ 오답 · 새로운 문제입니다. 남은 기회 '+(REVIVAL_MAX_WRONG-r.wrong)+'회');render();return;
  }
  const source=r.source,priorEarned=Math.max(0,s.battleCoinsEarned||0),healed=s.maxHp,wasBoss=source==='battle'&&s.activeNodeType==='boss',bossStage=s.stage;
  s.revival=null;s.revivals=(s.revivals||0)+1;s.hp=healed;sfx('victory');
- log('✦ 인수분해 정답! 체력 '+healed+'/'+healed+' 회복 · '+(source==='battle'?'재도전 또는 순회 선택':'지도 탐험 계속'));
+ log('✦ 수학 문제 정답! 체력 '+healed+'/'+healed+' 회복 · '+(source==='battle'?'재도전 또는 순회 선택':'지도 탐험 계속'));
  if(wasBoss){
   s.bossRetryGold[bossStage]=Math.min(BATTLE_GOLD_LIMIT,Math.max(priorEarned,s.bossRetryGold[bossStage]||0));
   s.bossReadyFloors[bossStage]=true;showBossApproach(bossStage,true);render();
@@ -6315,9 +6413,7 @@ $('game').addEventListener('click',event=>{
  if(event.target.closest('#puzzle-right')&&s?.skill?.kind==='venom'){missDifference();return;}
  const b=event.target.closest('button');if(!b)return;
  const pa=b.dataset.action;
- if(pa==='story-cinema'){openStoryCinema();return;}
- if(pa==='story-cinema-exit'){exitStoryCinema();return;}
- if(pa==='story-cinema-replay'){if(storyCinema){storyCinema.chapter=0;storyCinema.key=STORY_CINEMA_ORDER[0];storyCinema.line=0;renderStoryLine();}return;}
+ if(pa==='choose-grade'){chooseGrade(b.dataset.grade);return;}
  if(pa==='story-next'){advanceStory();return;}
  if(pa==='story-skip'){advanceStory(true);return;}
  if(pa==='practice-open'){openPracticeSession();return;}
