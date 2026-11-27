@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>폐허의 슬롯 던전 V127 · 학년별 수학 문제</title>
+<title>폐허의 슬롯 던전 V128 · 한국어·일본어</title>
 <style>
 .v39-preview-actions{display:flex;flex-wrap:wrap;gap:7px;padding:4px 10px 12px;}
 .v39-preview-actions button{font-size:11px;padding:7px 9px;border:1px solid #789f8a;border-radius:7px;background:#1a3236;color:#c3f4db;cursor:pointer;}
@@ -2460,6 +2460,17 @@ body{touch-action:manipulation}
 .grade-select-card .grade-arrow{font-size:21px;color:#f3d488}
 .grade-entry-screen .grade-footer{color:#b3ad96;font-size:12px;text-align:center;margin:16px 0 2px}
 @media(max-width:380px){.grade-select-card{padding:12px;gap:10px;min-height:75px}.grade-select-card .grade-name{flex-basis:54px;height:53px;font-size:23px}.grade-select-card .grade-detail b{font-size:15px}.grade-select-card .grade-detail small{font-size:11px}}
+
+/* V128: select language first without moving any combat UI. */
+.v128-language-box{border:1px solid #aaa2be70;background:linear-gradient(145deg,#29263fa8,#162d32a8);border-radius:13px;padding:13px 14px;margin:13px 0 15px;box-shadow:0 5px 18px #0002;}
+.v128-language-box h3{font-size:14px;margin:0 0 5px;color:#ffe0a6;}
+.v128-language-box p{margin:0 0 10px;color:#c5cfde;font-size:12px;}
+.v128-language-switch{display:flex;gap:9px;}
+.v128-language-switch button{flex:1;min-height:42px;border-radius:10px;border:1px solid #65768b;background:#171f2d;color:#dfe8ef;font-size:14px;font-weight:800;cursor:pointer;}
+.v128-language-switch button.active{border-color:#e2ce94;background:linear-gradient(135deg,#3b344f,#414734);box-shadow:0 0 0 1px #d8be7770,0 0 16px #bda16b45;color:#fff9df;}
+html[lang=ja] body{font-family:system-ui,"Hiragino Kaku Gothic ProN","Yu Gothic","Noto Sans CJK JP",sans-serif;}
+html[lang=ja] .grade-entry-screen{line-break:strict;}
+@media(max-width:370px){.v128-language-box{padding:9px;}.v128-language-switch button{font-size:13px;}}
 </style>
 </head>
 <body>
@@ -2494,7 +2505,7 @@ body{touch-action:manipulation}
 const $=id=>document.getElementById(id);
 const R={
  blade:{icon:'⚔',name:'검',color:'#f0d7a2',desc:'변덕스러운 게이지에 타이밍을 맞춰 베기 · 낮게 맞혀도 약한 피해'},
- gun:{icon:'🔫',name:'총',color:'#ffd58b',desc:'헤드샷 판정 유지 · 몸통 판정 범위 추가 30% 축소 · 몸통 및 헤드샷 피해 30% 증가'},
+ gun:{icon:'🔫',name:'총',color:'#ffd58b',desc:'헤드샷 판정 유지 · 몸통 명중 범위 추가 10% 축소 · 조준선 속도 1.2배 · 몸통 및 헤드샷 피해 30% 증가'},
  venom:{icon:'☣',name:'독날',color:'#a7d97a',desc:'6초간 틀린 그림 5곳 찾기 · 오답 즉시 종료 · 독 피해 추가 30% 하향'},
  shield:{icon:'⬡',name:'방패',color:'#9bd8e2',desc:'방어막은 선택한 방향만 보호 · Lv.1 고정 (레벨업 불가)'},
  hammer:{icon:'⚒',name:'전투망치',color:'#e9ab74',desc:'피해 1~10 · 적 공격 피해 50% 감소 · 2턴 지속 · 정타 시 약화 발동 (Lv.1) · 자동 재회전은 5 피해'},
@@ -2514,8 +2525,9 @@ const R={
 // Keeping the drawing and hit-testing on this ONE constant prevents mismatched zones.
 const GUN_DAMAGE_MULTIPLIER=1.30;
 const GUN_TARGET_SIZE_MULTIPLIER=1.20*1.20;
+const GUN_AIM_SPEED_MULTIPLIER=1.20; // V128: crosshair oscillation speed (game and tutorial).
 // V127: reduce ONLY BODY hitbox radii by 30% from V126. Head size stays unchanged.
-const GUN_BODY_TARGET_MULTIPLIER=0.70;
+const GUN_BODY_TARGET_MULTIPLIER=0.70*0.90; // V128: another 10% narrower on BOTH body axes.
 // V101: the standard seven-symbol MAGIC rune deals 20% less direct damage.
 const MAGIC_RUNE_DAMAGE_MULTIPLIER=0.80;
 // Lv.1 FINAL attack caps; higher rune levels increase both damage and the cap.
@@ -2745,6 +2757,7 @@ const GRADE_INFO={
 };
 const QUESTIONS_BY_GRADE={"m2":[{"q":"이등변삼각형의 꼭지각이 40°일 때, 한 밑각의 크기는?","answer":"70°","wrong":["40°","80°","100°"]},{"q":"이등변삼각형의 밑각이 각각 65°일 때, 꼭지각의 크기는?","answer":"50°","wrong":["65°","60°","115°"]},{"q":"이등변삼각형의 꼭지각이 80°라면 한 밑각은?","answer":"50°","wrong":["40°","80°","100°"]},{"q":"△ABC에서 AB=AC, ∠B=55°일 때 ∠C의 크기는?","answer":"55°","wrong":["70°","35°","125°"]},{"q":"삼각형의 두 내각이 40°, 70°일 때 나머지 내각은?","answer":"70°","wrong":["60°","80°","110°"]},{"q":"삼각형의 두 내각이 40°, 70°일 때, 나머지 꼭짓점의 외각은?","answer":"110°","wrong":["70°","90°","140°"]},{"q":"직각삼각형에서 한 예각이 35°일 때, 다른 예각은?","answer":"55°","wrong":["35°","65°","145°"]},{"q":"두 변의 길이가 각각 4cm, 6cm인 삼각형의 나머지 변이 될 수 있는 길이는?","answer":"9cm","wrong":["2cm","10cm","11cm"]},{"q":"세 변이 각각 5cm, 5cm, 8cm인 삼각형의 둘레는?","answer":"18cm","wrong":["16cm","20cm","13cm"]},{"q":"삼각형의 내심은 무엇의 교점인가?","answer":"세 내각의 이등분선","wrong":["세 변의 수직이등분선","세 중선","세 높이"]},{"q":"삼각형의 외심은 무엇의 교점인가?","answer":"세 변의 수직이등분선","wrong":["세 내각의 이등분선","세 중선","세 높이"]},{"q":"삼각형의 내심에서 같은 거리가 되는 대상은?","answer":"세 변","wrong":["세 꼭짓점","세 중선의 중점","세 외각"]},{"q":"삼각형의 외심에서 같은 거리가 되는 대상은?","answer":"세 꼭짓점","wrong":["세 변","세 내각","세 꼭짓점에서 내린 높이"]},{"q":"직각삼각형의 외심은 어디에 있는가?","answer":"빗변의 중점","wrong":["직각인 꼭짓점","내심과 같은 위치","가장 긴 높이의 중점"]},{"q":"평행사변형에서 서로 마주 보는 두 변의 길이는?","answer":"같다","wrong":["항상 2배다","항상 다르다","합이 90이다"]},{"q":"평행사변형의 한 내각이 70°일 때 이웃한 내각은?","answer":"110°","wrong":["70°","90°","140°"]},{"q":"평행사변형의 한 내각이 65°일 때 마주 보는 내각은?","answer":"65°","wrong":["115°","90°","130°"]},{"q":"평행사변형의 두 대각선은 서로를 어떻게 나누는가?","answer":"이등분한다","wrong":["수직삼등분한다","항상 3:1로 나눈다","절대로 만나지 않는다"]},{"q":"직사각형의 두 대각선에 항상 성립하는 성질은?","answer":"길이가 같다","wrong":["서로 수직이다","길이가 다르다","한 대각선만 반으로 나뉜다"]},{"q":"마름모의 두 대각선에 항상 성립하는 성질은?","answer":"서로 수직이다","wrong":["항상 같은 길이다","평행하다","서로 만나지 않는다"]},{"q":"평행사변형의 한 각이 90°이면 어떤 사각형인가?","answer":"직사각형","wrong":["사다리꼴이지만 직사각형은 아님","정오각형","마름모만 가능"]},{"q":"평행사변형에서 이웃한 두 변의 길이가 같다면 어떤 사각형인가?","answer":"마름모","wrong":["직사각형만 가능","사다리꼴만 가능","평행사변형이 아니다"]},{"q":"정사각형의 성질 중 반드시 옳은 것은?","answer":"네 변의 길이가 같고 네 각이 90°이다","wrong":["대각선의 길이가 서로 다르다","마주 보는 변이 평행하지 않다","두 대각선이 만나지 않는다"]},{"q":"평행사변형의 한 변이 7cm이면 마주 보는 변의 길이는?","answer":"7cm","wrong":["3.5cm","14cm","21cm"]}],"h1":[{"q":"x² + 5x + 6을 인수분해하면?","answer":"(x+2)(x+3)","wrong":["(x+1)(x+6)","(x−2)(x−3)","(x+2)(x−3)"]},{"q":"x² − 7x + 12를 인수분해하면?","answer":"(x−3)(x−4)","wrong":["(x+3)(x+4)","(x−2)(x−6)","(x−3)(x+4)"]},{"q":"x² − 9를 인수분해하면?","answer":"(x−3)(x+3)","wrong":["(x−3)²","(x+3)²","(x−9)(x+1)"]},{"q":"x² + 2x + 1을 인수분해하면?","answer":"(x+1)²","wrong":["(x−1)²","(x+2)(x+1)","(x+1)(x−1)"]},{"q":"x² − 4x + 4를 인수분해하면?","answer":"(x−2)²","wrong":["(x+2)²","(x−4)(x+1)","(x−1)(x−4)"]},{"q":"x² + x − 6을 인수분해하면?","answer":"(x+3)(x−2)","wrong":["(x−3)(x+2)","(x+6)(x−1)","(x−6)(x+1)"]},{"q":"2x² + 5x + 2를 인수분해하면?","answer":"(2x+1)(x+2)","wrong":["(2x+2)(x+1)","(2x−1)(x−2)","(2x+2)(x−1)"]},{"q":"x² − 16을 인수분해하면?","answer":"(x−4)(x+4)","wrong":["(x−4)²","(x+4)²","(x−8)(x+2)"]},{"q":"x² + 7x + 10을 인수분해하면?","answer":"(x+5)(x+2)","wrong":["(x+10)(x+1)","(x+5)(x−2)","(x−5)(x−2)"]},{"q":"x² − 5x + 6을 인수분해하면?","answer":"(x−2)(x−3)","wrong":["(x+2)(x+3)","(x−1)(x−6)","(x+2)(x−3)"]},{"q":"sin 30°의 값은?","answer":"1/2","wrong":["√3/2","1","√2/2"]},{"q":"cos 60°의 값은?","answer":"1/2","wrong":["√3/2","0","1"]},{"q":"tan 45°의 값은?","answer":"1","wrong":["1/2","√3","√3/3"]},{"q":"sin 60°의 값은?","answer":"√3/2","wrong":["1/2","√2/2","1"]},{"q":"cos 30°의 값은?","answer":"√3/2","wrong":["1/2","√2/2","0"]},{"q":"tan 30°의 값은?","answer":"√3/3","wrong":["√3","1","1/2"]},{"q":"tan 60°의 값은?","answer":"√3","wrong":["√3/3","1","2"]},{"q":"직각삼각형에서 θ의 맞은편 변이 3, 빗변이 5일 때 sin θ는?","answer":"3/5","wrong":["4/5","3/4","5/3"]},{"q":"직각삼각형에서 θ에 이웃한 변이 8, 빗변이 10일 때 cos θ는?","answer":"4/5","wrong":["3/5","5/4","1/2"]},{"q":"직각삼각형에서 θ의 맞은편 변이 4, 이웃한 변이 3일 때 tan θ는?","answer":"4/3","wrong":["3/4","4/5","5/3"]},{"q":"직각삼각형에서 sin θ를 나타내는 비는?","answer":"맞은편 변 / 빗변","wrong":["이웃한 변 / 빗변","맞은편 변 / 이웃한 변","빗변 / 맞은편 변"]},{"q":"직각삼각형에서 cos θ를 나타내는 비는?","answer":"이웃한 변 / 빗변","wrong":["맞은편 변 / 빗변","맞은편 변 / 이웃한 변","빗변 / 이웃한 변"]}],"h2":[{"q":"수열 2, 5, 8, 11, …의 다음 항은?","answer":"14","wrong":["13","15","16"]},{"q":"수열 4, 9, 14, 19, …의 공차는?","answer":"5","wrong":["4","9","10"]},{"q":"첫째 항이 3, 공차가 4인 등차수열의 다섯째 항은?","answer":"19","wrong":["15","17","23"]},{"q":"첫째 항이 7, 공차가 −2인 등차수열의 넷째 항은?","answer":"1","wrong":["3","−1","5"]},{"q":"수열 20, 17, 14, …의 다섯째 항은?","answer":"8","wrong":["5","11","9"]},{"q":"일반항이 aₙ = 2n + 1인 수열의 넷째 항은?","answer":"9","wrong":["7","8","11"]},{"q":"일반항이 aₙ = 3n − 1인 수열의 다섯째 항은?","answer":"14","wrong":["13","15","16"]},{"q":"일반항이 aₙ = n² + 1인 수열의 넷째 항은?","answer":"17","wrong":["16","18","9"]},{"q":"일반항이 aₙ = n(n + 1)인 수열의 셋째 항은?","answer":"12","wrong":["6","9","20"]},{"q":"수열 6, 10, 14, …의 여덟째 항은?","answer":"34","wrong":["30","32","38"]},{"q":"수열 2, 6, 18, …의 다음 항은?","answer":"54","wrong":["36","48","72"]},{"q":"수열 3, 6, 12, …의 다음 항은?","answer":"24","wrong":["18","21","36"]},{"q":"첫째 항이 2, 공비가 3인 등비수열의 넷째 항은?","answer":"54","wrong":["18","27","81"]},{"q":"첫째 항이 5, 공비가 2인 등비수열의 셋째 항은?","answer":"20","wrong":["10","15","40"]},{"q":"수열 81, 27, 9, …의 다음 항은?","answer":"3","wrong":["1","6","−3"]},{"q":"1 + 2 + 3 + 4 + 5의 값은?","answer":"15","wrong":["10","20","25"]},{"q":"1부터 10까지의 자연수의 합은?","answer":"55","wrong":["45","50","60"]},{"q":"1, 3, 5, 7, 9의 합은?","answer":"25","wrong":["20","30","35"]},{"q":"등비수열 1, 2, 4, 8의 첫 4항의 합은?","answer":"15","wrong":["16","14","12"]},{"q":"일반항이 aₙ = 2ⁿ인 수열의 셋째 항은?","answer":"8","wrong":["6","4","16"]},{"q":"수열 1, 4, 9, 16, …의 다음 항은?","answer":"25","wrong":["20","24","36"]},{"q":"첫째 항이 5이고 공차가 3인 등차수열의 셋째 항은?","answer":"11","wrong":["8","14","15"]}]};
 let selectedGrade=null;
+let selectedLanguage='ko'; // V128: Language chosen on the entry screen.
 function activeGrade(){return GRADE_INFO[s?.grade]?s.grade:(GRADE_INFO[selectedGrade]?selectedGrade:'h1');}
 function activeGradeInfo(){return GRADE_INFO[activeGrade()];}
 function activeQuestions(){return QUESTIONS_BY_GRADE[activeGrade()];}
@@ -3463,7 +3476,7 @@ function toggleFinMusic(){
  const b=document.querySelector('.fin-sound');if(b)b.textContent=finBgm?'♫ 음악 끄기':'♫ 음악 재생';
 }
 
-function showModal(html){if(!html.includes('class="friendship-fin"'))stopFinBgm();if(!html.includes('class="vn-screen'))stopStoryAudio();$('overlay').classList.remove('hidden');$('modal').innerHTML=html;}
+function showModal(html){if(!html.includes('class="friendship-fin"'))stopFinBgm();if(!html.includes('class="vn-screen'))stopStoryAudio();$('overlay').classList.remove('hidden');$('modal').innerHTML=html;localizeJapaneseDocument($('modal'));postprocessJapaneseModal($('modal'));}
 function hideModal(){stopFinBgm();stopStoryAudio();$('overlay').classList.add('hidden');}
 function stopTimers(){if(autoTimer){clearTimeout(autoTimer);autoTimer=null;}}
 // V101: player and rune levels are separate; only the PLAYER level caps at 10.
@@ -3630,6 +3643,9 @@ function restoreSavedGame(){
   s=g;
   s.grade=GRADE_INFO[s.grade]?s.grade:'h1'; // Pre-V127 saves used high-school factorization.
   selectedGrade=s.grade;
+  s.language=s.language==='ja'?'ja':'ko'; selectedLanguage=s.language;
+  document.documentElement.lang=s.language;
+  document.title=s.language==='ja'?'廃墟のスロットダンジョン V128・学年別数学':'폐허의 슬롯 던전 V128 · 한국어·일본어';
   // V95 migration: preserve an old saved encounter's remaining HP percentage, including V94 saves.
   // Version mark prevents repeatedly multiplying HP after each refresh.
   if((Number(s.hpBalanceVersion)||0)<95&&s.view==='fight'&&s.enemy){
@@ -3766,7 +3782,7 @@ function setup(resetSaved=true){
  storyCinema=null;storyPrologue=null;
  hideNewAdventureConfirm();
  if(resetSaved)clearSavedGame();
- battleToken++;stopTimers();effects=[];s=null;selectedGrade=null;selected=['blade','shield','coin'];tutorialToken++;tutorialRolled=false;tutorialGuarded=false;tutorialFactorized=false;tutorialReturn=false;tutorialActive=false;tutorialRuneTab=0;tutorialShieldChoices=[];tutorialDefenseResult='ready';tutorialSwordDone=false;tutorialGunDone=false;tutorialPracticeFeedback='';tutorialDefenseSerial++;$('game').classList.remove('deck-pending');
+ battleToken++;stopTimers();effects=[];s=null;selectedGrade=null;selectedLanguage='ko';document.documentElement.lang='ko';document.title='폐허의 슬롯 던전 V128 · 한국어·일본어';selected=['blade','shield','coin'];tutorialToken++;tutorialRolled=false;tutorialGuarded=false;tutorialFactorized=false;tutorialReturn=false;tutorialActive=false;tutorialRuneTab=0;tutorialShieldChoices=[];tutorialDefenseResult='ready';tutorialSwordDone=false;tutorialGunDone=false;tutorialPracticeFeedback='';tutorialDefenseSerial++;$('game').classList.remove('deck-pending');
  $('xp-level').textContent='Lv.1';$('xp-value').textContent='경험치 0 / 3';$('xp-fill').style.width='0%';$('overlay-xp-level').textContent='Lv.1';$('overlay-xp-count').textContent='0/3';$('overlay-xp-fill').style.width='0%';
  $('combat-flash').className='';$('heal-feedback').classList.remove('visible');$('heal-feedback').textContent='';$('combat-toast').className='combat-toast';$('combat-toast').innerHTML='';if($('element-procs'))$('element-procs').replaceChildren();
  $('skill-panel').classList.add('hidden');$('aim-layer').classList.add('hidden');$('audio-btn').textContent=audioOn?'🔊':'🔇';
@@ -3776,8 +3792,17 @@ function setup(resetSaved=true){
 // V127: Grade selection is the very first screen of a new adventure.
 function showGradeSelection(){
  tutorialActive=false;storyPrologue=null;
- showModal('<div class="grade-entry-screen"><div class="eyebrow">MATH SLOT DUNGEON · CLASS SELECT</div><h2>📘 학년을 선택해 주세요</h2><p class="grade-intro">선택한 학년의 수학 문제가 층 관문, 부활, 수학 비석에 출제돼요.<br><b>학년은 이번 모험 동안 유지됩니다.</b></p><div class="grade-select-list">'+Object.entries(GRADE_INFO).map(([id,g])=>'<button type="button" class="grade-select-card" data-action="choose-grade" data-grade="'+id+'"><span class="grade-name">'+g.short+'</span><span class="grade-detail"><b>'+g.name+'</b><small>'+g.scope+'</small></span><span class="grade-arrow">▶</span></button>').join('')+'</div><p class="grade-footer">학년 선택 후 권혁준과 박승휘의 이야기가 시작됩니다.</p></div>');
+ showModal('<div class="grade-entry-screen v128-entry"><div class="eyebrow">MATH SLOT DUNGEON · LANGUAGE & CLASS</div><h2>📘 학년과 언어를 선택해 주세요</h2><div class="v128-language-box"><h3>🌐 표시 언어 · 언어 선택</h3><p>선택한 언어로 대사·UI·수학 문제가 표시됩니다.</p><div class="v128-language-switch"><button type="button" data-action="choose-language" data-lang="ko" class="'+(selectedLanguage==='ko'?'active':'')+'">🇰🇷 한국어</button><button type="button" data-action="choose-language" data-lang="ja" class="'+(selectedLanguage==='ja'?'active':'')+'">🇯🇵 日本語</button></div></div><p class="grade-intro">선택한 학년의 수학 문제가 층 관문, 부활, 수학 비석에 출제돼요.<br><b>학년은 이번 모험 동안 유지됩니다.</b></p><div class="grade-select-list">'+Object.entries(GRADE_INFO).map(([id,g])=>'<button type="button" class="grade-select-card" data-action="choose-grade" data-grade="'+id+'"><span class="grade-name">'+g.short+'</span><span class="grade-detail"><b>'+g.name+'</b><small>'+g.scope+'</small></span><span class="grade-arrow">▶</span></button>').join('')+'</div><p class="grade-footer">학년 선택 후 권혁준과 박승휘의 이야기가 시작됩니다.</p></div>');
 }
+function chooseLanguage(lang){
+ if(s||!['ko','ja'].includes(lang))return;
+ selectedLanguage=lang;
+ document.documentElement.lang=lang;
+ document.title=lang==='ja'?'廃墟のスロットダンジョン V128・学年別数学':'폐허의 슬롯 던전 V128 · 한국어·일본어';
+ showGradeSelection();
+ localizeJapaneseDocument();
+}
+
 function chooseGrade(grade){
  if(s||!GRADE_INFO[grade])return;
  selectedGrade=grade;
@@ -3785,10 +3810,14 @@ function chooseGrade(grade){
 }
 function showStarterSetup(){
  tutorialActive=false;
- showModal('<div class="start-screen starter-one-page"><div class="eyebrow">B1 · 두 친구의 첫 모험 · '+activeGradeInfo().short+'</div><h2>🎴 시작 룬 5개 선택</h2><p class="starter-intro">기본 룬 8종 중 <b>5개</b>를 선택해. 서로 다른 룬 <b>5종</b>을 하나씩 선택해! 같은 종류는 중복 선택할 수 없어. 운이 좋으면 모험 중 특별한 룬을 얻을 수 있을 거야.</p><div class="starter-heading">⚔ 기본 룬 8종 · 원하는 룬의 ＋ 버튼을 눌러 선택</div><div class="starter-grid" id="starter-grid"></div><div class="deck-status" id="starter-count" aria-live="polite"></div><button class="btn-primary starter-launch" type="button" data-action="start" id="start-btn">지하 1층으로 ▶</button><div class="starter-utilities"><button class="btn-secondary" data-action="practice-open">🎮 연습장</button><button class="btn-secondary" data-action="tutorial-replay">◁ 튜토리얼</button></div></div>');
+ const ja=japaneseMode();
+ const header=ja?'B1・二人の最初の冒険':'B1 · 두 친구의 첫 모험';
+ const title=ja?'🎴 最初に使うルーンを5種類選ぼう':'🎴 시작 룬 5개 선택';
+ const intro=ja?'基本ルーン8種類から、異なる5種類を1つずつ選ぼう。同じ種類は2つ選べないよ。冒険中に運がよければ特別なルーンも手に入る。':'기본 룬 8종 중 <b>5개</b>를 선택해. 서로 다른 룬 <b>5종</b>을 하나씩 선택해! 같은 종류는 중복 선택할 수 없어. 운이 좋으면 모험 중 특별한 룬을 얻을 수 있을 거야.';
+ const heading=ja?'⚔ 基本ルーン8種類・欲しいルーンの「＋」ボタンを押そう':'⚔ 기본 룬 8종 · 원하는 룬의 ＋ 버튼을 눌러 선택';
+ showModal('<div class="start-screen starter-one-page"><div class="eyebrow">'+header+' · '+activeGradeInfo().short+'</div><h2>'+title+'</h2><p class="starter-intro">'+intro+'</p><div class="starter-heading">'+heading+'</div><div class="starter-grid" id="starter-grid"></div><div class="deck-status" id="starter-count" aria-live="polite"></div><button class="btn-primary starter-launch" type="button" data-action="start" id="start-btn">'+(ja?'地下1階へ ▶':'지하 1층으로 ▶')+'</button><div class="starter-utilities"><button class="btn-secondary" data-action="practice-open">'+(ja?'🎮 練習場':'🎮 연습장')+'</button><button class="btn-secondary" data-action="tutorial-replay">'+(ja?'◁ チュートリアル':'◁ 튜토리얼')+'</button></div></div>');
  renderStarter();
 }
-
 let tutorialRuneTab=0;
 function tutorialRuneCatalogMarkup(){
  const special=tutorialRuneTab===1;
@@ -3828,6 +3857,7 @@ function showTutorial(step,returnToGame=tutorialReturn){
  if(n===5)body='<div class="tutorial-starter-layout"><div class="tutorial-rune-grid tutorial-rune-starter-grid">'+TUTORIAL_START_RUNES.map(id=>'<div class="tutorial-rune-card"><span class="icon">'+runeVisual(id)+'</span><b>'+R[id].name+' 룬</b><small>'+TUTORIAL_START_RUNE_MINIGAMES[id]+'</small></div>').join('')+'</div></div>';
  if(n===6)body='<div class="tutorial-starter-layout"><div class="tutorial-rune-grid tutorial-rune-starter-grid tutorial-hidden-rune-grid">'+DROP_ONLY_RUNES.map(id=>'<div class="tutorial-rune-card"><span class="icon">'+runeVisual(id)+'</span><b>'+R[id].name+' 룬</b><small>'+TUTORIAL_HIDDEN_RUNE_GUIDE[id]+'</small></div>').join('')+'<div class="tutorial-rune-card tutorial-growth-card"><span class="icon">⬆️ ✨</span><b>성장과 특별한 힘</b><small><strong>레벨업 룬</strong> · 보유 룬 강화<br><strong>희귀 인챈트</strong> · 특수 효과 합성</small></div></div></div>';
  if(n===7)body='<p class="story">이제 모험을 떠나자.</p><div class="tutorial-path"><div><strong>⚔ 전투</strong><span>몬스터와 싸우는 곳</span></div><div><strong>🛒 상점</strong><span>물건을 사는 곳</span></div><div><strong>❔ 사건</strong><span>뜻밖의 일이 벌어지는 곳</span></div><div><strong>☠ 보스</strong><span>다음 층으로 가기 위한 강적</span></div></div>';
+ if(japaneseMode()&&TUTORIAL_QUOTES_JA[n])body=body.replace(/<div class="tutorial-quote">[\s\S]*?<\/div>/,'<div class="tutorial-quote">'+TUTORIAL_QUOTES_JA[n]+'</div>');
  const msg=n===1?(tutorialRolled?'✓ 검·총·방패 룬을 얻었어! 이제 검부터 써 보자.':'먼저 슬롯을 한 번 돌려 봐!'):n===2?(tutorialGuarded?'🛡 말풍선을 확인하고 방패로 공격을 막았어!':tutorialDefenseResult==='failed'?'공격 방향과 달랐어! 말풍선을 다시 보고 도전해 봐.':'몬스터 왼쪽 말풍선의 방향을 읽고 방패를 골라 봐.'):n===3?(tutorialSwordDone?'✓ 몬스터를 검으로 베었어! 다음은 총이야.':'전투 속 몬스터를 향해 검 공격을 해 봐.'):n===4?(tutorialGunDone?'✓ 몬스터에게 총을 맞혔어! 마지막은 방패야.':'몬스터의 머리나 몸통을 조준해서 쏴 봐.'):n===8?'3개 이상 일치한 슬롯만 자동 재회전! 공격 5 · 회복 2 · 방어막 각 1 · 주화 3G. 분노 +10씩, 100 도달 시 66 강력 반격!':n===5?'이것들은 시작과 함께 고를 수 있는 룬들이야.':n===6?'이 특별한 룬들은 몬스터를 잡으면 일정 확률로 드랍돼.':'이제 모험을 떠날 준비가 끝났어.';
  const nav='<div class="tutorial-nav">'+(n!==TUTORIAL_FLOW[0]?'<button class="btn-secondary" data-action="tutorial-prev">◀ 이전</button>':'')+'<button class="btn-primary" data-action="'+(n===7?'tutorial-finish':'tutorial-next')+'" '+(!canNext?'disabled':'')+'>'+(n===7?(tutorialReturn?'게임으로 돌아가기':'내 룬을 선택하고 출발 ▶'):n===1?'검 룬 연습하기 ▶':n===3?'총 룬 연습하기 ▶':n===4?'방패 룬 연습하기 ▶':n===2?'자동 재회전 알아보기 ▶':n===8?'다른 룬도 알아보기 ▶':'다음 이야기 ▶')+'</button></div>';
  showModal('<div class="tutorial-screen" data-step="'+n+'"><div class="tutorial-top"><span>⚔ 승휘와 함께하는 첫 전투 · '+(TUTORIAL_FLOW.indexOf(n)+1)+' / '+TUTORIAL_FLOW.length+'</span><button data-action="tutorial-skip">'+(tutorialReturn?'닫기':'건너뛰기')+' ✕</button></div><h2>'+heading[n]+'</h2>'+body+'<div class="tutorial-message '+(canNext?'good':'')+'" id="tutorial-message">'+msg+'</div>'+progress+nav+'</div>');
@@ -3924,7 +3954,7 @@ function updateTutorialPractice(ts){
   if(fill)fill.style.height=tutorialSwordPercent.toFixed(2)+'%';
   if(value)value.textContent=Math.round(tutorialSwordPercent)+'%';
  }else if(tutorialStep===4&&!tutorialGunDone){
-  const t=Math.max(0,ts-tutorialPracticeStart)/1000;
+  const t=Math.max(0,ts-tutorialPracticeStart)/1000*GUN_AIM_SPEED_MULTIPLIER;
   const z=zones(),px=(z.head.x+z.body.x)/2,py=(z.head.y+z.body.y)/2;
   tutorialGunAim={x:cap(px+Math.sin(t*6.8+.3)*88+Math.sin(t*16.2+1.1)*29+Math.cos(t*10.8)*14,180,520),
                   y:cap(py+Math.cos(t*5.8+.8)*65+Math.sin(t*14.4+.5)*29,19,248)};
@@ -3971,7 +4001,7 @@ function renderStarter(){
   return '<div class="starter-card '+(n?'selected':'')+'"><span class="ico" style="color:'+r.color+'">'+runeVisual(id)+'</span><b>'+r.name+' 룬</b>'+runeGuideMarkup(id)+'<div class="rune-stepper"><button data-action="starter-minus" data-rune="'+id+'" '+(n===0?'disabled':'')+' aria-label="'+r.name+' 한 개 빼기">−</button><strong>'+n+' <small>Lv.1</small></strong><button data-action="starter-plus" data-rune="'+id+'" '+(selected.length>=STARTER_RUNE_COUNT||n>=MAX_ACTIVE_PER_RUNE?'disabled':'')+' aria-label="'+r.name+' 한 개 추가">＋</button></div></div>';
  }).join('');
  const kinds=new Set(selected).size,ok=isValidStarter(selected);
- $('starter-count').textContent='선택 '+selected.length+' / 5개 · 서로 다른 룬 '+kinds+'종 · 같은 룬 중복 선택 불가 '+(ok?'✓ 시작 가능':selected.length<5?'· '+(5-selected.length)+'개 더 선택':'· 서로 다른 룬 5종 선택 필요');
+ $('starter-count').textContent=japaneseMode()?('選択 '+selected.length+' / 5個・異なるルーン '+kinds+'種類・重複選択不可 '+(ok?'✓ 開始可能':selected.length<5?'・あと'+(5-selected.length)+'個選択':'・異なるルーンを5種類選んでください')):('선택 '+selected.length+' / 5개 · 서로 다른 룬 '+kinds+'종 · 같은 룬 중복 선택 불가 '+(ok?'✓ 시작 가능':selected.length<5?'· '+(5-selected.length)+'개 더 선택':'· 서로 다른 룬 5종 선택 필요'));
  $('start-btn').disabled=!ok;
 }
 
@@ -3980,6 +4010,276 @@ STORY_SCENES.final_boss_prelude={"no":"FINAL BOSS · 결전 전야","title":"마
 // V79: an independent, story-only mode that never changes the adventure or save data.
 STORY_SCENES.final_rescue={"no":"SPECIAL CHAPTER · 마지막 약속","title":"쓰러진 순간, 내민 손","emoji":"🤝","tone":"hall","where":"4층 · 수학대마왕의 왕좌 · 무너진 전장","button":"승휘와 함께 다시 일어서기","lines":[["나레이션","수학대마왕의 거센 일격에 권혁준이 바닥에 쓰러졌다. 손에 쥐고 있던 룬이 멀리 튕겨 나갔고, 두 다리에는 더 이상 힘이 들어가지 않았다."],["권혁준","“여기까지인가… 승휘야, 미안해. 널 찾겠다고 여기까지 왔는데… 이제는 못 일어나겠어.”"],["나레이션","혁준은 바닥을 짚던 손을 천천히 내려놓았다. 모든 걸 포기하고 눈을 감으려던 바로 그 순간, 누군가 그의 앞에 멈춰 섰다."],["박승휘","“혁준아. 그렇게 포기하려고?”"],["나레이션","혁준이 고개를 들었다. 학창 시절의 그 모습 그대로, 박승휘가 서 있었다. **승휘는 한쪽 무릎을 굽혀 쓰러진 혁준에게 손을 내밀었다.**"],["권혁준","“승휘야…? 정말 너야? 네가 어떻게 여기에…”"],["박승휘","“일어나. 너 혼자 싸우게 둘 생각 없어. 우리 둘이 함께라면 아직 할 수 있어.”"],["박승휘","“**내 손 잡아, 혁준아. 힘을 합치자!** 내가 모아 둔 특별한 룬도 전부 줄게. 마지막은 같이 끝내는 거야.”"],["나레이션","혁준은 떨리는 손으로 승휘의 손을 꽉 잡았다. 승휘가 혁준을 일으켜 세우자, 흩어졌던 룬들이 다시 빛나기 시작했다. 검, 방패, 전투망치, 마법, 숨겨진 룬까지… **15종의 룬이 전부 해금**되었다!"],["권혁준","“그래… 다시 해 보자. 우리 둘이면 무조건 이긴다! 이번엔 같이 끝내자!”"],["나레이션","두 사람은 나란히 수학대마왕을 바라봤다. 혁준의 체력이 회복되고 슬롯이 다시 돌 준비를 마쳤다. **수학대마왕의 남은 체력은 그대로. 두 친구의 마지막 반격이 시작된다.**"]]};
 const STORY_CINEMA_ORDER=['b1_start','b1_mid','floor1','floor2','floor3','floor4','final_boss_prelude','final_rescue','engrave','hospital','realization'];
+
+// V128: Offline Japanese localization. Internal combat rules, quiz answers and save keys remain canonical.
+const STORY_JA={"b1_start":{"no":"PROLOGUE・見知らぬ教室","title":"突然変わってしまった世界","where":"懐かしいのに見知らぬ学校・学生時代","button":"モンスターと戦い、戦闘を覚える","lines":["一瞬にして世界がひっくり返った。いつもの現実が消え、目の前はゲームの中の学校に変わった。クォン・ヒョクジュンは訳も分からないまま、学生時代の制服を着て立っていた。","「何だ……ここはどこだ？　待てよ、この制服は？　どうして僕がまた学生に？」","窓ガラスに映るのは学生時代のヒョクジュンだった。学校は記憶の中と同じなのに、物の上には奇妙な数字やマークが浮かんでいる。","「ヒョクジュン！」","「スンフィなのか！？」","目の前には学生時代の親友、パク・スンフィがいた。久しぶりの再会を喜ぶ間もなく……。","廊下の向こうからギィィ……と、何かが扉を引っかく音がした。次の瞬間、**ドカン！！**　教室の扉が砕け、恐ろしいモンスターが飛び込んできた！","「何だ！？　扉の外にモンスターがいる！　どうして急にこんなのが！？」","「昔、一緒に遊んだルーンとスロット、まさか忘れてないよな？　今から説明する。よく聞いて！　まずスロットを回すんだ！」"]},"b1_mid":{"no":"B1・共に戦う方法","title":"二人で作ったコンボ","where":"地下廊下・最初の戦闘後","button":"スンフィと次の分かれ道へ","lines":["「盾はモンスターが狙う方向へ！　剣はタイミングよく！　昔もこうやって練習したよな。」","「変だな。すっかり忘れていたのに、お前の声を聞くと手が勝手に動くんだ。」","ねじれた廊下の先から、まるでゲーム開始を告げるような効果音が響いた。"]},"floor1":{"no":"CHAPTER 1・1F","title":"階段に残る二人の笑い声","where":"1階・古い教室前の廊下","button":"1階でスンフィを探す","lines":["地下1階の扉が開くと、先ほどまで隣で話していたスンフィが忽然と姿を消した。古い階段に響くのはヒョクジュンの足音だけだった。","「スンフィ！　おい、冗談はやめろよ。さっきまで一緒にいたじゃないか！」","1階の廊下の掲示板に、いびつな落書きがあった。一本の傘に身を寄せ合う二人。横には小さく「ヒョクジュン＋スンフィ」と書かれていた。","「この絵……まさか僕たちが描いたのか？」","その瞬間、雨音が耳によみがえった。学生時代のある夕方、突然の夕立に学校の玄関で立ち往生した日のことだ。","「ヒョクジュン、また傘を忘れたのか？　ほら、入れよ。今日は特別に相合傘だ！」","「おい、傘が小さすぎるって。お前の肩がびしょぬれになるぞ！」","二人は小さな傘を無理やり分け合った。結局、二人とも制服の肩までずぶぬれになったが、家に着くまで笑いが止まらなかった。","「あの頃は、少し雨にぬれるだけで何があんなに面白かったんだろう……。お前といると、何でも思い出になったな。」","掲示板の下には古い紙が一枚ぶら下がっていた。見覚えのある字だ。「最後まで行けば、あの日の約束を思い出すはずだ」。","「この字、間違いなくお前のだ。スンフィ、待ってろ。今度は僕がお前を探しに行く。」","ヒョクジュンは落書きをもう一度見つめ、上の階へ続く階段を上った。忘れていた笑い声が、その背中を追いかけてくるようだった。"]},"floor2":{"no":"CHAPTER 2・2F","title":"理科室によみがえる声","where":"2階・二人が同じ班だった理科室","button":"2階を抜けてさらに上へ","lines":["2階の扉を開けると、かすかなアルコールの匂いと古い実験台が目に入った。学校はモンスターだらけなのに、この教室だけは普通の放課後のようだった。","「理科室……ここではスンフィと同じ班だったな。」","記憶の中で、二人は実験台の前に並んで立っていた。自信満々に計算を終えたはずなのに、実験容器からは予想外の泡が次々とあふれてきた。","「お、おい！　ヒョクジュン！　計算は合ってるって言ったよな！？　理科室が吹っ飛ぶんじゃないか？」","「数値は合ってる！　いや、待て……お前が試薬を二回入れたんだろ！」","実験容器が**ポン！**と小さく爆発した。泡は机にまであふれ、二人は笑いをこらえるのに必死だった。授業が終わっても二人で残って実験台を拭いた。","「大丈夫。二人で失敗したんだから、二人で片づけよう。次はお前が試薬を入れろよ！」","「いつもそうだったな。僕が失敗すればお前が笑ってくれて、お前が失敗すれば僕がそばにいた。」","引き出しを開けると、二人で作った攻略ノートが出てきた。角はすり減り、違う筆跡の文字でぎっしり埋まっていた。","「スンフィ：敵が力をためて攻撃するときは、戦闘ハンマーでダメージを半減させろ！／ヒョクジュン：了解。次のターンは貫通に注意。二人なら絶対勝てる！」","次のページには攻略より大きな字でこう書かれていた。「失敗しても二人ならもう一度やり直せる」。昔、スンフィが冗談半分に書いた言葉だった。","「そうだ……ゲームでもいつもやり直していた。今度こそお前がどこにいるか突き止めてみせる。」","ヒョクジュンは攻略ノートを胸に抱きしめた。懐かしい笑い声が学校のチャイムのように遠ざかり、上階へ続く階段が姿を現した。"]},"floor3":{"no":"CHAPTER 3・3F","title":"放課後、二人だけの攻略本","where":"3階・一緒にゲームをした教室","button":"体育館へ続く扉を開ける","lines":["3階の廊下の奥に古いパソコンが一台置かれていた。黒い画面に、昔二人が夢中になった「スロットダンジョン」のタイトルがゆっくり浮かび上がった。","「これ……二人で飽きるほど遊んだゲームだよな。」","日が沈み校庭の声も消えると、二人は教室に残り、モニターの前へもう一脚椅子を引き寄せた。","「おい、次は俺の番！　さっきも剣のミニゲームを二回やっただろ！」","「その代わり防御方向を教えてくれたじゃないか。この一回だけで本当に交代するから！」","順番を取り合い、からかい合いながらも、強いモンスターの前では自然と力を合わせた。ヒョクジュンがダメージを計算し、スンフィが攻撃パターンを覚えた。","「お前は数字が得意だろ？　俺はモンスターの動きを覚える。それならクリアできない階なんてない！」","「だから知っていたんだ。オオカミの連撃、リッチの封印、ドラゴンのブレス……何度も教えてくれたから。」","机の上の攻略ノートには二人の修正跡が重なっていた。間違いには太い線、攻略できた日には星印がたくさん付いていた。","「この星印……夜遅く最後のボスを倒して、二人で描いたんだっけ。」","攻略ノートの最後のページに、戦闘とは関係のない小さな文字があった。「卒業してもたまには遊ぼう。どこにいても」。","「何気ない約束だと思っていたのに……こんなことまで忘れていたなんて。」","古いゲームの案内文：「最後のセーブ地点：4階・体育館放送室」。","「スンフィ、そこにいるんだろ？　今向かっている。今度は最後までお前の話を聞くよ。」","画面のセーブアイコンが静かに点滅した。ヒョクジュンは最後の階へ歩き始めた。"]},"floor4":{"no":"FINAL CHAPTER・4F","title":"体育館放送室の古い約束","where":"4階・体育館へ続く廊下","button":"4階の最後のエリアへ","lines":["最後の階の扉が開くと、遠くからかすかな放送が聞こえた。生徒たちの歓声、体育館の床を鳴らす靴音、そして夕方の温かい日差し。","「体育館……ここまで来ると不思議と懐かしい。」","学生時代の学校行事で、放送室の古いマイクが突然動かなくなった。舞台裏で慌てるヒョクジュンのもとへスンフィが駆け寄ってきた。","「おい、ヒョクジュン！　一人で全部やろうとするな。マイクは俺が見るから、お前は準備したことを忘れるなよ！」","「でも、お前がそばにいないと本当に緊張するんだ。」","「だから俺がいるんだろ。早く行け！　お前ならできる！」","その日の行事は無事に終わった。生徒たちが帰ったあとも、二人は放送室に残り、一日がどれだけ楽しかったか話し続けた。","「ここに名前を刻まないか？　卒業しても来たことを思い出せるように。」","「いいね。でも字はちゃんと書けよ。お前の名前、ミミズみたいだぞ！」","机の下に並んで刻んだ名前。あの頃は来週も来年も、当たり前のように一緒に笑えると信じていた。","「僕は結局この学校に戻って教師になったのに……お前と過ごした放送室には一度も来ていなかったんだな。」","歩くたびに記憶は鮮明になった。ふざけた声、一緒に使った攻略本、肩をぬらした雨。どれもスンフィとの思い出だった。","「ヒョクジュン。あのとき僕ら、名前をどこに刻もうって言ったっけ？」","「体育館の放送室……そうだ。覚えているよ。今度は絶対忘れない。」","古い放送室の扉の隙間から温かい光が漏れていた。ヒョクジュンは深呼吸して、最後の扉へ手を伸ばした。"]},"engrave":{"no":"THE END・二人の約束","title":"永遠に刻む名前","where":"4階・体育館放送室","button":"物語の結末・エンディングへ","lines":["最後のモンスターを倒すと、古い放送室の扉が開いた。夕焼けの窓辺で、昔の姿のままのスンフィが待っている。","「ずいぶん遅かったな、ヒョクジュン。でも最後まで来てくれたんだね。」","「もちろんだよ。明日も来年も一緒にゲームすればいいだろ？」","「じゃあここに刻もう。二人で一緒にいたことを。何年経っても絶対に忘れないように。」","放送室の机の下に二人の名前が並んで刻まれた。**クォン・ヒョクジュン／パク・スンフィ**。スンフィが笑った。ヒョクジュンも笑った。明日も友達に会えると信じていた。"]},"hospital":{"no":"AFTER CREDITS・あの夜","title":"別の場所にある静かな夜","where":"現実・病院","button":"その後の物語","lines":["同じころ、病院の静かな病室。パク・スンフィは人生の終わりが近い体で深い眠りについていた。","夢の中でよみがえったのは、学生時代の廊下、二人で遊んだゲーム、そして長く心に残った、ただ一人の友だった。","「ヒョクジュン……僕らの名前……忘れないで……」","地下1階から放送室までの長い冒険は、最後にもう一度友達に会いたかったスンフィの夢だった。"]},"realization":{"no":"EPILOGUE・二人の友情","title":"いつまでも残る名前","where":"東京韓国学校・体育館放送室","button":"Fin・二人の友情","lines":["夢から覚めたクォン・ヒョクジュンは、今は教師として勤める東京韓国学校の体育館へ向かった。","記憶にある体育館の放送室。教師になってから一度も立ち寄らなかった場所だ。","机の下をよく見ると、二人が刻んだ名前が年月を経てかすかに残っていた。","「……もっと早く連絡しろよ、ばか。」","「ありがとう。最後に僕を呼んでくれて。」","二人の名前は、手でこすっても消えなかった。ヒョクジュンは指先で文字をなぞり、楽しかったあの頃をいつまでも覚えていようと決めた。"]},"migration":{"no":"MEMORY STORY・アップデート","title":"学校へ戻る冒険","where":"新しい全5階の物語","button":"続きから冒険する","lines":["全10階を地下1階から4階までの5章に再編しました。従来の60種類のモンスターは残し、同じ絵が重ならないよう配置しています。","以前の冒険のゴールド、ルーン、レベル、装備は引き継がれています。新しいマップでは解放済みの階から探検できます。","物語の始まりから体験したい場合は「新しい冒険」を選んでください。"]},"final_boss_prelude":{"no":"FINAL BOSS・決戦前夜","title":"最後の一戦を前に","where":"4階・体育館放送室の前・数学大魔王の扉","button":"覚悟を決め、数学大魔王に挑む","lines":["体育館の放送室へ続く最後の扉の前。廊下に響いていた足音が止まった。床一面の数式が赤く輝き、扉の上に最後の敵の名が浮かんだ。**数学大魔王。**","「ついにここまで来た。スンフィ……この扉の向こうにいるんだろ？」","扉の隙間から重苦しい気配が漏れた。巨大な影が天井まで伸び、ヒョクジュンの手の中でルーンがかすかに震えた。","「正直、怖い。ここで負けたら、もうお前を見つけられないかもしれない。」","そのとき、古い攻略ノートが目に入った。小さな傘で一緒に走った日、散らかった理科室、夕暮れまで続けたゲーム、放送室に刻んだ名前が順に浮かんだ。","「間違えたら解き直して、負けてもまた挑戦した。お前が隣で笑ってくれたから、何でもできる気がした。」","「今度は僕から見せるよ。スンフィ、どこにいても見ていてくれ。最後まで絶対に諦めない。」","ヒョクジュンは深く息を吸い、ルーンを強く握りしめた。恐怖の代わりに、昔友達と交わした約束が胸に残った。巨大な扉がゆっくり開き始めた。","「さあ、数学大魔王！　**最後の勝負だ。絶対にやり抜く！**」"]},"final_rescue":{"no":"SPECIAL CHAPTER・最後の約束","title":"倒れたとき、差し出された手","where":"4階・数学大魔王の玉座・崩れた戦場","button":"スンフィと共に再び立ち上がる","lines":["数学大魔王の強烈な一撃に、ヒョクジュンは床へ倒れた。握っていたルーンは遠くへ飛び、両足にはもう力が入らなかった。","「ここまでなのか……スンフィ、ごめん。お前を探してここまで来たのに……もう立てない。」","ヒョクジュンは床についた手をゆっくり下ろした。すべてを諦めて目を閉じかけたその瞬間、誰かが目の前に立った。","「ヒョクジュン。そんなふうに諦めるのか？」","ヒョクジュンは顔を上げた。学生時代と変わらない姿のスンフィが立っていた。**スンフィは片膝をつき、倒れたヒョクジュンに手を差し出した。**","「スンフィ……？　本当にお前なのか？　どうしてここに……。」","「立って。一人で戦わせるつもりはない。二人ならまだやれる！」","「**僕の手をつかんで、ヒョクジュン。一緒に戦おう！**　集めてきた特別なルーンも全部渡す。最後は二人で決着をつけよう。」","ヒョクジュンは震える手でスンフィの手を握り返した。立ち上がると、散らばったルーンが再び輝き始めた。剣、盾、戦闘ハンマー、魔法、隠されたルーンまで……**全15種類のルーンが解放された！**","「そうだ……もう一度やろう。二人なら絶対勝てる！　今度こそ一緒に終わらせよう！」","二人は肩を並べて数学大魔王を見据えた。ヒョクジュンのHPが回復し、スロットは再び回る準備を整えた。**数学大魔王の残りHPはそのまま。二人の最後の反撃が始まる。**"]}};
+const TUTORIAL_QUOTES_JA={"1":"<b>パク・スンフィ:</b> 「ヒョクジュン、大丈夫！ 昔一緒に遊んだスロットを覚えてるだろ？ <b>まずスロットを回してみよう！</b> 出たルーンを一つずつ使ってみるんだ。」<br><b>クォン・ヒョクジュン:</b> 「まだよく分からないけど、分かったよ！ あとで何が起きているか教えてくれよ！」","2":"<b>パク・スンフィ:</b> 「最後は盾だ！ <b>モンスターの左に出る吹き出し</b>を見て。攻撃方向とダメージが書いてあるだろ？ <b>その方向に盾を置くんだ！</b>」","3":"<b>パク・スンフィ:</b> 「最初は<b>⚔ 剣ルーン</b>！ モンスターが見えるか？ <b>ゲージが70%以上</b>になったら押して斬ってみよう！」","4":"<b>パク・スンフィ:</b> 「次は<b>🔫 銃ルーン</b>だ！ 動く照準を見て、<b>モンスターの頭か胴体</b>に重なった瞬間に撃とう！」","8":"<b>パク・スンフィ:</b> 「よくできた！ <b>同じルーンが3つ以上</b>並ぶと、使ったあとに<b>一致したリールだけ</b>自動リスピンする。ほかのリールは固定だ！ 新しく出たルーンは<b>ミニゲームなしで自動発動</b>するよ。ただし、自動リスピンするたびに<b>怒りが10ずつ増える！</b> <b>100/100</b>になる<b>10回目</b>は、モンスターが連鎖を止めて<b>攻撃力66の強烈な反撃</b>をしてくる。気をつけよう！」"};
+const JP_MATH_MAP={"이등변삼각형의 꼭지각이 40°일 때, 한 밑각의 크기는?":"二等辺三角形の頂角が40°のとき、底角の1つは何度ですか。","이등변삼각형의 밑각이 각각 65°일 때, 꼭지각의 크기는?":"二等辺三角形の底角がそれぞれ65°のとき、頂角は何度ですか。","이등변삼각형의 꼭지각이 80°라면 한 밑각은?":"二等辺三角形の頂角が80°のとき、底角の1つは何度ですか。","△ABC에서 AB=AC, ∠B=55°일 때 ∠C의 크기는?":"△ABCでAB=AC、∠B=55°のとき、∠Cは何度ですか。","삼각형의 두 내각이 40°, 70°일 때 나머지 내각은?":"三角形の2つの内角が40°、70°のとき、残りの内角は何度ですか。","삼각형의 두 내각이 40°, 70°일 때, 나머지 꼭짓점의 외각은?":"三角形の2つの内角が40°、70°のとき、残りの頂点の外角は何度ですか。","직각삼각형에서 한 예각이 35°일 때, 다른 예각은?":"直角三角形の1つの鋭角が35°のとき、もう1つの鋭角は何度ですか。","두 변의 길이가 각각 4cm, 6cm인 삼각형의 나머지 변이 될 수 있는 길이는?":"2辺の長さが4cm、6cmの三角形で、残りの辺として可能な長さはどれですか。","세 변이 각각 5cm, 5cm, 8cm인 삼각형의 둘레는?":"3辺の長さが5cm、5cm、8cmの三角形の周の長さは何cmですか。","삼각형의 내심은 무엇의 교점인가?":"三角形の内心は、どの線の交点ですか。","삼각형의 외심은 무엇의 교점인가?":"三角形の外心は、どの線の交点ですか。","삼각형의 내심에서 같은 거리가 되는 대상은?":"三角形の内心からの距離が等しくなるのは何ですか。","삼각형의 외심에서 같은 거리가 되는 대상은?":"三角形の外心からの距離が等しくなるのは何ですか。","직각삼각형의 외심은 어디에 있는가?":"直角三角形の外心はどこにありますか。","평행사변형에서 서로 마주 보는 두 변의 길이는?":"平行四辺形で向かい合う2辺の長さはどうなりますか。","평행사변형의 한 내각이 70°일 때 이웃한 내각은?":"平行四辺形の1つの内角が70°のとき、隣の内角は何度ですか。","평행사변형의 한 내각이 65°일 때 마주 보는 내각은?":"平行四辺形の1つの内角が65°のとき、向かい合う内角は何度ですか。","평행사변형의 두 대각선은 서로를 어떻게 나누는가?":"平行四辺形の2本の対角線は、互いをどのように分けますか。","직사각형의 두 대각선에 항상 성립하는 성질은?":"長方形の2本の対角線について、必ず成り立つ性質はどれですか。","마름모의 두 대각선에 항상 성립하는 성질은?":"ひし形の2本の対角線について、必ず成り立つ性質はどれですか。","평행사변형의 한 각이 90°이면 어떤 사각형인가?":"平行四辺形の1つの角が90°のとき、どんな四角形ですか。","평행사변형에서 이웃한 두 변의 길이가 같다면 어떤 사각형인가?":"平行四辺形で隣り合う2辺の長さが等しいとき、どんな四角形ですか。","정사각형의 성질 중 반드시 옳은 것은?":"正方形の性質について、必ず正しいのはどれですか。","평행사변형의 한 변이 7cm이면 마주 보는 변의 길이는?":"平行四辺形の1辺が7cmのとき、向かい合う辺は何cmですか。","x² + 5x + 6을 인수분해하면?":"x² + 5x + 6 を因数分解すると？","x² − 7x + 12를 인수분해하면?":"x² − 7x + 12 を因数分解すると？","x² − 9를 인수분해하면?":"x² − 9 を因数分解すると？","x² + 2x + 1을 인수분해하면?":"x² + 2x + 1 を因数分解すると？","x² − 4x + 4를 인수분해하면?":"x² − 4x + 4 を因数分解すると？","x² + x − 6을 인수분해하면?":"x² + x − 6 を因数分解すると？","2x² + 5x + 2를 인수분해하면?":"2x² + 5x + 2 を因数分解すると？","x² − 16을 인수분해하면?":"x² − 16 を因数分解すると？","x² + 7x + 10을 인수분해하면?":"x² + 7x + 10 を因数分解すると？","x² − 5x + 6을 인수분해하면?":"x² − 5x + 6 を因数分解すると？","sin 30°의 값은?":"sin 30° の値は？","cos 60°의 값은?":"cos 60° の値は？","tan 45°의 값은?":"tan 45° の値は？","sin 60°의 값은?":"sin 60° の値は？","cos 30°의 값은?":"cos 30° の値は？","tan 30°의 값은?":"tan 30° の値は？","tan 60°의 값은?":"tan 60° の値は？","직각삼각형에서 θ의 맞은편 변이 3, 빗변이 5일 때 sin θ는?":"直角三角形で角θの向かい側の辺が3、斜辺が5のとき、sin θ は？","직각삼각형에서 θ에 이웃한 변이 8, 빗변이 10일 때 cos θ는?":"直角三角形で角θに隣り合う辺が8、斜辺が10のとき、cos θ は？","직각삼각형에서 θ의 맞은편 변이 4, 이웃한 변이 3일 때 tan θ는?":"直角三角形で角θの向かい側の辺が4、隣り合う辺が3のとき、tan θ は？","직각삼각형에서 sin θ를 나타내는 비는?":"直角三角形で sin θ を表す比はどれですか。","직각삼각형에서 cos θ를 나타내는 비는?":"直角三角形で cos θ を表す比はどれですか。","수열 2, 5, 8, 11, …의 다음 항은?":"数列 2, 5, 8, 11, … の次の項は？","수열 4, 9, 14, 19, …의 공차는?":"数列 4, 9, 14, 19, … の公差は？","첫째 항이 3, 공차가 4인 등차수열의 다섯째 항은?":"初項が3、公差が4の等差数列の第5項は？","첫째 항이 7, 공차가 −2인 등차수열의 넷째 항은?":"初項が7、公差が−2の等差数列の第4項は？","수열 20, 17, 14, …의 다섯째 항은?":"数列 20, 17, 14, … の第5項は？","일반항이 aₙ = 2n + 1인 수열의 넷째 항은?":"一般項が aₙ = 2n + 1 の数列の第4項は？","일반항이 aₙ = 3n − 1인 수열의 다섯째 항은?":"一般項が aₙ = 3n − 1 の数列の第5項は？","일반항이 aₙ = n² + 1인 수열의 넷째 항은?":"一般項が aₙ = n² + 1 の数列の第4項は？","일반항이 aₙ = n(n + 1)인 수열의 셋째 항은?":"一般項が aₙ = n(n + 1) の数列の第3項は？","수열 6, 10, 14, …의 여덟째 항은?":"数列 6, 10, 14, … の第8項は？","수열 2, 6, 18, …의 다음 항은?":"数列 2, 6, 18, … の次の項は？","수열 3, 6, 12, …의 다음 항은?":"数列 3, 6, 12, … の次の項は？","첫째 항이 2, 공비가 3인 등비수열의 넷째 항은?":"初項が2、公比が3の等比数列の第4項は？","첫째 항이 5, 공비가 2인 등비수열의 셋째 항은?":"初項が5、公比が2の等比数列の第3項は？","수열 81, 27, 9, …의 다음 항은?":"数列 81, 27, 9, … の次の項は？","1 + 2 + 3 + 4 + 5의 값은?":"1 + 2 + 3 + 4 + 5 の値は？","1부터 10까지의 자연수의 합은?":"1から10までの自然数の和は？","1, 3, 5, 7, 9의 합은?":"1, 3, 5, 7, 9 の和は？","등비수열 1, 2, 4, 8의 첫 4항의 합은?":"等比数列 1, 2, 4, 8 の最初の4項の和は？","일반항이 aₙ = 2ⁿ인 수열의 셋째 항은?":"一般項が aₙ = 2ⁿ の数列の第3項は？","수열 1, 4, 9, 16, …의 다음 항은?":"数列 1, 4, 9, 16, … の次の項は？","첫째 항이 5이고 공차가 3인 등차수열의 셋째 항은?":"初項が5、公差が3の等差数列の第3項は？","세 내각의 이등분선":"3つの内角の二等分線","세 변의 수직이등분선":"3辺の垂直二等分線","세 중선":"3本の中線","세 높이":"3本の高さ","세 변":"3辺","세 꼭짓점":"3つの頂点","세 중선의 중점":"3本の中線の中点","세 외각":"3つの外角","세 내각":"3つの内角","세 꼭짓점에서 내린 높이":"3つの頂点から引いた高さ","빗변의 중점":"斜辺の中点","직각인 꼭짓점":"直角の頂点","내심과 같은 위치":"内心と同じ位置","가장 긴 높이의 중점":"最も長い高さの中点","같다":"等しい","항상 2배다":"必ず2倍になる","항상 다르다":"必ず異なる","합이 90이다":"和が90になる","이등분한다":"互いに二等分する","수직삼등분한다":"垂直に三等分する","항상 3:1로 나눈다":"必ず3:1に分ける","절대로 만나지 않는다":"決して交わらない","길이가 같다":"長さが等しい","서로 수직이다":"互いに垂直である","길이가 다르다":"長さが異なる","한 대각선만 반으로 나뉜다":"一方の対角線だけが二等分される","항상 같은 길이다":"必ず長さが等しい","평행하다":"平行である","서로 만나지 않는다":"互いに交わらない","직사각형":"長方形","사다리꼴이지만 직사각형은 아님":"台形だが長方形ではない","정오각형":"正五角形","마름모만 가능":"ひし形だけが可能","마름모":"ひし形","직사각형만 가능":"長方形だけが可能","사다리꼴만 가능":"台形だけが可能","평행사변형이 아니다":"平行四辺形ではない","네 변의 길이가 같고 네 각이 90°이다":"4辺の長さが等しく、4つの角が90°である","대각선의 길이가 서로 다르다":"対角線の長さが異なる","마주 보는 변이 평행하지 않다":"向かい合う辺が平行ではない","두 대각선이 만나지 않는다":"2本の対角線が交わらない","맞은편 변 / 빗변":"向かい側の辺 / 斜辺","이웃한 변 / 빗변":"隣り合う辺 / 斜辺","맞은편 변 / 이웃한 변":"向かい側の辺 / 隣り合う辺","빗변 / 맞은편 변":"斜辺 / 向かい側の辺","빗변 / 이웃한 변":"斜辺 / 隣り合う辺"};
+const JP_UI_PHRASES={"폐허의 슬롯 던전":"廃墟のスロットダンジョン","학년별 수학 문제":"学年別の数学問題","학년을 선택해 주세요":"学年を選んでください","선택한 학년의 수학 문제가 층 관문, 부활, 수학 비석에 출제돼요.":"選んだ学年の数学問題が、階の関門・復活・数学の石碑に出題されます。","학년은 이번 모험 동안 유지됩니다.":"学年の設定は今回の冒険中ずっと保持されます。","학년과 언어를 선택해 주세요":"学年と言語を選んでください","언어 선택":"言語を選択","표시 언어":"表示言語","한국어":"韓国語","일본어":"日本語","선택한 언어로 대사·UI·수학 문제가 표시됩니다.":"選択した言語で、セリフ・UI・数学の問題が表示されます。","학년 선택":"学年を選択","중학교 2학년":"中学2年生","고등학교 1학년":"高校1年生","고등학교 2학년":"高校2年生","중2":"中2","고1":"高1","고2":"高2","삼각형·사각형의 성질":"三角形・四角形の性質","인수분해·기본 삼각비":"因数分解・基本的な三角比","기본 수열":"基本的な数列","인수분해":"因数分解","수학 문제":"数学問題","한 턴에 장착할 룬 선택":"このターンで装備するルーンを選択","같은 종류는 중복 선택할 수 없어":"同じ種類は重複選択できない","기본 룬 8종 중":"基本ルーン8種類から","서로 다른 룬":"異なるルーン","시작 룬 5개 선택":"初期ルーンを5つ選択","룬 5개 선택":"ルーンを5つ選択","선택한":"選択した","시작 룬":"初期ルーン","선택할 수 없어":"選べません","중복 선택 불가":"重複選択不可","시작 가능":"開始可能","개 더 선택":"個を追加で選ぶ","수학 관문":"数学の関門","관문 문제":"関門の問題","부활 문제":"復活問題","수학 비석":"数学の石碑","몬스터와 맞서며 전투 배우기":"モンスターと戦い、戦闘を覚える","실패해도 다시 시작할 수 있어":"失敗してもやり直せる","게임 시작":"ゲーム開始","모험 시작":"冒険開始","게임을 시작합니다":"ゲームを始めます","새 모험을 시작할까요?":"新しい冒険を始めますか？","지금까지의 모험 진행 상황을 초기화하고":"これまでの冒険の進行状況を初期化して","1층부터 다시 시작":"1階からやり直し","합니다.":"ます。","보유 룬·레벨·주화·아이템과 브라우저 자동 저장 기록이":"所持ルーン・レベル・ゴールド・アイテム、ブラウザーの自動セーブデータが","모두 삭제":"すべて削除","됩니다. 되돌릴 수 없습니다.":"されます。取り消すことはできません。","취소 · 현재 모험 계속하기":"キャンセル・冒険を続ける","저장 기록 삭제하고 새 모험":"セーブを削除して新しい冒険","새 모험":"新しい冒険","이어하기":"続きから","이전 모험 불러오기 실패":"以前の冒険の読み込みに失敗しました","이전 모험":"以前の冒険","모험 이어하기 완료":"冒険の続きから再開しました","자동 저장됨":"自動セーブ済み","자동 저장":"自動セーブ","저장 불가":"セーブ不可","모험 시작 후 자동 저장":"冒険開始後に自動セーブ","브라우저 저장 설정 확인":"ブラウザーの保存設定を確認","저장 공간에 접근할 수 없습니다":"保存領域にアクセスできません","저장된 모험을 불러올 수 없습니다":"セーブデータを読み込めません","이 브라우저":"このブラウザー","효과음 끄기":"効果音をオフ","효과음 켜기":"効果音をオン","연습장":"練習場","연습 중 · 저장 기록 불변":"練習中・セーブデータは変更されません","연습용 허수아비":"練習用のかかし","다른 룬":"別のルーン","모험으로":"冒険に戻る","다시 연습":"もう一度練習","선택한 루ーン":"選んだルーン","게임 가이드":"ゲームガイド","룬 도감":"ルーン図鑑","룬 종류":"ルーンの種類","룬 유형":"ルーンの種類","히든 룬":"隠しルーン","기본 룬":"基本ルーン","특별한 룬":"特別なルーン","전투 없이 이야기만 감상":"ストーリーのみを鑑賞","대화를 눌러 계속":"セリフをタップして続ける","자막을 눌러 계속":"字幕をタップして続ける","대사를 눌러 계속":"セリフをタップして続ける","장면 마치기":"シーンを終える","다음 대사 보기":"次のセリフを見る","회상 · 학창 시절":"回想・学生時代","현재 · 혼자 남은 학교":"現在・一人残された学校","추억 속":"思い出の中","학창 시절":"学生時代","비 내리던 하굣길":"雨の帰り道","함께했던 과학 실험":"二人でやった理科の実験","방과 후 게임의 시간":"放課後のゲーム","체육관 방송실의 추억":"体育館放送室の思い出","나레이션":"ナレーション","박승휘(회상)":"パク・スンフィ（回想）","권혁준(회상)":"クォン・ヒョクジュン（回想）","박승휘의 작은 목소리":"パク・スンフィの小さな声","박승휘의 목소리":"パク・スンフィの声","권혁준":"クォン・ヒョクジュン","박승휘":"パク・スンフィ","혁준":"ヒョクジュン","승휘":"スンフィ","공략 노트":"攻略ノート","낡은 게임의 안내문":"古いゲームの案内","안내":"案内","시나리오":"シナリオ","대화 중":"会話中","이야기 마무리":"物語の結末へ","후일담으로":"後日談へ","마지막 이야기로":"最後の物語へ","건너뛰기":"スキップ","닫기":"閉じる","계속":"続ける","완료":"完了","다음으로":"次へ","이전":"前へ","처음부터 다시 감상":"最初から見る","원래 화면으로 돌아가기":"元の画面に戻る","처음부터":"最初から","이야기":"物語","승리":"勝利","패배":"敗北","도전":"挑戦","다시 도전":"再挑戦","재도전":"再挑戦","부활":"復活","전투 재개":"戦闘再開","다음 층":"次の階","현재 층":"現在の階","층수":"階層","층 보스":"階のボス","소지금":"所持金","보유 골드":"所持ゴールド","주화":"ゴールド","골드":"ゴールド","동전":"コイン","승리 이자":"勝利時の利息","이자":"利息","전투 중":"戦闘中","전투":"戦闘","몬스터":"モンスター","적의":"敵の","적에게":"敵に","적이":"敵が","적은":"敵は","적 행동":"敵の行動","다음 행동":"次の行動","적 상태":"敵の状態","정상":"正常","생명력":"HP","모험가 HP":"冒険者HP","모험가":"冒険者","경험치":"経験値","레벨업":"レベルアップ","레벨":"レベル","점수":"スコア","턴 종료":"ターン終了","턴 시작":"ターン開始","이번 턴":"このターン","다음 턴":"次のターン","턴마다":"毎ターン","턴":"ターン","방향 방어막":"方向別バリア","방어막":"バリア","방어":"防御","방패":"盾","출혈":"出血","회복 불가":"回復不可","회복 금지":"回復禁止","회복":"回復","체력":"HP","공격력":"攻撃力","공격 준비":"攻撃準備","공격 예고":"攻撃予告","공격 방향":"攻撃方向","공격":"攻撃","피해량":"ダメージ量","피해":"ダメージ","감소":"軽減","절반":"半分","약화":"弱体化","약점":"弱点","중독":"毒","독 공격":"毒攻撃","마비":"麻痺","기절":"気絶","화상":"火傷","빙결":"凍結","관통":"貫通","봉인":"封印","봉쇄":"封鎖","저주":"呪い","반격":"反撃","분노":"怒り","자동회전 분노":"自動リスピンの怒り","자동 재회전 10회째 중단 · 공격력 66 반격!":"自動リスピン10回目で停止・攻撃力66で反撃！","자동 재회전":"自動リスピン","재회전":"リスピン","슬롯":"スロット","같은 룬":"同じルーン","일치 콤보":"一致コンボ","콤보":"コンボ","연속":"連続","발동":"発動","이펙트":"エフェクト","강화":"強化","특수":"特殊","자동":"自動","미니게임":"ミニゲーム","장착":"装備","보유":"所持","해금":"解放","룬":"ルーン","원래":"元の","첫":"最初の","마지막":"最後の","선택":"選択","확인":"確認","성공":"成功","실패":"失敗","당첨":"当たり","꽝":"ハズレ","적중":"命中","명중":"命中","빗나감":"ミス","정타":"正確な命中","정확히":"正確に","조준":"照準","조준선":"照準線","조준점":"照準","몸통":"胴体","머리":"頭","헤드샷":"ヘッドショット","몸통 명중":"胴体命中","총":"銃","검":"剣","망치":"ハンマー","전투망치":"戦闘ハンマー","전투 망치":"戦闘ハンマー","독날":"毒刃","마법":"魔法","회전검":"回転剣","행운의 다이아":"幸運のダイヤ","다이아":"ダイヤ","되감기":"巻き戻し","생명의 새싹":"生命の芽","새싹":"芽","심연의 별":"深淵の星","심연":"深淵","창":"槍","마검":"魔剣","룬 종류 완성 보상":"ルーンコンプリート報酬","새로운 룬 드롭":"新しいルーンをドロップ","새로운 룬":"新しいルーン","룬 드롭":"ルーンドロップ","룬 획득":"ルーン獲得","룬 강화":"ルーン強化","레벨업 룬 발견":"レベルアップルーン発見","레벨업 룬":"レベルアップルーン","일반 전투 드롭":"通常戦闘のドロップ","특별 전리품":"特別な戦利品","전투 전리품":"戦利品","전리품":"戦利品","보상":"報酬","발견":"発見","희귀":"レア","정수":"エッセンス","인챈트":"エンチャント","영구 합성":"永久合成","보물상자":"宝箱","상자":"箱","상점":"ショップ","여행 상인":"旅の商人","전투 소모품":"戦闘用消耗品","탐험 소모품":"探索用消耗品","소모품":"消耗品","아이템":"アイテム","특수 장비":"特殊装備","특수 일반 아이템":"特殊アイテム","장비":"装備","구입":"購入","구매":"購入","판매":"販売","가격":"価格","필요":"必要","부족":"不足","획득":"獲得","지급":"支給","사용":"使用","사용 불가":"使用不可","남음":"残り","남은":"残り","기본":"基本","효과":"効果","추가":"追加","확률":"確率","지속":"持続","회차":"回目","시간":"時間","초":"秒","왼쪽":"左","가운데":"中央","오른쪽":"右","좌·중·우":"左・中央・右","관문":"関門","정답":"正解","오답":"不正解","문제":"問題","선택지":"選択肢","힌트":"ヒント","도움말":"ヘルプ","다시 풀기":"もう一度解く","다음 문제":"次の問題","정답을 골라":"正解を選んで","기회":"チャンス","남은 기회":"残りのチャンス","수학대마왕":"数学大魔王","바위":"岩","균열":"亀裂","화산":"火山","골렘":"ゴーレム","게임":"ゲーム","방법":"方法","설명":"説明","규칙":"ルール","무작위":"ランダム","랜덤":"ランダム","영역":"エリア","지도":"マップ","경로":"ルート","갈림길":"分かれ道","사건":"イベント","미지의 사건":"未知のイベント","모험":"冒険","층":"階","아이콘":"アイコン","아래":"下","위":"上","최대":"最大","최소":"最小","다음":"次","이전 화면":"前の画面","이후":"以降","중":"中","루프":"ループ","모든":"すべての","전체":"全体","적":"敵","아군":"味方","플레이어":"プレイヤー","전투 기록":"戦闘記録","룬·전투 기록":"ルーン・戦闘ログ","보유 룬 · 전투 기록 펼치기":"所持ルーン・戦闘ログを開く","보유 룬 · 업그레이드":"所持ルーン・アップグレード","모험가를 기다리고 있습니다.":"冒険者を待っています。","SPACE 키로 슬롯을 정지시키세요":"SPACEキーでスロットを止めてください","자동 정지":"自動停止","이번 몬스터 획득":"今回のモンスターで獲得","첫 슬롯은 직접 미니게임 · 재회전으로 나온 룬은 기를 모아 자동 시전! · COMBO 연쇄":"最初のスロットは手動ミニゲーム・リスピンで出たルーンは自動発動！・コンボ連鎖","🎮 연습 중 · 저장 기록 불변":"🎮 練習中・セーブデータは変更されません","보스":"ボス","희귀 룬":"レアルーン","레어":"レア","골드 환급 없음":"ゴールドの返金なし","한 번만":"1回だけ","직접":"手動で","다시 돌리기":"もう一度回す","슬롯 돌리기":"スロットを回す","슬롯 정지":"スロット停止","재회전 티켓":"リスピンチケット","응급 포션":"応急ポーション","삼면 결계":"三方向結界","폭발탄":"爆発弾","섬광탄":"閃光弾","봉인 해제키":"封印解除キー","위력 증폭제":"威力増幅剤","생명력 확장 포션":"最大HP拡張ポーション","낡은 룬 보물상자":"古びたルーン宝箱","황금 룬 보물상자":"黄金のルーン宝箱","검투사의 문장":"剣闘士の紋章","생명의 역습 반지":"生命の反撃リング","명사수의 조준경":"名射手のスコープ","수호자의 인장":"守護者の印","방어의 반격검":"防御の反撃剣","처형자의 휘장":"処刑人の徽章","맹독 사냥꾼의 송곳니":"猛毒狩りの牙","방벽 분쇄 부적":"障壁破壊のお守り","삼중 공명의 휘장":"三重共鳴の徽章","배수진 목걸이":"背水の首飾り","서리 파쇄 장식":"氷砕きの飾り","전격":"電撃","날카로움":"鋭さ","황금손":"黄金の手","봄바람":"春風","흡혈":"吸血","정밀탄":"精密弾","철벽":"鉄壁","파쇄":"粉砕","맹독":"猛毒","독 흡수":"毒吸収","생명 분출":"生命噴出","행운":"幸運","폭주":"暴走","톱날":"鋸刃","박자 치유":"リズム回復","지진":"地震","수호":"守護","성운":"星雲","보석 증식":"宝石増殖","평온":"平穏","검 공격력 강화":"剣の攻撃力強化","방어막 강화":"バリア強化","총 공격력 강화":"銃の攻撃力強化","망치 공격력 강화":"ハンマーの攻撃力強化","중독 강화":"毒強化","회복 강화":"回復強化","마법 공격력 강화":"魔法攻撃力強化","회전검 공격력 강화":"回転剣の攻撃力強化","새싹 강화":"芽の強化","심연 강화":"深淵の強化","서리 검날":"霜の剣先","불꽃 무장":"炎の武装","빙결탄":"氷結弾","화염탄":"火炎弾","빙하망치":"氷河ハンマー","작열의 정수":"灼熱のエッセンス","서리 주문":"霜の呪文","화염 단검":"炎の短剣","심연 빙결":"深淵の氷結","심연 화염":"深淵の炎","소각":"燃焼","검으로 베어 봐":"剣で斬ってみよう","총으로 맞혀 봐":"銃で狙ってみよう","몬스터 말풍선을 보고 막아":"モンスターの吹き出しを見て防ごう","승휘와 함께 첫 슬롯을 돌려 봐":"スンフィと最初のスロットを回してみよう","승휘와 함께하는 첫 전투":"スンフィと一緒に学ぶ最初の戦闘","첫 번째 룬":"最初のルーン","두 번째 룬":"2つ目のルーン","게이지":"ゲージ","균열 정확히 맞히기":"亀裂を正確に叩く","움직이는 균열 정확히 맞히기":"動く亀裂を正確に叩く","게이지 맞춰 베기":"ゲージに合わせて斬る","조준점 맞혀 쏘기":"照準を合わせて撃つ","다른 그림 찾기":"間違い探し","공격 방향 막기":"攻撃方向を防ぐ","상자 1개 고르기":"箱を1つ選ぶ","박동 타이밍":"鼓動のタイミング","문양 순서 기억":"紋様の順序を記憶","광합성 타이밍":"光合成のタイミング","빠르게 연타":"素早く連打","황금 신호 맞히기":"黄金の合図を見極める","리듬 터치":"リズムタップ","탄막 피하기":"弾幕回避","방패 절단":"盾を切断","불빛 반응":"光に反応","에 따라":"に応じて","방향별 방어막":"方向別バリア","현재":"現在","미니게임 연습 조작":"ミニゲームの練習操作","튜토리얼":"チュートリアル","미리 보기":"プレビュー","퀴즈":"クイズ","연속 공격":"連続攻撃","연쇄 중단":"連鎖中断","충전":"チャージ","강타":"強打","회복이 막혀 있습니다":"回復が封じられています","시간 초과":"時間切れ","시간 제한":"制限時間","누르기":"タップ","탭":"タブ","미사용":"未使用","반값":"半額","전투 종료":"戦闘終了","전투 시작":"戦闘開始","전투 준비":"戦闘準備","몬스터가 공격 준비를 시작했다.":"モンスターが攻撃の準備を始めた。","슬롯을 굴려 결과가 확정되었다!":"スロットの結果が決まった！","상태":"状態","학년 선택 후 권혁준과 박승휘의 이야기가 시작됩니다.":"学年を選ぶと、ヒョクジュンとスンフィの物語が始まります。","장면 넘기기":"シーンを進める","첫 번째 칸":"1つ目のリール","두 번째 칸":"2つ目のリール","세 번째 칸":"3つ目のリール","슬롯을 돌려서 세 개의 룬을 뽑아 봐!":"スロットを回して3つのルーンを出してみよう！","슬롯 돌리기!":"スロットを回す！","먼저 슬롯을 한 번 돌려 봐!":"まずはスロットを1回回してみよう！","검 룬 연습하기":"剣ルーンを練習する","총 룬 연습하기":"銃ルーンを練習する","방패 룬 연습하기":"盾ルーンを練習する","룬 연습하기":"ルーンを練習する","다른 룬도 알아보기":"ほかのルーンも見る","다음 이야기":"次の説明へ","게임으로 돌아가기":"ゲームに戻る","내 룬을 선택하고 출발":"ルーンを選んで出発","자동 재회전 알아보기":"自動リスピンを学ぶ","좋아, 이제 시작하자!":"よし、始めよう！","모든 룬은 이렇게 미니게임이 있어!":"どのルーンにもミニゲームがある！","몬스터를 잡으면 일정 확률로 드랍되는 특별한 룬":"モンスター討伐で確率入手する特別なルーン","이제 지하 1층에서 지상으로 올라가자":"地下1階から地上へ進もう","같은 룬 3개 이상이면 자동 재회전!":"同じルーンが3つ以上で自動リスピン！","처음 나오는 룬은 직접 사용해 봐":"最初に出たルーンを自分で使ってみよう","이번에 얻은 룬은 직접 써 보자":"今回のルーンを実際に使ってみよう","검 · 총 · 방패! 세 룬을 직접 연습해 보자.":"剣・銃・盾！ 3つのルーンを実際に練習しよう。","검·총·방패 획득":"剣・銃・盾を獲得","검·총·방패 룬을 얻었어! 이제 검부터 써 보자.":"剣・銃・盾のルーンを獲得！ まずは剣を使おう。","몬스터 왼쪽 말풍선의 방향을 읽고 방패를 골라 봐.":"モンスター左側の吹き出しを読んで盾を選ぼう。","몬스터를 검으로 베었어! 다음은 총이야.":"剣でモンスターを斬った！ 次は銃だ。","몬스터에게 총을 맞혔어! 마지막은 방패야.":"モンスターに銃が命中！ 最後は盾だ。","전투 속 몬스터를 향해 검 공격을 해 봐.":"モンスターに剣で攻撃しよう。","몬스터의 머리나 몸통을 조준해서 쏴 봐.":"モンスターの頭か胴体を狙って撃とう。","말풍선을 확인하고 방패로 공격을 막았어!":"吹き出しを確認して盾で攻撃を防いだ！","공격 방향과 달랐어! 말풍선을 다시 보고 도전해 봐.":"防ぐ方向が違った！ 吹き出しを確認してもう一度挑戦しよう。","3개 이상 일치한 슬롯만 자동 재회전! 공격 5 · 회복 2 · 방어막 각 1 · 주화 3G. 분노 +10씩, 100 도달 시 66 강력 반격!":"3つ以上一致したリールだけ自動リスピン！ 攻撃5・回復2・バリア各1・ゴールド3G。怒りは+10ずつ、100で攻撃力66の強烈な反撃！","이것들은 시작과 함께 고를 수 있는 룬들이야.":"これらは最初に選べるルーンだよ。","이 특별한 룬들은 몬스터를 잡으면 일정 확률로 드랍돼.":"これらの特別なルーンはモンスターを倒すと一定の確率で手に入るよ。","이제 모험을 떠날 준비가 끝났어.":"冒険に出る準備ができたよ。","이제 모험을 떠나자.":"さあ、冒険に出かけよう。","몬스터와 싸우는 곳":"モンスターと戦う場所","물건을 사는 곳":"道具を買う場所","뜻밖의 일이 벌어지는 곳":"思いがけないことが起きる場所","다음 층으로 가기 위한 강적":"次の階へ進むために倒す強敵","성장과 특별한 힘":"成長と特別な力","보유 룬 강화":"所持ルーンを強化","특수 효과 합성":"特殊効果を合成","3개 이상 일치":"3つ以上一致","새 룬 자동 시전!":"新しいルーンが自動発動！","재회전한 룬은 미니게임 없이":"リスピンで出たルーンはミニゲームなしで","공격 5 · 회복 2 · 주화 3G":"攻撃5・回復2・ゴールド3G","방패는 왼쪽·가운데·오른쪽에":"盾は左・中央・右に","각각 +1":"それぞれ+1","자동 방어해.":"自動でバリアを張る。","적 공격 피해 50% 감소 · 2턴 지속":"敵の攻撃ダメージ50%軽減・2ターン継続","적 공격 피해량 50% 감소 · 2턴 지속":"敵の攻撃ダメージ50%軽減・2ターン継続","피해 1~10":"ダメージ1～10","빠른 정타일수록 점수↑":"早く正確に叩くほどスコアアップ","정타 시 약화":"正確に命中すると弱体化","수학의 힘":"数学の力","기억하세요":"覚えましょう","순서대로 입력하세요":"順番に入力してください","룬에 영구 합성":"ルーンに永久合成","이미 보유":"すでに所持","룬 보유 한도":"ルーンの所持上限","새로운 룬 1종 획득 · 중복 없음":"新しいルーンを1種類獲得・重複なし","해당 종류를 모두 보유해":"この種類はすべて所持済みのため","해당 종류의 룬을 모두 수집해":"この種類のルーンをすべて集めたため","희귀 전리품":"レア戦利品","보유 룬 중 1종을 선택해 레벨 +1":"所持ルーンを1種類選んでレベル+1","보유 개수는 그대로":"所持数は変わりません","보유 룬 한 종류":"所持ルーン1種類","강화할":"強化する","모든 보유 룬이 Lv.5":"所持ルーンはすべてLv.5","현재 강화 가능한 룬 없음":"現在強化できるルーンがありません","빈 보물상자":"空の宝箱","아무것도 나오지 않았습니다":"何も出ませんでした","전투 골드 획득 최대 200G":"戦闘中に得られるゴールドは最大200G","전투 200G 상한":"戦闘中の200G上限","이번 턴 총 피해":"このターンの合計ダメージ","다음 공격에 이 약점을 활용하세요.":"次の攻撃でこの弱点を利用しよう。","약점 발견":"弱点を発見","약점 공격으로 공개":"弱点攻撃で判明","이번 층에 합성 가능한 희귀 인챈트가 없음":"この階では合成可能なレアエンチャントがありません","전투망치 약화":"戦闘ハンマーによる弱体化","다음 적 공격":"次の敵の攻撃","공격력 반감":"攻撃力半減","남은 턴":"残りターン","오답 즉시 종료":"不正解で直ちに終了","공격이 방어막에 막혔습니다.":"攻撃はバリアに防がれました。","보스의 충전 강타를 끊었습니다.":"ボスのチャージ強打を阻止しました。","뭐가 뭔지 모르겠지만":"何が何だか分からないけど","쾅!!":"ドカン！！","미리보기 · 방패 룬 1개":"プレビュー・盾ルーン1個","미리보기":"プレビュー","방향 노림":"攻撃方向の予告","말풍선을 확인해":"吹き出しを確認しよう","말풍선을 보고 방패를 골라":"吹き出しを見て盾を選ぼう","방금 나온 룬 · 검 / 총 / 방패":"直前に出たルーン・剣／銃／盾","방금 나온 룬":"直前に出たルーン","타이밍을 맞춰 실제 몬스터를 베어 봐.":"タイミングを合わせてモンスターを斬ろう。","타이밍을 맞춰 실제 몬스터를 베어 봐":"タイミングを合わせてモンスターを斬ろう","움직이는 십자 조준점을 몬스터 위에 놓고 쏴 봐.":"動く十字の照準をモンスターに合わせて撃とう！","움직이는 십자 조준점을 몬스터 위에 놓고 쏴 봐":"動く十字の照準をモンスターに合わせて撃とう","몬스터에게 발사":"モンスターに発砲","바깥":"エリア外","내 HP":"自分のHP","개 사용":"個を使用","개 획득":"個獲得","베기":"斬撃","연습":"練習","해당 슬롯 재회전":"対象リールをリスピン","왼쪽 최대 2칸 재회전":"左側最大2リールをリスピン","칸 재회전":"リールをリスピン","소모":"消費","무시":"無視","없는 적 출혈":"のない敵に出血付与","체력 소모":"HP消費","최대 HP 4 증가":"最大HP+4","체력 10 회복":"HPを10回復","5G 차감":"5G差し引き","오답입니다. 다시 생각해 보세요!":"不正解です。もう一度考えてみよう！","정답을 선택할 때까지 재도전":"正解するまで挑戦","번 도전":"回挑戦","슬롯 1칸":"スロット1リール","자동 해금":"自動開放","B1 · 두 친구의 첫 모험":"B1・二人の最初の冒険","5개를 선택해. 서로 다른 룬":"5つ選ぼう。異なるルーンを","5종을 하나씩 선택해! 같은 종류는 중복 선택할 수 없어. 운이 좋으면 모험 중 특별한 룬을 얻을 수 있을 거야.":"5種類、1つずつ選ぼう！同じ種類は重複できない。冒険中、幸運なら特別なルーンも手に入るよ。","기본 룬 8종 · 원하는 룬의 ＋ 버튼을 눌러 선택":"基本ルーン8種類・欲しいルーンの「＋」を押して選択","선택 ":"選択 ","개 · 서로 다른 룬":"個・異なるルーン","종 · 같은 룬 중복 선택 불가":"種類・同じルーンの重複選択不可","지하 1층으로":"地下1階へ","개 더 선택 ·":"個を追加で選ぶ・","게임을 준비하세요":"ゲームを準備しよう","빛나는 연결 지점을 클릭하세요.":"光っている道をタップしてください。","층당 상점 1곳":"各階にショップ1か所","50% 확률로 몬스터 조우":"50%の確率でモンスターと遭遇","중 갈림길을 선택하세요.":"から次の分かれ道を選ぼう。","출발 지점":"スタート地点","한 번 선택한 길은 되돌릴 수 없습니다.":"一度選んだ道は引き返せません。","보스 처치 후 인수분해 관문이 열립니다.":"ボスを倒すと数学の関門が開きます。","보스 처치 후":"ボス討伐後に","이번 상점 소모품은 무작위 재고 · 새 상점을 방문하면 목록 변경":"このショップの消耗品はランダムに並びます。別のショップを訪れると品ぞろえが変わります。","게임 속 주화만 사용 ·":"ゲーム内ゴールドだけを使用・","상자에서 뜻밖의 보상을 발견할 수도 있어요":"宝箱から思いがけない報酬が出ることがあります","빈 상자 있음":"空の宝箱もあります","이번 상점 한정":"このショップ限定","무작위 특수 아이템":"ランダム特殊アイテム","반값 가격 적용":"価格半額","영구 패시브":"永続パッシブ","상점 탭 변경으로 재고는 바뀌지 않음":"ショップのタブを変えても在庫は変わりません","소모품은 가방에서 사용":"消耗品はバッグから使用します","무작위 특수 아이템 · 반값 판매 · 1종 1회 구입":"ランダムな特殊アイテム・半額販売・各種類1回だけ購入可能","구매 즉시 무작위 결과 공개":"購入後すぐにランダムな結果を表示","상점을 나가기":"ショップを出る","상점 나가기":"ショップを出る","상점으로 돌아가기":"ショップに戻る","전투 중 체력 12 회복":"戦闘中にHPを12回復","좌·중·우 방어막 각각 +5":"左・中央・右のバリアがそれぞれ+5","방어막 일부를 뚫는 마법 피해 17":"バリアを一部貫通する魔法ダメージ17","적의 다음 행동 1회 취소":"敵の次の行動を1回キャンセル","봉인된 슬롯 1칸 즉시 복구":"封印されたリールを1つ即座に解除","다음 적중 공격 1.5배 증폭":"次に命中する攻撃の威力を1.5倍にする","1회 사용 · 최대 HP +12 및 현재 HP +12":"使い切り・最大HP+12、現在HP+12","1회 사용 · 이번 전투에 무료 전체 재회전 1번 예약":"使い切り・この戦闘中に全リール無料リスピンを1回予約","보유 ×":"所持×","1개 구매":"1個購入","영구 구매":"永久購入","상자를 즉시 개봉 · 빈 상자도 나옵니다":"宝箱をすぐ開封・空箱が出る場合もあります","열기":"開ける","운이 좋으면 모험 중 특별한 룬을 얻을 수 있을 거야.":"冒険中に運がよければ特別なルーンを入手できます。","전투에서 검 룬 3개 이상 장착하면 검 피해와 피해 상한 +25%":"戦闘中に剣ルーンを3つ以上装備すると、剣のダメージと上限が+25%","검 룬 3개 이상 장착":"剣ルーンを3つ以上装備","실제로 체력을 회복하면 다음 공격 1회 ×1.5 치명타 · 중첩되지 않음":"HPを実際に回復すると、次の攻撃1回が会心×1.5（重複しない）","회복 성공 → 다음 공격 치명타":"回復に成功すると次の攻撃が会心","총 룬 2개 이상 장착하면 헤드샷 피해와 피해 상한 +20%":"銃ルーンを2つ以上装備すると、ヘッドショットのダメージと上限が+20%","총 2개 이상 + 헤드샷":"銃ルーン2つ以上＋ヘッドショット","방패 룬 2개 이상 장착하면 생성하는 방어막과 방향별 최대치 +25%":"盾ルーンを2つ以上装備すると、バリア量と方向別の上限が+25%","방패 룬 2개 이상 장착":"盾ルーンを2つ以上装備","적 공격을 방어막으로 1 이상 막으면 다음 공격 1회 피해 ×1.4 · 중첩되지 않음":"バリアで敵の攻撃を1以上防ぐと次の攻撃の威力が1回×1.4（重複しない）","적 공격 방어 성공 → 다음 공격 ×1.4":"敵の攻撃を防御成功→次の攻撃×1.4","적의 남은 체력이 35% 이하일 때 공격 피해와 피해 상한 +35%":"敵の残りHPが35%以下なら攻撃のダメージと上限が+35%","적 남은 HP 35% 이하":"敵の残りHP35%以下","독에 걸린 적에게 독 룬 이외의 직접 공격 피해와 피해 상한 +25%":"毒状態の敵に対する毒ルーン以外の直接攻撃ダメージと上限が+25%","적이 중독 상태일 때 직접 공격":"敵が毒状態のときの直接攻撃","적에게 방어막이 남아 있으면 직접 공격 피해와 피해 상한 +30%":"敵にバリアが残っているとき、直接攻撃のダメージと上限が+30%","적 방어막이 남아 있을 때":"敵のバリアが残っているとき","이번 턴 슬롯에 같은 공격 룬이 3개 이상 있으면 해당 룬 공격 피해와 상한 +25%":"このターンに同じ攻撃ルーンが3つ以上そろうと、そのルーンの攻撃ダメージと上限が+25%","같은 공격 룬 3개 이상 슬롯 일치":"同じ攻撃ルーンが3つ以上一致","자신의 HP가 최대치의 30% 이하일 때 직접 공격 피해와 피해 상한 +35%":"自分のHPが最大HPの30%以下なら直接攻撃ダメージと上限が+35%","내 HP 30% 이하":"自分のHPが30%以下","빙결 상태인 적에게 화염 마법으로 공격하면 피해와 피해 상한 +35%":"凍結した敵に火炎魔法で攻撃するとダメージと上限が+35%","빙결 상태 적 + 마법 룬":"敵が凍結中＋魔法ルーン","현재 발동 중":"現在発動中","조건 미충족":"条件未達成","처치 보상·이자 포함":"討伐報酬・利息を含む","룬 구성 변경":"ルーン構成の変更","룬 변경":"ルーンを変更","직접 선택한":"自分で選んだ","개 룬":"個のルーン","칸 슬롯":"リールのスロット","개 문양":"種類のシンボル","개 일치 자동회전마다":"つ一致による自動リスピンごとに","10회째":"10回目","자동회전마다":"自動リスピンごとに","같은 룬 중복 장착 불가":"同じルーンの重複装備不可","룬 종류 중복 장착 불가":"ルーンの種類を重複して装備できません","획득 상한":"獲得上限","전투 보상":"戦闘報酬","코인 획득":"ゴールドを獲得","다음 전투 이자":"次の戦闘の利息","연쇄 효과 진행 중":"連鎖効果を処理中","재회전 파워업을 사용할지 선택하세요":"リスピンパワーを使用しますか？","자동 저장 불가":"自動セーブできません","전투를 시작하세요":"戦闘を始めよう","MONSTER ENCOUNTER":"モンスター出現","ENEMY LIFE":"敵のHP","MATH SLOT DUNGEON · LANGUAGE & CLASS":"スロットダンジョン・言語と学年の選択","CHOOSE YOUR PATH":"進む道を選択","ADVENTURER MERCHANT":"旅の商人","CHOOSE YOUR RUNES":"ルーンを選択","BRASS SLOT":"ブラス・スロット","ENCOUNTER":"遭遇","▶ SPIN":"▶ スロット回転","■ STOP":"■ 停止","FLOOR":"階層","AUTO CAST":"自動発動","SKILL":"スキル","AUTO RE-SPIN":"自動リスピン","GAME START":"ゲーム開始","RETRY":"再挑戦","BOSS":"ボス","일회용 아이템":"使い切りアイテム","보유 아이템이 없어요. 지도에서 상점을 찾아보세요.":"アイテムを持っていません。マップでショップを探しましょう。","룬 · 인챈트 · 기록":"ルーン・エンチャント・記録","드롭 인챈트 룬":"ドロップしたエンチャントルーン","아직 희귀 인챈트 없음 · 특별 전리품":"まだレアエンチャントを入手していません","영구 특수 장비":"永久特殊装備","미보유 · 상점의 무작위 특수 일반 아이템 탭에서 구매":"未所持・ショップの特殊アイテム売り場で購入できます","모험가 성장":"冒険者の成長","처치":"討伐","마리":"体","룬 도감 15종":"ルーン図鑑・15種類","희귀 인챈트 15종":"レアエンチャント・15種類","효과음 들어보기":"効果音を聴く","전투 효과음":"戦闘効果音","룬 전체 도감":"全ルーン図鑑","시작 룬 8종":"初期ルーン・8種類","히든 룬 7종":"隠しルーン・7種類","도움말로 돌아가기":"ヘルプに戻る","10~38G 획득 · 상자 3개 중 1개 당첨":"10～38G獲得・3つの箱のうち1つが当たり","즉시 0~1 피해 · 중독 0~3/턴 · 오답 즉시 종료":"直接0～1ダメージ・毒0～3/ターン・間違えると即終了","정타 시 발동":"正確に命中した場合に発動","희귀 특수 인챈트 도감":"レア特殊エンチャント図鑑","1회 영구 합성":"1回限りの永久合成","원소 효과":"属性効果","공격 룬에 영구 합성 · 적중 시 10% 마비 (다음 행동 취소)":"攻撃ルーンに永久合成・命中時10%で麻痺（敵の次の行動をキャンセル）","공격 룬에 영구 합성 · 적중 시 10% 빙결 (적 행동 1턴 지연)":"攻撃ルーンに永久合成・命中時10%で凍結（敵の行動を1ターン遅延）","공격 룬에 영구 합성 · 매 적중마다 화상 +2/턴, 2턴 지속 · 중첩 가능":"攻撃ルーンに永久合成・命中のたびに火傷+2/ターンを2ターン付与（重複可能）","탐험할 층 선택":"探索する階を選択","현재 지도로":"現在のマップへ","새로운 룬은 없지만, 다음 모험에서 특별한 발견을 할지도 몰라!":"今回は新しいルーンを獲得できませんでした。次の冒険に期待しよう！","격파":"撃破","지도에서 다음 길 선택":"マップで次の道を選択","같은 종류의 룬은 한 턴에 한 번만 장착 가능":"同じ種類のルーンは1ターンに1つだけ装備できます","이번 턴 전투 상황":"このターンの戦況","이번 턴 전투 정보":"このターンの戦闘情報","내 방어막":"自分のバリア","공격 없음":"攻撃なし","슬롯 준비 완료":"スロット準備完了","중복 장착 불가":"重複装備不可","중복 장착":"重複装備","종 · 중복 장착 불가":"種類・重複装備不可","등장":"出現","개":"個","종":"種類","내":"自分の","시험할 룬 레벨":"練習するルーンのレベル","원래 모험으로 돌아가기":"本編の冒険に戻る","원래 모험으로 복귀":"本編の冒険に戻る","연습을 마쳤습니다. 원하는 만큼 다시 시도할 수 있습니다.":"練習を終えました。何度でもやり直せます。","연습 결과":"練習結果","칸":"マス","방향":"方向","의":"の","에서":"で","까지":"まで","상황":"状況","기록":"記録","레벨업 룬을 발견했어! 어떤 룬을 강화할지 선택하세요.":"レベルアップルーンを発見しました！強化するルーンを選んでください。","레벨업 룬을 발견했어!":"レベルアップルーンを発見しました！","어떤 룬을 강화할지 선택하세요.":"強化するルーンを選んでください。","히든 룬 · 특별 전리품":"隠しルーン・特別な戦利品","새로운 룬 획득":"新しいルーンを獲得","레벨업 룬 획득":"レベルアップルーンを獲得","희귀 인챈트 획득":"レアエンチャントを獲得","오래된 학교의 지하 복도":"古い学校の地下廊下","닫힌 교실과 사라진 친구":"閉ざされた教室と消えた友達","기억이 뒤틀린 과학실":"記憶がゆがむ理科室","잊힌 게임의 교실":"忘れられたゲームの教室","체육관 방송실":"体育館の放送室","지하 1층":"地下1階","1층":"1階","2층":"2階","3층":"3階","4층":"4階","균열의 초원":"亀裂の草原","수학대마왕의 왕좌":"数学大魔王の玉座","바위틈 고블린":"岩陰のゴブリン","굶주린 초원 늑대":"飢えた草原のオオカミ","숲속 고블린 궁수":"森のゴブリン射手","돌도끼 오크 정찰병":"石斧のオーク斥候","녹슨 해골궁수":"錆びた骸骨弓兵","묘지의 유령":"墓地の幽霊","피에 굶주린 박쥐":"血に飢えたコウモリ","봉인된 미라":"封印されたミイラ","망자의 파수꾼":"亡者の番人","독거미 사냥꾼":"毒グモハンター","포자 버섯괴물":"胞子キノコの怪物","수렁의 마녀":"沼地の魔女","늪지 독뱀":"湿地の毒蛇","이끼등 트롤":"苔背のトロール","맹독의 히드라":"猛毒のヒドラ","광산 오크 전사":"鉱山のオーク戦士","용암 골렘":"溶岩ゴーレム","바위 거인":"岩の巨人","지하 석상괴물":"地下の石像怪物","채굴장의 거신":"採掘場の巨人","황혼의 기사":"黄昏の騎士","붉은 지팡이 마녀":"赤杖の魔女","그림자 사신":"影の死神","성채 오크 근위병":"城塞のオーク近衛兵","날개 달린 가고일":"翼のあるガーゴイル","황혼의 군단장":"黄昏の軍団長","황혼의 미라":"黄昏のミイラ","한 맺힌 유령":"恨みを抱く幽霊","감염된 늑대":"感染したオオカミ","해골 주술사":"骸骨の呪術師","망령 리치왕":"亡霊リッチ王","오크 도끼병":"オーク斧兵","전쟁터 트롤":"戦場のトロール","고블린 폭탄병":"ゴブリン爆弾兵","투구 쓴 거인":"兜をかぶった巨人","습격하는 하피":"襲撃するハーピー","검은도끼 오크왕":"黒斧のオーク王","계곡의 외눈 거인":"渓谷の一つ目巨人","암벽 독거미":"岩壁の毒グモ","고대 바위 골렘":"古代の岩ゴーレム","폭풍 하피":"嵐のハーピー","태고의 돌 거신":"太古の石の巨神","불꽃 악마":"炎の悪魔","용의 새끼":"ドラゴンの子","화산 가고일":"火山のガーゴイル","심연의 독사":"深淵の毒蛇","검은 불꽃 리치":"黒炎のリッチ","심연의 화룡":"深淵の火竜","왕좌의 흑룡":"玉座の黒竜","고위 몬스터":"上位モンスター","검은 수학 리치":"黒き数学リッチ","마왕군 가고일":"魔王軍のガーゴイル","최후의 지옥 거인":"最後の地獄巨人","이끼 고블린":"苔ゴブリン","갈림길의 안개":"分かれ道の霧","몬스터 정찰병":"モンスターの斥候"};
+const JP_REPLACEMENTS=Object.entries(JP_UI_PHRASES).sort((a,b)=>b[0].length-a[0].length);
+// Specific dynamic status messages updated every animation frame.
+const JP_DYNAMIC_REPLACEMENTS=[
+ [/주문 준비!\s*(\d+)초 후 7문양이 나타납니다\./g,'呪文準備！あと$1秒で7つの模様が出ます。'],
+ [/7문양 공개 중! 순서를 기억하세요\./g,'7つの模様を表示中！順番を覚えよう。'],
+ [/외운 순서대로 4초 안에 7번 입력하세요!/g,'覚えた順番どおりに4秒以内で7回入力しよう！'],
+ [/입력 남은 시간 ([0-9.]+)초 · 순서대로 입력하세요!/g,'残り$1秒・順番どおりに入力！'],
+ [/7개 모두 정답이면 초강력! · 입력 시작/g,'7つ全部正解で大ダメージ！・入力開始'],
+ [/가짜 신호! 기다려…/g,'偽の合図！まだ待って…'],
+ [/지금! ([0-9.]+)초/g,'今！残り$1秒'],
+ [/곧 시작!/g,'もうすぐ開始！'],
+ [/가운데로 들어온다!/g,'中央に近づいている！'],
+ [/좌우 움직임을 읽어 봐/g,'左右の動きを見極めよう'],
+ [/준비 ([0-9.]+)초/g,'準備 $1秒'],
+ [/낙하 중 ([0-9.]+)초/g,'落下中 $1秒'],
+ [/시작 ([0-9.]+)초/g,'開始まで $1秒'],
+ [/다음 불빛 ([0-9.]+)초/g,'次の光まで $1秒'],
+ [/(\d+)\/5 점등 · ([0-9.]+)초/g,'点灯 $1/5・残り$2秒'],
+ [/5회 판정 완료/g,'5回の判定完了'],
+ [/성공 (\d+) \/ 5/g,'成功 $1 / 5'],
+ [/오입력 (\d+)/g,'誤入力 $1'],
+ [/시간초과 (\d+)/g,'時間切れ $1'],
+ [/(\d+)번째 균열 · 정타 PERFECT (\d+) 피해 · 적 공격 피해량 −50% \(2턴\) · 지금 (\d+)점 · 틀리면 1 피해/g,'$1つ目の亀裂・PERFECT $2ダメージ・敵の攻撃ダメージ50%軽減（2ターン）・速度$3点・ミスなら1ダメージ'],
+ [/발견 · 남은 차이 (\d+)곳/g,'発見！残り$1か所'],
+];
+const JP_HANGUL=/[가-힣]/;
+const localJapaneseNodes=new WeakSet();
+function japaneseMode(){return selectedLanguage==='ja';}
+function japaneseText(str){
+ if(!japaneseMode()||!str)return str;
+ const trim=str.trim();
+ const exact=JP_MATH_MAP[trim]||JP_UI_PHRASES[trim];
+ if(exact!==undefined){const i=str.indexOf(trim);return str.slice(0,i)+exact+str.slice(i+trim.length);}
+ if(!JP_HANGUL.test(str))return str;
+ let output=str;
+ for(const [pattern,replacement] of JP_DYNAMIC_REPLACEMENTS)output=output.replace(pattern,replacement);
+ if(!JP_HANGUL.test(output))return output;
+ for(const [original,translated] of JP_REPLACEMENTS){if(output.includes(original))output=output.split(original).join(translated);}
+ return output;
+}
+function japaneseLocalizeNode(node){
+ if(!node||!japaneseMode())return;
+ if(node.nodeType===3){
+  if(!JP_HANGUL.test(node.nodeValue||'')&&!JP_UI_PHRASES[(node.nodeValue||'').trim()])return;
+  const value=japaneseText(node.nodeValue);
+  if(node.nodeValue!==value)node.nodeValue=value;
+  return;
+ }
+ if(node.nodeType!==1)return;
+ if(node.matches('style,script,noscript,textarea'))return;
+ for(const name of ['title','aria-label','placeholder']){
+  const value=node.getAttribute(name);
+  if(value&&JP_HANGUL.test(value))node.setAttribute(name,japaneseText(value));
+ }
+ // TreeWalker visits text and elements; it does not mutate the DOM hierarchy or game controls.
+ const walker=document.createTreeWalker(node,NodeFilter.SHOW_TEXT|NodeFilter.SHOW_ELEMENT);
+ let current;
+ while((current=walker.nextNode())){
+  if(current.nodeType===3){
+   if(current.parentElement?.closest('style,script,noscript,textarea'))continue;
+   if(JP_HANGUL.test(current.nodeValue||'')||JP_UI_PHRASES[(current.nodeValue||'').trim()]){const value=japaneseText(current.nodeValue);if(value!==current.nodeValue)current.nodeValue=value;}
+  }else if(current.nodeType===1){
+   if(current.matches('style,script,noscript,textarea')){walker.currentNode=current;continue;}
+   for(const name of ['title','aria-label','placeholder']){
+    const value=current.getAttribute(name);
+    if(value&&JP_HANGUL.test(value))current.setAttribute(name,japaneseText(value));
+   }
+  }
+ }
+}
+function localizeJapaneseDocument(root=document.body){
+ if(!japaneseMode())return;
+ document.documentElement.lang='ja';
+ japaneseLocalizeNode(root);
+}
+let japaneseLocalizing=false;
+const japaneseObserver=new MutationObserver(records=>{
+ if(!japaneseMode()||japaneseLocalizing)return;
+ japaneseLocalizing=true;
+ try{
+  const visited=new Set();
+  for(const record of records){
+   const node=record.type==='characterData'?record.target:record.target;
+   if(visited.has(node))continue;visited.add(node);
+   japaneseLocalizeNode(node);
+  }
+ }finally{japaneseLocalizing=false;}
+});
+japaneseObserver.observe(document.body,{childList:true,characterData:true,subtree:true});
+
+// V128: Fluent Japanese for complex multi-element screens. These are UI-only projections.
+const JP_HELP_SECTIONS=[
+ ['🎰 最大5リールのスロット','地下1階は3リール、1階は4リール、2～4階は5リール。同じルーンが3つ以上そろうと、一致したリールだけ自動でリスピンします。最初の結果は自分でミニゲームを操作し、リスピンの結果は自動発動。自動発動は基本ダメージ5、回復2HP、ゴールド3G、盾は3方向にそれぞれ+1。敵の防御力・バリアと所持上限は通常どおり適用。通常の一致倍率も維持されます。'],
+ ['✦ 冒険者レベル・経験値','現在到達している最高の階でモンスターを倒すと経験値+1（ボスを含む）。下の階を再探索した場合は経験値を獲得できません。Lv.1～4は3体ごと、Lv.5～9は5体ごと、Lv.10以降は7体ごとにレベルアップ。最大HPが+5され、現在HPが全回復します。ルーンのレベルとは別に管理されます。'],
+ ['🎴 初期ルーンと装備','最初の5つは必ず異なる種類を選びます。毎ターン3～6種類を装備可能。同じ種類の重複装備はできません。戦闘ドロップや宝箱では、すでに所持している種類はほかの未所持ルーンに置き換えます。'],
+ ['⚔ 戦闘のドロップ報酬','戦闘勝利時、通常ルーン15%、その階の隠しルーン1%、レベルアップルーン20%、レアエンチャント1%をそれぞれ独立抽選します。レベルアップルーンは所持する武器のレベルを上げます。盾と回復のルーンはレベルアップできません。'],
+ ['✨ エンチャント','レアエンチャントは各階で獲得できます。電撃の麻痺、氷結による行動遅延、炎の継続ダメージ、吸血など、合計15種類の特殊効果があります。獲得後に所持する攻撃ルーンへ一度だけ永久合成でき、同じルーンに2つのレア効果を付けることはできません。'],
+ ['🛒 ショップ','消耗品、ルーン宝箱、永久特殊装備をゲーム内ゴールドで購入できます。店ごとに在庫がランダムに決まり、タブを切り替えても品ぞろえは変わりません。宝箱は当たりの場合に新しいルーンを入手でき、空箱の場合もあります。'],
+ ['🔄 リスピン・コンボと反撃','隠しルーンには回転剣・ダイヤ・巻き戻しなど独自のミニゲームがあります。特殊ルーンやアイテムによるリスピンには従来の怒りルールが適用されます。同じルーンが3つ以上そろう自動コンボでは、リスピンのたびに怒り+10（最大100）。同じターンで10回目に達するとモンスターが攻撃力66で反撃し、連鎖を中断します。'],
+ ['🔊 戦闘の効果音','銃の発射音、剣を振る音、ルーン一致のファンファーレなど、武器や状況に応じた専用効果音が再生されます。画面上部の🔊ボタンでオン／オフを切り替えられます。'],
+ ['🎯 弱点とゴールド上限','敵の弱点は最初「??」と表示され、適切な武器で実際にHPダメージを与えると判明します。1体のモンスターから獲得できるゴールドは、ルーン・討伐報酬・利息・戦利品を合計して最大200G。ボスへ挑む前に別の階を周回して装備を整えることもできます。'],
+ ['✦ 学年別の数学の関門','地下1階から4階まで、各階のボスを倒すと学年別の数学問題が出題されます。中2は三角形・四角形の性質、高1は因数分解と基本的な三角比、高2は基本的な数列です。正解すると次の階へ進めます。'],
+ ['💫 数学で復活・敗北のペナルティ','戦闘やマップイベントでHPが0になると所持ゴールドの半分を失います。数学問題に正解するとHPが全回復し、同じ敵に再挑戦するか解放した階を再探索できます。失ったゴールドは戻りません。3問連続で間違えると冒険終了です。最終ボスで最初に倒れたときのみ、特別な仲間の援護イベントが発生します。'],
+];
+const JP_PRACTICE_DESC={
+ blade:'動くゲージに合わせて斬る',gun:'ヘッドショットを狙う',venom:'間違い探し5か所',shield:'攻撃方向に合わせて盾を張る',hammer:'5か所の岩の亀裂を狙う',coin:'3つの宝箱から選ぶ',heal:'鼓動のタイミング',flame:'7つの模様を覚える',spinblade:'2.6秒間連打',diamond:'黄金の光を0.3秒で狙う',rewind:'6拍のリズム',moss:'日光のタイミング',void:'8秒間の弾幕回避',spear:'落ちてくる盾を切断',darkblade:'5回の光に0.4秒以内で反応'
+};
+const JP_SFX_LABELS=['剣・斬撃','銃・発砲！','炎・爆発','毒・泡立つ音','ゴールド・チャリン','回復・効果音','ハンマー・衝撃','盾で防御成功','敵の攻撃','電撃エンチャント','スロット停止3回','2つ一致','5つ一致'];
+function postprocessJapaneseModal(root){
+ if(!japaneseMode()||!root)return;
+ const q=(sel)=>root.querySelector(sel);
+ const h=q('.help-grid');
+ if(h){
+  [...h.children].forEach((item,i)=>{const section=JP_HELP_SECTIONS[i];if(section){const title=item.querySelector('b'),content=item.querySelector('span');if(title)title.textContent=section[0];if(content)content.textContent=section[1];}});
+  const note=q('.smallnote');if(note)note.textContent='💾 進行状況はこの端末のブラウザーに自動保存されます。再読み込み後も続きから遊べますが、戦闘中の場合はそのターンの開始時点から再開します。ブラウザーデータの削除、シークレットモード、別の端末では保存内容が引き継がれない場合があります。';
+ }
+ const codex=q('.rune-codex');
+ if(codex){const note=codex.querySelector('.sound-note');if(note)note.textContent=runeCodexTab===1?'隠しルーンは該当する階のモンスターからの特別ドロップや、高価な宝箱で入手できます。':'最初に異なるルーンを5種類選びます。同じ種類を重複装備することはできません。';}
+ const enc=q('.enchant-codex');
+ if(enc){const p=enc.querySelector(':scope > p');if(p)p.textContent='レアエンチャントは戦闘中にまれに獲得できます。レベルアップルーンとは別々に抽選されます。ここでは地下1階～4階に対応する15種類の特別な効果を紹介します。各ルーンに永久合成できるレアエンチャントは1つだけです。';}
+ const floor=q('.floor-select-screen');
+ if(floor){
+  const desc=floor.querySelector(':scope > p');if(desc)desc.textContent='ルーンを集めるために、解放した階を何度でも再探索できます。ただし現在の最高到達階より下では経験値を獲得できません（ルーン・アイテム・ゴールドの報酬は通常どおり）。成長したルーンや所持金を持ち越し、モンスターごとに200Gの獲得上限が新たに設定されます。';
+  const sub=floor.querySelectorAll('.floor-choice small');sub.forEach((el,i)=>{const j=i;const unlocked=j<=s.highestUnlocked,done=!!s.clearedFloors[j];el.textContent=!unlocked?'前の階の数学の関門を突破すると開放':s.bossReadyFloors?.[j]?'ボスへの挑戦を保留中・周回可能':done?'クリア済み・自由に再挑戦':j===s.stage?'現在探索中の階':'解放済み・挑戦可能';});
+ }
+ const event=q('.event-actions');
+ if(event&&s?.activeEvent){
+  const kind=s.activeEvent.kind;
+  const config={
+   chest:['🔐 鍵のかかった宝箱','鍵のない古い宝箱。開ければ大金が手に入るかもしれませんが、罠が仕掛けられている場合もあります。',['🎁 宝箱を開ける・ゴールドか危険な罠','慎重に通り過ぎる・+5G']],
+   spring:['🌿 月明かりの泉','月明かりに照らされた泉が輝いています。傷を癒やすか、HPを犠牲にしてゴールドを得るか選びましょう。',['♥ HPを18回復','◆ HPを8消費して35G獲得']],
+   dice:['🎲 怪しい賭博師','賭博師が2個のサイコロを差し出します。ゴールドを賭ければ、得をすることも損をすることもあります。',['🎲 15Gを賭ける・成功で+38G（50%）','休憩する・HP+6']],
+   pack:['🎒 捨てられたバッグ','古びたバッグの中に、誰かの戦闘道具が残っています。新しいルーンはモンスターを倒すと手に入ります。',['🎒 ランダムな消耗品を1個獲得','◆ 16Gを拾う']],
+   tablet:['📜 数学の石碑','石碑には選んだ学年の数学問題が刻まれています。正解すると30Gを獲得できます。',[]],
+  }[kind];
+  if(config){const title=root.querySelector('h2'),desc=root.querySelector('h2 + p');if(title)title.textContent=config[0];if(desc)desc.textContent=config[1];
+   const buttons=[...event.querySelectorAll('button')];for(let i=0;i<config[2].length;i++){if(buttons[i])buttons[i].textContent=config[2][i];}
+   if(kind==='tablet'&&buttons.length)buttons[buttons.length-1].textContent='石碑を通り過ぎる・+4G';}
+  const note=q('.smallnote');if(note)note.textContent='イベントの選択は1度だけ。終わったらマップに戻り、次の道を選べます。';
+ }
+ const boss=q('.boss-decision-screen');
+ if(boss){const intro=boss.querySelector('h2 + p');if(intro)intro.textContent='ボスに挑む前に一般モンスターを倒し、ゴールド・ルーン・レベルアップルーン・特殊装備を集めることもできます。';
+  const note=boss.querySelector('.boss-decision-note');if(note)note.textContent='解放済みの階を再探索できます。周回するとその階のマップの最初からやり直します。ボスへの挑戦記録は消えず、いつでも戻れます。';}
+ const reward=q('.loot-summary');
+ if(reward){const labels=reward.querySelectorAll('span');if(labels[0])labels[0].childNodes[0].textContent='⚔ 戦闘報酬 ';if(labels[1])labels[1].childNodes[0].textContent='🏦 利息 ';if(labels[2])labels[2].childNodes[0].textContent='◆ 所持ゴールド ';
+  const note=q('.v50-battle-reward-note');if(note)note.textContent='◆ このモンスターから獲得したゴールド '+(s.battleCoinsEarned||0)+' / '+BATTLE_GOLD_LIMIT+'G ・ゴールドルーン、討伐報酬、利息、戦利品の合計';
+  const below=reward.parentElement.querySelector(':scope > p:not(.v50-battle-reward-note)');if(below)below.textContent=s.activeNodeType==='boss'?(s.clearedFloors[s.stage]?'クリア済みの階に再挑戦しました。別の階も続けて探索できます。':'ボスを倒しました。数学の関門を突破すると次の階のマップが開きます。'):'次の道を選んでください。ショップはマップ上の🛒を選んだ場合にのみ訪問できます。';
+ }
+ const rev=q('.revival-screen');
+ if(rev&&s?.view==='revival-quiz'&&s.revival){const r=s.revival;
+  const title=rev.querySelector('h2');if(title)title.textContent='💫 数学の問題に正解して復活しよう！';
+  const where=r.source==='battle'?(s.stage+1)+'階・'+japaneseText(s.enemy.name):(s.stage+1)+'階のマップイベント';
+  const intro=rev.querySelector('.revival-intro');if(intro)intro.textContent=where+'で倒れてしまいました。正解すればHPが100%回復します。'+(r.source==='battle'?'同じ敵への再挑戦、または解放済みの階を周回できます。':'続けてマップを探索できます。');
+  const loss=rev.querySelector('.revival-coin-loss b');if(loss)loss.textContent='☠ 敗北ペナルティ・所持ゴールドの50%を失う';
+  const count=rev.querySelector('.revival-counter');if(count){const span=count.querySelector('span'),small=count.querySelector('small');if(span)span.textContent='残りのチャンス';if(small)small.textContent='3問連続で不正解なら冒険終了';}
+  const label=rev.querySelector('.revival-question-label');if(label)label.textContent=activeGradeInfo().scope+'・次の問題に挑戦しよう';
+  const hint=rev.querySelector('.revival-hint');if(hint)hint.textContent='正解：HPを最大まで回復・敵HPは初期化・ルーン、装備、残ったゴールドは維持（失ったゴールドは戻りません）';
+ }
+ const practice=q('.practice-screen');
+ if(practice){const d=practice.querySelector('h2 + p');if(d)d.textContent='武器を選ぶと実戦と同じミニゲームを練習できます。練習用のかかしには弱点や耐性がありません。本編のHP・ゴールド・経験値・セーブデータは変わりません。';
+  const labels=practice.querySelectorAll('.practice-grid .practice-card');labels.forEach(btn=>{const small=btn.querySelector('small');if(small)small.textContent=JP_PRACTICE_DESC[btn.dataset.rune]||small.textContent;});
+ }
+ const gallery=q('.sound-gallery');
+ if(gallery){const p=gallery.querySelector('.sound-note');if(p)p.textContent='武器ごとの効果音を聴き比べましょう。同じルーンが2つ・5つ一致した場合のボーナス音も確認できます。電撃エンチャントは剣の音に雷鳴が重なります。';
+  const labs=gallery.querySelectorAll('.sound-tiles button b');labs.forEach((b,i)=>{if(JP_SFX_LABELS[i])b.textContent=JP_SFX_LABELS[i];});}
+}
+// High-visibility modals and phrases that cross markup boundaries.
+const v128PostprocessBasic=postprocessJapaneseModal;
+postprocessJapaneseModal=function(root){
+ v128PostprocessBasic(root);
+ if(!japaneseMode()||!root)return;
+ const q=sel=>root.querySelector(sel);
+ const inventory=q('.bag-grid');
+ if(inventory){const empty=inventory.querySelector('p');if(empty&&s&&!Object.entries(ITEMS).some(([id])=>s.inventory[id]>0))empty.textContent='アイテムを持っていません。マップでショップを探しましょう。';}
+ const reward=q('.rpg-loot');
+ if(reward){const h=reward.querySelector(':scope > strong');if(h)h.textContent='🎁 戦利品';const empty=reward.querySelector('.loot-empty');if(empty)empty.textContent='今回は新しいルーンを獲得できませんでした。次の冒険に期待しよう！';
+ const hint=reward.querySelector('.loot-chance');if(hint)hint.textContent='冒険中に運がよければ特別なルーンを入手できます。';
+ }
+ const deck=q('.deck-screen');
+ if(deck&&s){const heading=deck.querySelector('.deck-tactical-heading span');if(heading)heading.textContent='⚔ このターンの戦況';
+ const foe=deck.querySelector('.deck-foe-name span');if(foe)foe.textContent='敵のバリア '+s.enemy.shield+' ・自分のバリア '+sumGuards();
+ const status=deck.querySelector('.deck-status');if(status){const valid=isValidDeck(s.deckDraft,s.copies),kinds=new Set(s.deckDraft).size;status.textContent=s.deckDraft.length+'/6個 ・異なるルーン '+kinds+'種類 ・重複装備不可 '+(valid?'✓ スロット準備完了':'・最低3種類を選択');}
+ const options=deck.querySelectorAll('.deck-option');options.forEach((option)=>{const have=option.querySelector('.deck-label small');if(have)have.textContent=have.textContent.replace(/(?:보유|所持)\s*(\d+)\s*(?:개|個)/,'所持 $1個');});
+ const odds=deck.querySelectorAll('.deck-odds span');odds.forEach(span=>{span.textContent=span.textContent.replace(/(?:등장|出現)/g,'出現');});
+ const pager=deck.querySelector('.pager span');if(pager)pager.textContent='同じ種類のルーンは1ターンに1つだけ装備できます';
+ }
+ const practice=q('.practice-screen');if(practice){const label=practice.querySelector('.practice-levels span');if(label)label.textContent='練習するルーンのレベル';const back=practice.querySelector('[data-action="practice-exit"]');if(back)back.textContent='↩ 本編の冒険に戻る';}
+ const code=q('.rune-codex');if(code){const head=code.querySelector('h2');if(head)head.textContent='📜 全ルーン図鑑';const tabs=code.querySelectorAll('.tutorial-rune-tabs button');if(tabs[0])tabs[0].textContent='⚔ 初期ルーン・8種類';if(tabs[1])tabs[1].textContent='✨ 隠しルーン・7種類';const back=code.querySelector('[data-action="help"]');if(back)back.textContent='← ヘルプに戻る';}
+ const ench=q('.enchant-codex');if(ench){const head=ench.querySelector('h2');if(head)head.textContent='✨ レア特殊エンチャント図鑑';
+ ench.querySelectorAll('.enchant-card').forEach(card=>{const small=card.querySelector('small');if(small)small.textContent=small.textContent.replace('1회','1回限り').replace('원소','属性');const p=card.querySelector('p');if(p)p.textContent=japaneseText(p.textContent);});
+ const back=ench.querySelector('[data-action="help"]');if(back)back.textContent='← ヘルプに戻る';}
+ const gallery=q('.sound-gallery');if(gallery){const head=gallery.querySelector('h2');if(head)head.textContent='🔊 戦闘効果音';const back=gallery.querySelector('[data-action="help"]');if(back)back.textContent='← ヘルプに戻る';}
+ const floors=q('.floor-select-screen');if(floors){const head=floors.querySelector('h2');if(head)head.textContent='🗺 探索する階を選択';const back=floors.querySelector('[data-action="return-map"]')||floors.querySelector('[data-action="floor-cancel"]')||floors.querySelector('[data-action="close-tools"]');if(back)back.textContent='← 現在のマップへ';}
+};
+
+// V128: Japanese strings for every interactive rune mini-game.
+// Changes only text and labels; all timing, button actions, IDs, canvas and score math remain unchanged.
+const JP_PUZZLE_SCENES={'폐허 성채':'廃墟の城塞','집 내부':'家の中','우주선 내부':'宇宙船の内部','수정 동굴':'水晶の洞窟','바닷가':'海辺','황혼 도시':'黄昏の街'};
+const JP_MINIGAME_TITLES={
+ sword:'⚔ 剣・変化するゲージ',gun:'🔫 銃・照準',venom:'☣ 間違い探し',shield:'⬡ 攻撃方向を予測',
+ hammer:'⚒ ハンマー・5つの岩の亀裂',flame:'✹ 魔法・7つの模様を記憶',heal:'✚ 命の鼓動',coin:'◆ 幸運の3つの箱',
+ moss:'🌿 若芽・光合成',spinblade:'🗡️ 回転剣・連打',diamond:'💎 幸運のダイヤ・0.3秒の判断',
+ rewind:'🔄 巻き戻し・6拍のリズム',spear:'🔱 槍・落下する盾を切断',darkblade:'🩸 魔剣・5回の光に反応',void:'🌑 深淵の星・高難度の弾幕'
+};
+const JP_MINIGAME_TEXT={
+ sword:{'.sword-button':'⚔ 今すぐ斬る！'},
+ gun:{'.gun-button':'🔫 発射'},
+ venom:{'#puzzle-feedback':'右側の絵から小さな違いを探そう', '.puzzle-footer':'制限時間6秒・間違えると即終了・毒のダメージは30%減少'},
+ shield:{'.rune-desc':'今回の盾を<b>どの方向</b>に張る？<br>3つの方向はそれぞれ別々に防御します！','.rune-note':'通常モンスター：方向・ダメージを公開<br>エリート・ボス：攻撃方向だけ非公開'},
+ hammer:{'.rune-note':null},
+ flame:{'#flame-caption':'2秒後に7つの模様が出ます。順番を覚える準備をしよう！'},
+ heal:{'.rune-desc':'心臓が<b>最も明るく鼓動する瞬間</b>を狙おう！','#heal-tap':'♥ 今すぐ回復！','.rune-note':'鼓動の中心でPERFECTなら回復量アップ<br><kbd>F</kbd>キーでも操作できます'},
+ coin:{'#chest-caption':'<b>3つの箱から1つ</b>を選ぼう！当たりは1つだけ。'},
+ moss:{'.special-lead':'☀ 光の玉が<b>左右を素早く往復！</b>中央の金色の輪に来た瞬間にタップしよう。','#moss-result':'中央でタップ！','.moss-cta':'🌿 今すぐ光合成！', '.special-foot':'攻撃ダメージ+30%・回復量はレベルと無関係：PERFECT HP+7 / GOOD HP+4 / それ以外 HP+2'},
+ spinblade:{'.special-lead':'2.6秒間、<b>できるだけ速く</b>連打！ダメージを増やしたあと、該当スロットが自動でリスピンします。','.tap-cta':'⚔️ 連打！連打！連打！','.special-foot':'0～4回：7ダメージ・5～9回：12・10～14回：20・15回以上：26'},
+ diamond:{'.special-lead':'赤い偽の合図にだまされないで！<b>金色に変わってから0.3秒以内にタップ！</b>時間切れは失敗。','#signal-label':'まだ待って…','[data-action="diamond-tap"]':'💎 金色の合図でタップ！','.special-foot':'0～0.15秒 PERFECT 20G・0.15～0.30秒 GOOD 10G・失敗なら3G・自身のリールをリスピン'},
+ rewind:{'.special-lead':'光るリズムに合わせて<b>6回連続でタップ！</b>正確に成功するとリスピンするリールが増えます。','#rhythm-pulse':'準備中…','[data-action="rewind-tap"]':'🎵 リズムに合わせてタップ！','#rhythm-score':'PERFECTの許容差±150ms・4回成功で2リール・6回成功でHP追加回復'},
+ spear:{'.special-lead':'1秒間の準備のあと、<b>落下する盾を指で一気に切り裂こう！</b>盾の中心を通るほど威力アップ。','#spear-feedback':'盾が落ちてきたらドラッグしよう','.special-foot':'基本10～40の物理ダメージ・敵のバリア無視・中心を切るとPERFECT 40'},
+ darkblade:{'.special-lead':'<b>光った印を0.4秒以内にタップ！</b>5回成功すると高威力。消えている間は待機しよう。','.special-foot':'5回すべて成功：基本30ダメージ・敵のバリアが0なら出血2/ターン×3'},
+ void:{'.special-lead':'8秒間、<b>モンスターの弾幕を避けよう！</b>ドラッグか方向キーで青い星を動かそう。生存時間でダメージアップ。','.special-foot':'3回被弾すると終了・生存成績により魔法12～70ダメージ・HP3～6消費'}
+};
+function postprocessJapaneseSkill(kind,panel){
+ if(!japaneseMode()||!panel)return;
+ const first=panel.querySelector('.skill-tag');
+ if(first){const title=JP_MINIGAME_TITLES[kind]||'';if(kind==='venom'){const small=first.querySelector('small');
+  if(first.firstChild)first.firstChild.nodeValue=title+'・'+(JP_PUZZLE_SCENES[puzzleThemeName(s?.skill?.theme)]||'パズル')+' ';
+  if(small)small.textContent='6.0s';
+ }else if(title)first.textContent=title;}
+ for(const [selector,html] of Object.entries(JP_MINIGAME_TEXT[kind]||{})){
+  if(html===null)continue;
+  const el=panel.querySelector(selector);if(el)el.innerHTML=html;
+ }
+ if(kind==='sword'){
+  const value=panel.querySelector('.skill-caption b')?.textContent||'';
+  const caption=panel.querySelector('.skill-caption');if(caption)caption.innerHTML='ゲージを見てタイミングよく斬ろう！<br>70%未満でも弱い攻撃<br>70%以上で基本ダメージ・90%でPERFECT <b>'+japaneseText(value)+'</b>';
+ }
+ if(kind==='venom'){
+  const head=panel.querySelector('.puzzle-header > b');if(head&&head.firstChild)head.firstChild.nodeValue='見つけた違い ';
+  panel.querySelectorAll('.puzzle-pic > span').forEach((span,i)=>span.textContent=(i===0?'元の絵・':'変更後の絵・')+(JP_PUZZLE_SCENES[puzzleThemeName(s?.skill?.theme)]||'パズル'));
+ }
+ if(kind==='shield'){
+  panel.querySelectorAll('.guard-value').forEach((node,i)=>{node.textContent='バリア '+s.guards[i];});
+ }
+ if(kind==='hammer'){
+  const desc=panel.querySelector('.rune-desc'),countdown=panel.querySelector('#hammer-countdown');
+  if(desc&&countdown){const time=countdown.textContent;desc.innerHTML='開始まで <b id="hammer-countdown" class="hammer-countdown">'+time+'</b> ・亀裂は0.5秒ごとに移動！<b>早く命中させると高得点！</b>';}
+  const note=panel.querySelector('#hammer-note');if(note){const max=SPECIAL_DAMAGE.hammerAccurate[0]+(s.skill.action.lv-1)*SPECIAL_DAMAGE.hammerAccurate[1];note.innerHTML='基本ダメージ1～'+max+'・亀裂に正確に当てるとPERFECT<br><strong>敵の攻撃ダメージを50%軽減（2ターン持続）</strong><br>亀裂の出現直後なら速度得点100点・ミス／時間切れは1ダメージ';}
+ }
+ if(kind==='coin'){
+  const note=panel.querySelector('#chest-note');if(note){const lv=s.skill.action.lv;note.textContent='🎉 当たり '+coinRunePayout(lv,true)+'G（1/3）・🍀 はずれでも'+coinRunePayout(lv,false)+'G（2/3）・ボーナスは別途適用';}
+ }
+ if(kind==='flame'){
+  const note=panel.querySelector('#flame-progress');if(note){const payoff=note.querySelector('.magic-payoff');if(payoff){const val=payoff.textContent.replace(/([0-9]+).*?(Lv\.[0-9]+).*?([0-9]+)\)/,'$1');const lv=s.skill.action.lv,hit=Math.round(Math.min(damageCap('flame',lv),magicFullDamage(lv)*MAGIC_RUNE_DAMAGE_MULTIPLIER)*WEAPON_DAMAGE_MULTIPLIER),capd=Math.round(damageCap('flame',lv)*WEAPON_DAMAGE_MULTIPLIER);note.innerHTML='7つの模様を全部成功させると <span class="magic-payoff">'+hit+'の魔法ダメージ（Lv.'+lv+'・最大'+capd+'）</span>';}}
+ }
+ if(kind==='spinblade'){const label=panel.querySelector('.tap-score small');if(label)label.textContent='連打';}
+ if(kind==='spear'){const time=panel.querySelector('#spear-time');if(time)time.textContent='準備 1.0秒';}
+ if(kind==='darkblade'){const time=panel.querySelector('#darkblade-time');if(time)time.textContent='準備中…';const score=panel.querySelector('#darkblade-score');if(score)score.textContent='成功 0 / 5';}
+ if(kind==='void'){
+  const c=panel.querySelector('#void-canvas');if(c)c.setAttribute('aria-label','ドラッグで弾幕を回避');
+ }
+ const shade=panel.querySelector('.skill-prep-shade span');if(shade)shade.textContent='もうすぐ開始！準備しよう';
+ localizeJapaneseDocument(panel);
+}
+
 let storyCinema=null;
 let storyPrologue=null;
 function beginPrologue(){
@@ -4142,7 +4442,9 @@ function storyCharacters(key,who,index=0){
 function renderStoryLine(){
  const movie=!!storyCinema,prelude=!movie&&!!storyPrologue&&!s;
  if(!movie&&!prelude&&(!s||s.view!=='story'||!STORY_SCENES[s.storyPending]))return;
- const key=movie?storyCinema.key:prelude?'b1_start':s.storyPending,sc=STORY_SCENES[key];
+ const key=movie?storyCinema.key:prelude?'b1_start':s.storyPending;
+ const sourceScene=STORY_SCENES[key],trans=selectedLanguage==='ja'?STORY_JA[key]:null;
+ const sc=trans?{...sourceScene,...trans,lines:sourceScene.lines.map(([who],i)=>[who,trans.lines[i]])}:sourceScene;
  const index=Math.max(0,Math.min(sc.lines.length-1,Number(movie?storyCinema.line:prelude?storyPrologue.line:s.storyLineIndex)||0));
  const [who,raw]=sc.lines[index];
  const whoKind=who.includes('권혁준')?'hyuk':who.includes('박승휘')?'seung':'narrator';
@@ -4215,7 +4517,7 @@ function showVictorySummary(){
 function start(){
  if(!selectedGrade||!isValidStarter(selected))return;
  const init=[...selected],owned=[...new Set(init)];
- s={grade:selectedGrade,hpBalanceVersion:95,mapBalanceVersion:94,attackBalanceVersion:102,runeUniqueVersion:112,stage:0,highestUnlocked:0,clearedFloors:Array(STAGES.length).fill(false),floorRuns:Array(STAGES.length).fill(0),fight:0,view:'map',map:null,activeNodeType:null,stageFightCount:0,encounterCount:0,playerLevel:1,playerXP:0,monstersDefeated:0,lastXPReward:null,shopVisitId:null,activeEvent:null,hp:68,maxHp:68,shield:0,guards:[0,0,0],coins:20,score:0,turn:0,deck:owned,activeRunes:[...init],deckDraft:null,deckPending:false,levels:Object.fromEntries(Object.keys(R).map(x=>[x,1])),copies:Object.fromEntries(Object.keys(R).map(x=>[x,deckCount(init,x)])),rerollPower:false,rerollUsed:false,awaitingRespin:false,rerolling:false,chainRerolls:0,comboCount:0,comboRage:0,chainMotion:null,turnEnding:false,reelVersions:[],weights:Object.fromEntries(Object.keys(R).map(x=>[x,1])),reelCount:3,reelSymbols:[],stops:[],reelMotion:[],spinning:false,resolving:false,skill:null,log:[],enemy:null,question:null,wrong:0,actions:[],actionPos:0,turnDmg:0,turnEarned:0,battleCoinsEarned:0,discoveredWeaknesses:{},stunChance:0,jammedReel:-1,inventory:Object.fromEntries(Object.keys(ITEMS).map(x=>[x,0])),nextBoost:false,enchants:{},enchantAttach:{},specialFusion:{},pendingFusion:null,pendingRuneLevelUp:false,drops:[],respinTicketArmed:false,lastReward:0,lastInterest:0,lastSaved:0,totalInterest:0,relics:{},healingCritReady:false,shopChestsOpened:0,shopStock:null,counterAttackReady:false,revival:null,revivals:0,playerBleedTurns:0,healBlockTurns:0,jammedReels:[],bossReadyFloors:{},bossRetryGold:{},retryEncounters:{},retrySerial:0,activeRetryKey:null,selectedRetryKey:null,floorSelectMode:'normal',bossChoiceStage:null,worldVersion:STORY_WORLD_VERSION,storySeen:{b1_start:true},storyPending:null,storyLineIndex:0,endingDone:false,finalRescueUsed:false};
+ s={grade:selectedGrade,language:selectedLanguage,hpBalanceVersion:95,mapBalanceVersion:94,attackBalanceVersion:102,runeUniqueVersion:112,stage:0,highestUnlocked:0,clearedFloors:Array(STAGES.length).fill(false),floorRuns:Array(STAGES.length).fill(0),fight:0,view:'map',map:null,activeNodeType:null,stageFightCount:0,encounterCount:0,playerLevel:1,playerXP:0,monstersDefeated:0,lastXPReward:null,shopVisitId:null,activeEvent:null,hp:68,maxHp:68,shield:0,guards:[0,0,0],coins:20,score:0,turn:0,deck:owned,activeRunes:[...init],deckDraft:null,deckPending:false,levels:Object.fromEntries(Object.keys(R).map(x=>[x,1])),copies:Object.fromEntries(Object.keys(R).map(x=>[x,deckCount(init,x)])),rerollPower:false,rerollUsed:false,awaitingRespin:false,rerolling:false,chainRerolls:0,comboCount:0,comboRage:0,chainMotion:null,turnEnding:false,reelVersions:[],weights:Object.fromEntries(Object.keys(R).map(x=>[x,1])),reelCount:3,reelSymbols:[],stops:[],reelMotion:[],spinning:false,resolving:false,skill:null,log:[],enemy:null,question:null,wrong:0,actions:[],actionPos:0,turnDmg:0,turnEarned:0,battleCoinsEarned:0,discoveredWeaknesses:{},stunChance:0,jammedReel:-1,inventory:Object.fromEntries(Object.keys(ITEMS).map(x=>[x,0])),nextBoost:false,enchants:{},enchantAttach:{},specialFusion:{},pendingFusion:null,pendingRuneLevelUp:false,drops:[],respinTicketArmed:false,lastReward:0,lastInterest:0,lastSaved:0,totalInterest:0,relics:{},healingCritReady:false,shopChestsOpened:0,shopStock:null,counterAttackReady:false,revival:null,revivals:0,playerBleedTurns:0,healBlockTurns:0,jammedReels:[],bossReadyFloors:{},bossRetryGold:{},retryEncounters:{},retrySerial:0,activeRetryKey:null,selectedRetryKey:null,floorSelectMode:'normal',bossChoiceStage:null,worldVersion:STORY_WORLD_VERSION,storySeen:{b1_start:true},storyPending:null,storyLineIndex:0,endingDone:false,finalRescueUsed:false};
  questionOrder=shuffle(Array.from({length:activeQuestions().length},(_,i)=>i)).slice(0,STAGES.length-1);s.floorRuns[0]++;sfx('victory');makeFloorMap();showMap();
 }
 function pool(){return s.activeRunes.slice();}
@@ -5103,6 +5405,7 @@ function showSkill(kind,action){
  if(['venom','hammer','spear'].includes(kind)){panel.classList.add('preparing');panel.insertAdjacentHTML('beforeend','<div class="skill-prep-shade" id="skill-prep-shade"><strong id="skill-prep-digit">1</strong><span>곧 시작! 준비하세요</span></div>');}
 
  render();
+ if(japaneseMode())postprocessJapaneseSkill(kind,panel);
 }
 
 function specialFinish(sk,info,rerolls=[],delay=560){
@@ -5588,7 +5891,7 @@ function updateSkill(ts){
  else if(sk.kind==='rewind'){const idx=cap(Math.floor((ts-sk.readyAt)/sk.beat),0,5);if(ts>=sk.readyAt&&idx!==sk.lastBeatIndex){sk.lastBeatIndex=idx;sfx('stop',idx);}for(let j=0;j<6;j++){const el=$('rhythm-'+j);if(el){el.classList.toggle('current',j===idx&&ts>=sk.readyAt);if(j<idx&&!sk.attempted.has(j))el.classList.add('miss');}}const p=$('rhythm-pulse');if(p)p.textContent=ts<sk.readyAt?'곧 시작!': '♪ '+(idx+1)+' / 6';}
  else if(sk.kind==='sword')updateSwordGauge(ts);
  else if(sk.kind==='gun'){
-  let t=(ts-sk.started)/1000,zone=zones(),cx=(zone.head.x+zone.body.x)/2,cy=(zone.head.y+zone.body.y)/2;
+  let t=(ts-sk.started)/1000*GUN_AIM_SPEED_MULTIPLIER,zone=zones(),cx=(zone.head.x+zone.body.x)/2,cy=(zone.head.y+zone.body.y)/2;
   let x=cx+Math.sin(t*6.8+.3)*88+Math.sin(t*16.2+1.1)*29+Math.cos(t*10.8)*14;
   let y=cy+Math.cos(t*5.8+.8)*65+Math.sin(t*14.4+.5)*29;
   sk.aim={x:cap(x,180,520),y:cap(y,19,248)};
@@ -5749,11 +6052,14 @@ function grantBattleLoot(boss){
   found.push({icon:runeVisual(choice),name:runeDisplayName(choice)+' 룬 · '+runeLevelLabel(choice),detail:reason+' · 새로운 룬 1종 획득 · 중복 없음'});
   log('🎁 새로운 룬 드롭! '+R[choice].name+' · '+runeLevelLabel(choice));
  };
- if(Math.random()<BASE_RUNE_DROP_RATE){giveRune(STARTER_RUNES[rand(STARTER_RUNES.length)],'일반 전투 드롭',STARTER_RUNES);}
- if(Math.random()<FLOOR_RUNE_DROP_RATE){giveRune(specialRuneForFloor(floor),floorLabel(floor)+' 히든 룬 · 특별 전리품',FLOOR_SPECIAL_RUNES[floor]||FLOOR_SPECIAL_RUNES[0]);}
- // General and hidden rune rolls are independent, but 20% level-up and 1% rare enchant share one roll.
- const improvementRoll=Math.random();
- if(improvementRoll<LEVEL_UP_RUNE_DROP_RATE){
+ // V128: Use each reward's own roll, and choose uniformly from still-unowned runes.
+ const availableCommon=STARTER_RUNES.filter(id=>!(s.copies[id]>0));
+ const floorSpecial=FLOOR_SPECIAL_RUNES[floor]||FLOOR_SPECIAL_RUNES[0];
+ const availableSpecial=floorSpecial.filter(id=>!(s.copies[id]>0));
+ if(Math.random()<BASE_RUNE_DROP_RATE){giveRune(availableCommon.length?availableCommon[rand(availableCommon.length)]:null,'일반 전투 드롭',STARTER_RUNES);}
+ if(Math.random()<FLOOR_RUNE_DROP_RATE){giveRune(availableSpecial.length?availableSpecial[rand(availableSpecial.length)]:null,floorLabel(floor)+' 히든 룬 · 특별 전리품',floorSpecial);}
+ // Level-up and rare-enchantment chances are statistically independent.
+ if(Math.random()<LEVEL_UP_RUNE_DROP_RATE){
   const candidates=s.deck.filter(id=>!NON_UPGRADABLE_RUNES.has(runeBase(id))&&(s.copies[id]||0)>0&&runeLevel(id)<MAX_RUNE_LEVEL);
   if(candidates.length){
    s.pendingRuneLevelUp=true;
@@ -5769,7 +6075,7 @@ function grantBattleLoot(boss){
  }
  // V54: common stat boosts are consolidated into the 20% level-up rune drop.
  // Rare 1% enchantments provide distinctive effects (elements, status, life steal, etc.).
- if(improvementRoll>=LEVEL_UP_RUNE_DROP_RATE&&improvementRoll<LEVEL_UP_RUNE_DROP_RATE+ENCHANT_DROP_RATE){
+ if(Math.random()<ENCHANT_DROP_RATE){
   const options=STAGE_ENCHANTS.filter(en=>en.floor===floor%5&&!isStatEnchant(en)&&!s.enchants[en.id]&&fusionChoices(en).length>0);
   if(!options.length){
    const gain=earnBattleGold(30);
@@ -5917,8 +6223,15 @@ function buyChest(id){
  const chest=SHOP_CHESTS[id];if(s.coins<chest.cost)return;
  s.coins-=chest.cost;s.shopChestsOpened=(s.shopChestsOpened||0)+1;
  const roll=Math.random();let result=null;
- if(roll<chest.rare){result=grantChestRune(specialRuneForFloor(s.stage),FLOOR_SPECIAL_RUNES[s.stage]||FLOOR_SPECIAL_RUNES[0]);}
- else if(roll<chest.rare+chest.common){const id=STARTER_RUNES[rand(STARTER_RUNES.length)];result=grantChestRune(id,STARTER_RUNES);}
+ if(roll<chest.rare){
+  const category=FLOOR_SPECIAL_RUNES[s.stage]||FLOOR_SPECIAL_RUNES[0];
+  const available=category.filter(r=>!(s.copies[r]>0));
+  result=grantChestRune(available.length?available[rand(available.length)]:null,category);
+ }
+ else if(roll<chest.rare+chest.common){
+  const available=STARTER_RUNES.filter(r=>!(s.copies[r]>0));
+  result=grantChestRune(available.length?available[rand(available.length)]:null,STARTER_RUNES);
+ }
  if(!result){result={icon:'🕸️',name:'빈 보물상자',detail:'아무것도 나오지 않았습니다 · 골드 환급 없음'};log('📦 '+chest.name+' · 빈 상자 · −'+chest.cost+'G');}
  sfx(result.icon==='🕸️'?'miss':'treasure');render();
  showModal('<div class="v45-reveal"><div class="eyebrow">RUNE TREASURE CHEST · OPENED</div><h2>🎁 '+chest.name+'</h2><div class="v45-reveal-icon">'+result.icon+'</div><h3>'+result.name+'</h3><p>'+result.detail+'</p><div class="v45-reveal-odds">지불: '+chest.cost+'G · 남은 골드: '+s.coins+'G · 누적 개봉 '+s.shopChestsOpened+'회</div><button class="btn-primary" data-action="shop-resume">🛒 상점으로 돌아가기</button><button class="btn-secondary" data-action="leave-shop">🗺 상점 나가기</button></div>');
@@ -6186,7 +6499,13 @@ function resolveMapEvent(opt){
  render();
 }
 function mathGate(){s.view='quiz';const pool=activeQuestions(),q=pool[questionOrder[s.stage]%pool.length]||pool[s.stage%pool.length];s.question={q,choices:shuffle([q.answer,...q.wrong])};s.wrong=0;showQuiz('');}
-function showQuiz(msg){const q=s.question;showModal('<div class="eyebrow">MATH GATE · '+activeGradeInfo().short+'</div><h2>✦ 수학 관문 ✦</h2><p>'+floorLabel(s.stage)+'을 클리어했어! 다음 층으로 가기 위한 '+activeGradeInfo().scope+' 문제를 풀어 봐.</p><div class="quiz-expr">'+q.q.q+'</div><div class="quiz-grid">'+q.choices.map((opt,i)=>'<button class="quiz-choice" data-action="answer" data-index="'+i+'">'+String.fromCharCode(65+i)+'. '+opt+'</button>').join('')+'</div><div class="quiz-feedback">'+msg+'</div><div class="quiz-tally">정답: 다음 층 + 최대 HP 4 증가 + 체력 10 회복 + 12G'+(reelCountForStage(s.stage+1)>s.reelCount?' + 슬롯 '+(reelCountForStage(s.stage+1)-s.reelCount)+'칸 자동 해금 (총 '+reelCountForStage(s.stage+1)+'칸)':'')+'<br>오답: 5G 차감, 정답을 선택할 때까지 재도전</div>');}
+function showQuiz(msg){
+ const q=s.question,ja=japaneseMode();
+ const intro=ja?floorLabel(s.stage)+'をクリア！ 次の階へ進むために「'+activeGradeInfo().scope+'」の問題に答えよう。':floorLabel(s.stage)+'을 클리어했어! 다음 층으로 가기 위한 '+activeGradeInfo().scope+' 문제를 풀어 봐.';
+ const extra=reelCountForStage(s.stage+1)>s.reelCount?' + '+(ja?'リール '+(reelCountForStage(s.stage+1)-s.reelCount)+'個が自動開放（合計'+reelCountForStage(s.stage+1)+'個）':'슬롯 '+(reelCountForStage(s.stage+1)-s.reelCount)+'칸 자동 해금 (총 '+reelCountForStage(s.stage+1)+'칸)'):'';
+ const tally=ja?'正解：次の階へ進む・最大HP+4・HP10回復・12G'+extra+'<br>不正解：5G減少。正解するまで再挑戦':'정답: 다음 층 + 최대 HP 4 증가 + 체력 10 회복 + 12G'+extra+'<br>오답: 5G 차감, 정답을 선택할 때까지 재도전';
+ showModal('<div class="eyebrow">MATH GATE · '+activeGradeInfo().short+'</div><h2>✦ '+(ja?'数学の関門':'수학 관문')+' ✦</h2><p>'+intro+'</p><div class="quiz-expr">'+q.q.q+'</div><div class="quiz-grid">'+q.choices.map((opt,i)=>'<button class="quiz-choice" data-action="answer" data-index="'+i+'">'+String.fromCharCode(65+i)+'. '+opt+'</button>').join('')+'</div><div class="quiz-feedback">'+msg+'</div><div class="quiz-tally">'+tally+'</div>');
+}
 function answer(ix){if(!s||s.view!=='quiz')return;let choice=s.question.choices[+ix];if(choice!==s.question.q.answer){s.wrong++;s.coins=Math.max(0,s.coins-5);sfx('wrong');showQuiz('✕ 오답입니다. 다시 생각해 보세요! · −5G (오답 '+s.wrong+'회)');render();return;}s.score+=150;s.coins=cap(s.coins+12,0,MAX_WALLET_GOLD);s.maxHp+=4;s.hp=Math.min(s.maxHp,s.hp+10);s.guards=s.guards.map(v=>Math.floor(v*.35));sumGuards();const beforeReels=s.reelCount;s.clearedFloors[s.stage]=true;s.highestUnlocked=Math.max(s.highestUnlocked,s.stage+1);s.stage++;s.reelCount=reelCountForStage(s.stage);s.fight=0;s.floorRuns[s.stage]++; log('✓ 수학 문제 정답! 다음 층의 지도가 열렸다.'+(s.reelCount>beforeReels?' 🎰 슬롯 '+beforeReels+'→'+s.reelCount+' 무료 해금!':''));sfx('victory');makeFloorMap();const nextChapter='floor'+s.stage;if(STORY_SCENES[nextChapter]&&!s.storySeen?.[nextChapter])showStoryScene(nextChapter);else showMap();}
 // V53: math-based last chance. A wrong answer generates a different question;
 // a correct answer fully restores HP and restarts the *same* encounter.
@@ -6428,6 +6747,7 @@ $('game').addEventListener('click',event=>{
  }
  if(b.hasAttribute('data-reel')){stopOne(+b.dataset.reel);return;}
  const a=b.dataset.action;
+ if(a==='choose-language'){chooseLanguage(b.dataset.lang);return;}
  if(a==='save-reset-request'){showNewAdventureConfirm();return;}
  if(a==='save-reset-cancel'){hideNewAdventureConfirm();return;}
  if(a==='save-reset-confirm'){hideNewAdventureConfirm();setup();return;}
@@ -6974,7 +7294,7 @@ function drawPersistentGuard(t){if(!s||s.view==='dead')return;
  if(s.enemy?.weakenTurns>0){cx.save();cx.globalAlpha=.8+.18*Math.sin(t*5);cx.fillStyle='#b5ece6';cx.font='bold 13px system-ui';cx.fillText('ATK −50%',305,30);cx.restore();}
 }
 function draw(ts){const dt=frameTime?cap(ts-frameTime,0,55):16;frameTime=ts;animateReels(ts,dt);updateSkill(ts);const t=ts/1000,w=720,h=290,st=STAGES[s?.stage||0],a=st.tone;cx.clearRect(0,0,w,h);let g=cx.createLinearGradient(0,0,0,h);g.addColorStop(0,a[1]);g.addColorStop(.45,a[0]);g.addColorStop(1,a[2]);cx.fillStyle=g;cx.fillRect(0,0,w,h);let sun=cx.createRadialGradient(355,107,20,355,140,240);sun.addColorStop(0,'#fbd5918c');sun.addColorStop(.7,'#ffbb5536');sun.addColorStop(1,'#eeba4500');cx.fillStyle=sun;cx.fillRect(0,0,w,h);cx.fillStyle='#28302c77';for(let i=0;i<12;i++){let x=i*70-50;cx.fillRect(x,145+(i%3)*10,25+((i*17)%20),90);cx.fillRect(x-7,148+(i%3)*10,40,9);}for(let i=0;i<9;i++){let x=i*94-20;poly([[x,260],[x+25,194+((i*35)%35)],[x+65,260]],'#26302db5');}cx.fillStyle='#182220';cx.fillRect(0,259,w,31);for(let i=0;i<9;i++){let x=i*88+12;line([[x,263],[x-7,223]],'#1c2928',6);line([[x-7,223],[x+17,209]],'#1c2928',5);line([[x-7,223],[x-29,216]],'#1c2928',4);}ell(355,271,130,15,'#141b1b88');creature(s?.enemy?.kind||'goblin',t);drawPersistentGuard(t);for(let i=0;i<25;i++){let x=(i*97.8+Math.sin(t*(i%3+1)*.17)*16)%w,y=(i*47.3-t*(6+i%6)+1000)%280,al=(.14+.1*Math.sin(t+i));cx.fillStyle='rgba(255,219,158,'+al+')';cx.fillRect(x,y,i%3+1,i%3+1);}let v=cx.createRadialGradient(360,132,70,360,134,450);v.addColorStop(0,'#00000000');v.addColorStop(1,'#00000099');cx.fillStyle=v;cx.fillRect(0,0,w,h);drawEffects(ts);updateTutorialPractice(ts);if(tutorialActive&&[2,3,4].includes(tutorialStep)){const demo=$('tutorial-live-canvas');if(demo&&demo.isConnected){const x=demo.getContext('2d');x.drawImage(canvas,0,0,720,290);}}requestAnimationFrame(draw);}
-setup(false);restoreSavedGame();requestAnimationFrame(draw);
+setup(false);restoreSavedGame();localizeJapaneseDocument();requestAnimationFrame(draw);
 })();
 </script>
 </body>
